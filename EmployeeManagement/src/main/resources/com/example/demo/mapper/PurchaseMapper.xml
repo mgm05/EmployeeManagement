@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PurchaseMapper">
+	<insert id="insert" parameterType="com.example.demo.entity.dog.PurchaseEntity">
+		INSERT INTO purchase
+		(
+			dog_id
+			, contract_type
+			, purchase_user_id
+			, contract_date
+			, purchase_date
+			, contract_yen
+			, purchase_yen
+			, medical_yen
+			, transport_yen
+			, payment_expected_date
+			, payment_date
+			, cancel_flag
+			, create_datetime
+			, create_user_id
+			, update_datetime
+			, update_user_id
+		)
+		VALUES
+		(
+			#{dogId}
+			, #{contractType}
+			, #{purchaseUserId}
+			, #{contractDate}
+			, #{purchaseDate}
+			, #{contractYen}
+			, #{purchaseYen}
+			, #{medicalYen}
+			, #{transportYen}
+			, #{paymentExpectedDate}
+			, #{paymentDate}
+			, 0
+			, CURRENT_TIMESTAMP
+			, #{createUserId}
+			, CURRENT_TIMESTAMP
+			, #{updateUserId}
+		)
+	</insert>
+</mapper>

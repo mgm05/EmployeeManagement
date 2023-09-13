@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+	rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<title>ログイン</title>
+</head>
+<body>
+	<div class="container" style="text-align: center;">
+		<form action="/login" method="post">
+			<h1 style="margin-top: 30px; margin-bottom: 30px;">社員管理システム</h1>
+			<th:block th:if="${msg}">
+		    	<p style="color: red;" th:text="${msg}"></p>
+			</th:block>
+			<div class="rounded border" style="width: 30%;margin-left: auto;margin: auto;  background-color: #ffe666;">
+				ログインID	　<input style="margin-top: 30px;" type="text" name="loginId">
+				<br>
+				パスワード　 <input style="margin-bottom: 30px;" type="password" name="password">
+			</div>
+			<br>
+			<button class="btn btn-outline-secondary btn-sm">ログイン</button>
+		</form>
+		
+		<p th:text="${year}"></p>
+		<p th:text="${month}"></p>
+		<p th:text="${yearMonth}"></p>
+		<p th:text="${fiscalYear}"></p>
+		<p th:text="${halfDiv}"></p>
+		<p th:text="${startPeriod}"></p>
+		<p th:text="${endPeriod}"></p>
+	</div>
+</body>
+</html>
