@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ExpenseMapper">
+	<insert id="insert" parameterType="com.example.demo.entity.dog.ExpenseEntity">
+		INSERT INTO expense
+		(
+			dog_id
+			, occurrence_type
+			, cash_flow_type
+			, expense_type
+			, quotation_yen
+			, close_yen
+			, payment_date
+			, arrival_date
+			, cancel_flag
+			, create_datetime
+			, create_user_id
+			, update_datetime
+			, update_user_id
+		)
+		VALUES
+		(
+			#{dogId}
+			, #{occurrenceType}
+			, #{cashFlowType}
+			, #{expenseType}
+			, #{quotationYen}
+			, #{closeYen}
+			, #{paymentDate}
+			, #{arrivalDate}
+			, 0
+			, CURRENT_TIMESTAMP
+			, #{createUserId}
+			, CURRENT_TIMESTAMP
+			, #{updateUserId}
+		)
+		
+	</insert>
+	<select id="selectLastExpenseId" resultType="int">
+		SELECT MAX(expense_id)   FROM expense
+	</select>
+</mapper>
