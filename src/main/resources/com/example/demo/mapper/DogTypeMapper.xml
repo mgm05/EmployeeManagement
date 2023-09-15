@@ -8,6 +8,6 @@
 		<result column="DOG_TYPE_NM" jdbcType="VARCHAR" property="dogTypeName"/>
 	</resultMap>
 	<select id="selectDogType" resultMap="DogTypeMap">
-		SELECT DOG_ID , DOG_TYPE_NM FROM dog_type
+		SELECT dog_type_code , dog_type_nm FROM dog_type
 	</select>
 </mapper>
