@@ -1,5 +1,7 @@
 package com.example.demo.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.entity.dog.ExpenseEntity;
@@ -17,4 +19,10 @@ public interface ExpenseMapper {
     /** 最後に挿入されたexpenseId取得. 
      * @return int*/
     int selectLastExpenseId();
+    
+    /** dogIdで経費情報取得.
+     * @param dogId Integer
+     * @return 経費情報
+     * */
+    List<ExpenseEntity> selectByDogId(Integer dogId);
 }

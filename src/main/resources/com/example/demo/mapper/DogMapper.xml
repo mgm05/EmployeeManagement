@@ -3,10 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.DogMapper">
-<resultMap type="com.example.demo.entity.dog.DogEntity" id="test">
-	<result column="sex" jdbcType="INTEGER" property="sex"/>
-	<result column="dog_code" jdbcType="VARCHAR" property="dogCode"/>
-</resultMap>
+	<resultMap type="com.example.demo.entity.dog.DogEntity" id="dogMap">
+		<result column="dog_id" jdbcType="INTEGER" property="dogId"/>
+		<result column="jkc_no" jdbcType="VARCHAR" property="jkcNo"/>
+		<result column="dog_group_code" jdbcType="CHAR" property="dogGroupCode"/>
+		<result column="dog_group_code_name" jdbcType="INTEGER" property="dogGroupCodeName"/>
+		<result column="dog_code" jdbcType="VARCHAR" property="dogCode"/>
+		<result column="dog_name" jdbcType="VARCHAR" property="dogName"/>
+		<result column="sex" jdbcType="INTEGER" property="sex"/>
+		<result column="birthday" jdbcType="DATE" property="birthday"/>
+		<result column="dead_date" jdbcType="DATE" property="deadDate"/>
+		<result column="cancel_flag" jdbcType="TINYINT" property="cancelFlag"/>
+		<result column="create_datetime" jdbcType="TIMESTAMP" property="createDatetime"/>
+		<result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+		<result column="update_datetime" jdbcType="TIMESTAMP" property="updateDatetime"/>
+		<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
+	</resultMap>
 	<insert id="insert" parameterType="com.example.demo.entity.dog.DogEntity">
 		INSERT INTO dog
 		(
@@ -38,7 +50,16 @@
 	<select id="selectLastDogId" resultType="int" >
 		SELECT MAX(dog_id)   FROM dog
 	</select>
-	<select id="test" resultMap="test">
-		SELECT * FROM dog WHERE dog_id = 11
+	<select id="selectDogById" resultMap="dogMap" >
+		SELECT 
+		dog_id
+		, jkc_no
+		, dog_group_code
+		, dog_code
+		, sex
+		, birthday
+		FROM
+		dog
+		WHERE dog_id = #{dogId}
 	</select>
 </mapper>

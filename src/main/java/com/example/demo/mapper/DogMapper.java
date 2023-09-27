@@ -20,5 +20,10 @@ public interface DogMapper {
      */
     int selectLastDogId();
     
-    DogEntity test();
+    /**
+     * 犬詳細情報をidで取得.
+     * @param dogId Integer
+     * @return 犬詳細情報
+     */
+    DogEntity selectDogById(Integer dogId);
 }

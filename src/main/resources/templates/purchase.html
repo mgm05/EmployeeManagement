@@ -78,7 +78,7 @@
 						<select class="form-select form-select-sm" name="dogCode">
 							<option></option>
 							<option th:each="dogType : ${dogTypeList}" 
-							th:value="${dogType.dogTypeId}" th:text="${dogType.dogTypeName}">
+							th:value="${dogType.dogTypeCode}" th:text="${dogType.dogTypeNm}">
 							</option>
 						</select>
 					</td>

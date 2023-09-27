@@ -3,6 +3,34 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.ExpenseMapper">
+	<resultMap type="com.example.demo.entity.dog.ExpenseEntity" id="expenseMap">
+		<result column="expense_id" jdbcType="INTEGER" property="expenseId"/>
+		<result column="payment_id" jdbcType="INTEGER" property="paymentId"/>
+		<result column="dog_id" jdbcType="INTEGER" property="dogId"/>
+		<result column="request_store_code" jdbcType="VARCHAR" property="requestStoreCode"/>
+		<result column="request_store_name" jdbcType="VARCHAR" property="requestStoreName"/>
+		<result column="occurrence_type" jdbcType="INTEGER" property="occurrenceType"/>
+		<result column="cash_flow_type" jdbcType="INTEGER" property="cashFlowType"/>
+		<result column="expense_type" jdbcType="INTEGER" property="expenseType"/>
+		<result column="item_id" jdbcType="INTEGER" property="itemId"/>
+		<result column="item_name" jdbcType="VARCHAR" property="itemName"/>
+		<result column="info" jdbcType="VARCHAR" property="info"/>
+		<result column="quotation_yen" jdbcType="INTEGER" property="quotationYen"/>
+		<result column="close_yen" jdbcType="INTEGER" property="closeYen"/>
+		<result column="payment_destination_code" jdbcType="VARCHAR" property="paymentDestinationCode"/>
+		<result column="payment_destination_name" jdbcType="VARCHAR" property="paymentDestinationName"/>
+		<result column="payment_date" jdbcType="DATE" property="paymentDate"/>
+		<result column="arrival_date" jdbcType="DATE" property="arrivalDate"/>
+		<result column="cancel_flag" jdbcType="INTEGER" property="cancelFlag"/>
+		<result column="create_datetime" jdbcType="TIMESTAMP" property="createDatetime"/>
+		<result column="create_store_code" jdbcType="VARCHAR" property="createStoreCode"/>
+		<result column="create_store_name" jdbcType="VARCHAR" property="createStoreName"/>
+		<result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+		<result column="update_datetime" jdbcType="TIMESTAMP" property="updateDatetime"/>
+		<result column="update_store_code" jdbcType="VARCHAR" property="updateStoreCode"/>
+		<result column="update_store_name" jdbcType="VARCHAR" property="updateStoreName"/>
+		<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
+	</resultMap>
 	<insert id="insert" parameterType="com.example.demo.entity.dog.ExpenseEntity">
 		INSERT INTO expense
 		(
@@ -40,5 +68,20 @@
 	</insert>
 	<select id="selectLastExpenseId" resultType="int">
 		SELECT MAX(expense_id)   FROM expense
+	</select>
+	<select id="selectByDogId" resultMap="expenseMap">
+		SELECT 
+		expense_id
+		, occurrence_type
+		, cash_flow_type
+		, expense_type
+		, info
+		, quotation_yen
+		, close_yen
+		, payment_date
+		, arrival_date
+		FROM
+		expense
+		WHERE dog_id = #{dogId}
 	</select>
 </mapper>

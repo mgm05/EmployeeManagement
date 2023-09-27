@@ -34,7 +34,12 @@ public class DogService {
         return dogMapper.selectLastDogId();
     }
     
-    public DogEntity test() {
-        return dogMapper.test();
+    /**
+     * 犬詳細情報をidで取得.
+     * @param dogId Integer
+     * @return dogMapper.selectDogById(dogId)
+     */
+    public DogEntity selectDogById(Integer dogId){
+        return dogMapper.selectDogById(dogId);
     }
 }
