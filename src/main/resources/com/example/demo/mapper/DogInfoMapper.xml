@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DogInfoMapper">
+<resultMap type="com.example.demo.entity.dog.DogInfoEntity" id="dogInfoMap">
+	<result column="dog_id" jdbcType="VARCHAR" property="dogId"/>
+	<result column="jkc_no" jdbcType="VARCHAR" property="jkcNo"/>
+	<result column="dog_group_name" jdbcType="VARCHAR" property="dogGroupName"/>
+	<result column="dog_type_nm" jdbcType="VARCHAR" property="dogTypeNm"/>
+	<result column="sex" jdbcType="INTEGER" property="sex"/>
+	<result column="birthday" jdbcType="DATE" property="birthday"/>
+	<result column="contract_date" jdbcType="DATE" property="contractDate"/>
+	<result column="purchase_date" jdbcType="DATE" property="purchaseDate"/>
+</resultMap>
+	<select id="selectDogInfo" resultMap="dogInfoMap" parameterType="com.example.demo.dto.dog.DogListRequest">
+		SELECT 
+		dog.dog_id
+		, dog.jkc_no
+		, gr.dog_group_name
+		, tp.dog_type_nm
+		, dog.sex
+		, dog.birthday
+		, purchase.contract_date
+		, purchase.purchase_date
+		FROM dog 
+		INNER JOIN dog_group AS gr
+		ON dog.dog_group_code = gr.dog_group_code
+		INNER JOIN dog_type AS tp
+		ON dog.dog_code = tp.dog_type_code
+		INNER JOIN purchase
+		ON dog.dog_id = purchase.dog_id
+		<where>
+			<if test="dogId != null and dogId != ''">
+				dog.dog_id = #{dogId}
+			</if>
+			<if test="jkcNo != null and jkcNo != ''">
+				AND dog.jkc_no LIKE CONCAT('%', #{jkcNo}, '%')
+			</if>
+			<if test="dogGroup != null and dogGroup != ''">
+				AND dog.dog_group_code IN
+				<foreach collection="dogGroup" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="dogType != null and dogType != ''">
+				AND tp.dog_type_nm LIKE CONCAT('%', #{dogType}, '%')
+			</if>
+			<if test="sex != null and sex != ''">
+				AND dog.sex = #{sex}
+			</if>
+			<if test="birthdayFrom != null and birthdayFrom != ''">
+				AND #{birthdayFrom}  &lt;=  dog.birthday 
+			</if>
+			<if test="birthdayTo != null and birthdayTo != ''">
+				AND dog.birthday &lt;= #{birthdayTo}
+			</if>
+			<if test="contractDateFrom != null and contractDateFrom != ''">
+				AND #{contractDateFrom}  &lt;= purchase.contract_date
+			</if>
+			<if test="contractDateTo != null and contractDateTo != ''">
+				AND purchase.contract_date &lt;= #{contractDateTo} 
+			</if>
+			<if test="purchaseDateFrom != null and purchaseDateFrom != ''">
+				AND #{purchaseDateFrom}  &lt;= purchase.purchase_date
+			</if>
+			<if test="purchaseDateTo != null and purchaseDateTo != ''">
+				AND purchase.purchase_date &lt;= #{purchaseDateTo} 
+			</if>
+		</where>
+	</select>
+</mapper>

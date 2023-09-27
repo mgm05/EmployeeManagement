@@ -1,5 +1,7 @@
 package com.example.demo.service.dog;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +38,14 @@ public class ExpenseService {
      */
     public int selectLastExpenseId() {
         return expenseMapper.selectLastExpenseId();
+    }
+    
+    /**
+     * dogIdで経費情報取得.
+     * @param dogId Integer
+     * @return expenseMapper.selectByDogId(dogId)
+     */
+    public List<ExpenseEntity> selectByDogId(Integer dogId){
+        return expenseMapper.selectByDogId(dogId);
     }
 }

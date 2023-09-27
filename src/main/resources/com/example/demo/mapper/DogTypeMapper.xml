@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.DogTypeMapper">
 	<resultMap type="com.example.demo.entity.dog.DogTypeEntity" id="DogTypeMap">
-		<result column="DOG_ID" jdbcType="INTEGER" property="dogTypeId"/>
-		<result column="DOG_TYPE_NM" jdbcType="VARCHAR" property="dogTypeName"/>
+		<result column="dog_type_code" jdbcType="INTEGER" property="dogTypeCode"/>
+		<result column="dog_type_nm" jdbcType="VARCHAR" property="dogTypeNm"/>
 	</resultMap>
 	<select id="selectDogType" resultMap="DogTypeMap">
 		SELECT dog_type_code , dog_type_nm FROM dog_type

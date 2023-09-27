@@ -27,4 +27,14 @@ public class PurchaseService {
     public int insert(PurchaseEntity purchaseEntity) {
         return purchaseMapper.insert(purchaseEntity);
     }
+    
+    /**
+     * dogIdを元に仕入れ情報を取得.
+     * @param dogId Integer
+     * @return purchaseMapper.selectPurchaseByDogId(dogId)
+     */
+    public PurchaseEntity selectPurchaseByDogId(Integer dogId) {
+        return purchaseMapper.selectPurchaseByDogId(dogId);
+    }
+    
 }

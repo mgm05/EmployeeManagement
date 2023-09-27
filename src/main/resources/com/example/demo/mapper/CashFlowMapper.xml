@@ -3,6 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.CashFlowMapper">
+	<resultMap type="com.example.demo.entity.dog.CashFlowEntity" id="cashFlowMap">
+		<result column="cash_flow_id" jdbcType="INTEGER" property="cashFlowId"/>
+		<result column="dog_id" jdbcType="INTEGER" property="dogId"/>
+		<result column="expense_id" jdbcType="INTEGER" property="expenseId"/>
+		<result column="store_code" jdbcType="VARCHAR" property="storeCode"/>
+		<result column="store_name" jdbcType="VARCHAR" property="storeName"/>
+		<result column="cash_flow_type" jdbcType="INTEGER" property="cashFlowType"/>
+		<result column="info" jdbcType="INTEGER" property="info"/>
+		<result column="note" jdbcType="VARCHAR" property="note"/>
+		<result column="price" jdbcType="INTEGER" property="price"/>
+		<result column="cancel_flag" jdbcType="INTEGER" property="cancelFlag"/>
+		<result column="cash_flow_date" jdbcType="DATE" property="cashFlowDate"/>
+		<result column="close_date" jdbcType="DATE" property="closeDate"/>
+		<result column="create_datetime" jdbcType="TIMESTAMP" property="createDatetime"/>
+		<result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+		<result column="update_datetime" jdbcType="TIMESTAMP" property="updateDatetime"/>
+		<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
+	</resultMap>
 	<insert id="insert" parameterType="com.example.demo.entity.dog.CashFlowEntity">
 		INSERT INTO cash_flow
 		(
@@ -33,4 +51,17 @@
 			, #{updateUserId}
 		)
 	</insert>
+	<select id="selectByDogId" resultMap="cashFlowMap">
+		SELECT 
+		cash_flow_id
+		, expense_id
+		, info
+		, cash_flow_type
+		, price
+		, cash_flow_date
+		, close_date
+		FROM
+		cash_flow
+		WHERE dog_id = #{dogId}
+	</select>
 </mapper>

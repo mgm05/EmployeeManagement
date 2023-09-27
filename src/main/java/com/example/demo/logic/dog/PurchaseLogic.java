@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.CommonUtils;
 import com.example.demo.constEnum.CashFlowType;
 import com.example.demo.constEnum.ExpenseType;
+import com.example.demo.constEnum.Info;
 import com.example.demo.constEnum.OccurrenceType;
 import com.example.demo.dto.dog.DogGroup;
 import com.example.demo.dto.dog.DogType;
@@ -80,8 +81,8 @@ public class PurchaseLogic {
            
         for (DogTypeEntity entity :entities) {
             DogType dogType = new DogType();
-            dogType.setDogTypeId(entity.getDogTypeId());
-            dogType.setDogTypeName(entity.getDogTypeName());
+            dogType.setDogTypeCode(entity.getDogTypeCode());
+            dogType.setDogTypeNm(entity.getDogTypeNm());
             dogTypeList.add(dogType);
         }
         return dogTypeList;

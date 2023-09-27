@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constEnum.ContractType;
+import com.example.demo.constEnum.DogSex;
 import com.example.demo.constEnum.Sex;
 import com.example.demo.dto.dog.DogGroup;
 import com.example.demo.dto.dog.DogType;
@@ -48,7 +49,7 @@ public class PurchaseController {
      
         model.addAttribute("dogGroupList", dogGroupList);
         model.addAttribute("dogTypeList", dogTypeList);
-        model.addAttribute("sexEnum", Sex.values());
+        model.addAttribute("sexEnum", DogSex.values());
         model.addAttribute("contractTypeEnum", ContractType.values());
         return "purchase";
     }
