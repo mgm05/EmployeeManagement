@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PurchaseMapper">
+ <resultMap type="com.example.demo.entity.dog.PurchaseEntity"  id="purchaseMap"> 
+ 	<result column="purchase_id" jdbcType="INTEGER" property="purchaseId"/> 
+ 	<result column="dog_id" jdbcType="INTEGER" property="dogId"/> 
+ 	<result column="contract_id" jdbcType="INTEGER" property="contractId"/> 
+ 	<result column="contract_type" jdbcType="VARCHAR" property="contractType"/> 
+ 	<result column="store_id" jdbcType="VARCHAR" property="storeId"/> 
+ 	<result column="store_name" jdbcType="VARCHAR" property="storeName"/> 
+ 	<result column="purchase_user_id" jdbcType="VARCHAR" property="purchaseUserId"/> 
+ 	<result column="purchase_user_name" jdbcType="VARCHAR" property="purchaseUserName"/> 
+ 	<result column="group_id" jdbcType="INTEGER" property="groupId"/> 
+ 	<result column="contract_date" jdbcType="DATE" property="contractDate"/> 
+ 	<result column="purchase_date" jdbcType="DATE" property="purchaseDate"/> 
+ 	<result column="contract_yen" jdbcType="INTEGER" property="contractYen"/> 
+ 	<result column="purchase_yen" jdbcType="INTEGER" property="purchaseYen"/> 
+ 	<result column="medical_yen" jdbcType="INTEGER" property="medicalYen"/> 
+ 	<result column="transport_yen" jdbcType="INTEGER" property="transportYen"/> 
+ 	<result column="payment_expected_date" jdbcType="DATE" property="paymentExpectedDate"/> 
+ 	<result column="payment_date" jdbcType="DATE" property="paymentDate"/> 
+ 	<result column="change_name_date" jdbcType="DATE" property="changeNameDate"/> 
+ 	<result column="cancel_datetime" jdbcType="TIMESTAMP" property="cancelDatetime"/> 
+ 	<result column="cancel_flag" jdbcType="INTEGER" property="cancelFlag"/> 
+ 	<result column="create_datetime" jdbcType="TIMESTAMP" property="createDatetime"/> 
+ 	<result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/> 
+ 	<result column="update_datetime" jdbcType="TIMESTAMP" property="updateDatetime"/> 
+ 	<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/> 
+ </resultMap> 
+	<insert id="insert" parameterType="com.example.demo.entity.dog.PurchaseEntity">
+		INSERT INTO purchase
+		(
+			dog_id
+			, contract_type
+			, purchase_user_id
+			, contract_date
+			, purchase_date
+			, contract_yen
+			, purchase_yen
+			, medical_yen
+			, transport_yen
+			, payment_expected_date
+			, payment_date
+			, cancel_flag
+			, create_datetime
+			, create_user_id
+			, update_datetime
+			, update_user_id
+		)
+		VALUES
+		(
+			#{dogId}
+			, #{contractType}
+			, #{purchaseUserId}
+			, #{contractDate}
+			, #{purchaseDate}
+			, #{contractYen}
+			, #{purchaseYen}
+			, #{medicalYen}
+			, #{transportYen}
+			, #{paymentExpectedDate}
+			, #{paymentDate}
+			, 0
+			, CURRENT_TIMESTAMP
+			, #{createUserId}
+			, CURRENT_TIMESTAMP
+			, #{updateUserId}
+		)
+	</insert>
+	<select id="selectPurchaseByDogId" resultMap="purchaseMap">
+		SELECT 
+		dog_id
+		, contract_type
+		, contract_date
+		, purchase_date
+		, contract_yen
+		, payment_expected_date
+		, payment_date
+		FROM
+		purchase
+		WHERE dog_id = #{dogId}
+	</select>
+</mapper>
