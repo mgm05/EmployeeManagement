@@ -7,6 +7,9 @@ import lombok.Data;
  */
 @Data
 public class DogTypeEntity {
-    private int dogTypeCode;
+    private Integer dogTypeCode;
+    private String dogSize;
+    private String dogGroup;
     private String dogTypeNm;
+
 }
