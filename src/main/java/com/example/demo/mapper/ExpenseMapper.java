@@ -16,10 +16,6 @@ public interface ExpenseMapper {
      * @return int */
     int insert(ExpenseEntity expenseEntity);
     
-    /** 最後に挿入されたexpenseId取得. 
-     * @return int*/
-    int selectLastExpenseId();
-    
     /** dogIdで経費情報取得.
      * @param dogId Integer
      * @return 経費情報

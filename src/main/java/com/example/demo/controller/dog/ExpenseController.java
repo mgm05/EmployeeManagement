@@ -36,6 +36,10 @@ public class ExpenseController {
      */
     @GetMapping("/expense")
     public String index(Integer dogId, Model model) {
+        // セッションが切れていたらログイン画面へ遷移
+        if (session.getLoginId() == null) {
+            return "redirect:/login";
+        }
         List<ExpenseEntity> expenseList = logic.createExpenseList(dogId);
         model.addAttribute("expenseList", expenseList);
         model.addAttribute("occurrenceTypeEnum", OccurrenceType.values());
@@ -46,8 +50,7 @@ public class ExpenseController {
     
     @PostMapping("/expense/regist")
     public String regist(ExpenseRequest req, Integer dogId) {
-        logic.regist(req, dogId);
+        logic.regist(req, dogId, session.getLoginId());
         return "expense";
     }
-
 }

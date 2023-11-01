@@ -5,9 +5,29 @@
 <mapper namespace="com.example.demo.mapper.DogTypeMapper">
 	<resultMap type="com.example.demo.entity.dog.DogTypeEntity" id="DogTypeMap">
 		<result column="dog_type_code" jdbcType="INTEGER" property="dogTypeCode"/>
+		<result column="dog_size" jdbcType="CHAR" property="dogSize"/>
+		<result column="dog_group" jdbcType="CHAR" property="dogGroup"/>
 		<result column="dog_type_nm" jdbcType="VARCHAR" property="dogTypeNm"/>
 	</resultMap>
 	<select id="selectDogType" resultMap="DogTypeMap">
 		SELECT dog_type_code , dog_type_nm FROM dog_type
+	</select>
+	<select id="selectDogTypeAndGroup" parameterType="String" resultMap="DogTypeMap">
+		SELECT dog_type_nm , dog_group FROM dog_type WHERE dog_type_code = #{dogTypeCode}
+	</select>
+	<insert id="insert" parameterType="com.example.demo.entity.dog.DogTypeEntity">
+		INSERT INTO dog_type
+		(
+			dog_group
+			, dog_type_nm
+		)
+		VALUES
+		(
+			#{dogGroup}
+			, #{dogTypeNm}
+		)
+	</insert>
+	<select id="selectByDogTypeNm" parameterType="String" resultMap="DogTypeMap">
+		SELECT dog_type_nm FROM dog_type WHERE dog_type_nm = #{dogType}
 	</select>
 </mapper>

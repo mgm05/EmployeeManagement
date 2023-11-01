@@ -31,7 +31,7 @@
 		<result column="update_store_name" jdbcType="VARCHAR" property="updateStoreName"/>
 		<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
 	</resultMap>
-	<insert id="insert" parameterType="com.example.demo.entity.dog.ExpenseEntity">
+	<insert id="insert" parameterType="com.example.demo.entity.dog.ExpenseEntity" useGeneratedKeys="true" keyProperty="expenseId">
 		INSERT INTO expense
 		(
 			dog_id
@@ -66,12 +66,10 @@
 		)
 		
 	</insert>
-	<select id="selectLastExpenseId" resultType="int">
-		SELECT MAX(expense_id)   FROM expense
-	</select>
 	<select id="selectByDogId" resultMap="expenseMap">
 		SELECT 
 		expense_id
+		, dog_id
 		, occurrence_type
 		, cash_flow_type
 		, expense_type

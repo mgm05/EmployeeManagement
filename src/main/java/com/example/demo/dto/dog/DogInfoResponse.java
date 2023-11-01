@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class DogInfoResponse {
     /** ID. */
-    private Integer dogId;
+    private String dogId;
     /** JKC登録番号. */
     private String jkcNo;
     /** 犬種グループ名. */

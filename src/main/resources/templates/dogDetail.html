@@ -9,15 +9,22 @@
 	<title>犬詳細</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
+		function redirectExpense(){
+			$('form').submit();
+		}
 	</script>
 </head>
 <body>
 	<div class="container">
 		<h1 style="margin-bottom: 20px; text-align: center;">犬詳細</h1>
+		<div style="text-align: right; margin: 10px;">
+			<div th:replace="~{common/backButton :: backButton_fragment}"></div>
+		</div>
 		<br>
-		<form action="/dogList/search" method="get">
+		<form action="/expense" method="get">
 			<table class="table">
 				<tr>
+					<input type="hidden" name="dogId" th:value="${dogDetail.dogId}">
 					<th class="table-primary">ID</th>
 					<td>
 						<label th:text="${dogDetail.dogId}"></label>
@@ -91,6 +98,9 @@
 			</tr>
 		</table>
 		<h1 style="margin-bottom: 20px; text-align: center;">入出金情報</h1>
+		<div style="text-align: right; margin: 10px;">
+			<button onclick="redirectExpense()" class="btn btn-outline-secondary btn-sm">経費一覧</button>
+		</div>
 		<table class="table">
 			<thead class="table-primary">
 				<tr>

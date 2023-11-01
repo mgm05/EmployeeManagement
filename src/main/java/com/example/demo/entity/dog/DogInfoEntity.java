@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class DogInfoEntity{
     /** ID. */
-    private Integer dogId;
+    private String dogId;
     /** JKC登録番号. */
     private String jkcNo;
     /** 犬種グループ名. */
@@ -18,7 +18,7 @@ public class DogInfoEntity{
     /** 犬種名. */
     private String dogTypeNm;
     /** 性別. */
-    private Integer sex;
+    private String sex;
     /** 生年月日. */
     private Date birthday;
     /** 成約日.*/

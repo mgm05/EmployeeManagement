@@ -11,9 +11,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ContractType implements Enum<String> {
-    /** 男. */
+    /**ブリーダー. */
     BREEDER("0", "ブリーダー"),
-    /** 女. */
+    /** 店舗. */
     STORE("1", "店舗");
 
     /** code. */

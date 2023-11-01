@@ -38,6 +38,11 @@ public class DogDetailController {
      */
     @GetMapping("/dogDetail")
     public String index(Integer dogId, Model model) {
+        // セッションが切れていたらログイン画面へ遷移
+        if (session.getLoginId() == null) {
+            return "redirect:/login";
+        }
+        
         DogEntity dogDetail = logic.createDogDetail(dogId);
         PurchaseEntity purchase = logic.createDogDetailPurchase(dogId);
         List<CashFlowEntity> cashFlowList = logic.createDogDetailCashFlow(dogId);
@@ -46,6 +51,4 @@ public class DogDetailController {
         model.addAttribute("cashFlowList", cashFlowList);
         return "dogDetail";
     }
-    
-
 }

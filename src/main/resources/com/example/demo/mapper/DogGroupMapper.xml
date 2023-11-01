@@ -10,4 +10,7 @@
 	<select id="selectAll" resultMap="DogGroupMap">
 		SELECT * FROM dog_group
 	</select>
+	<select id="selectDogGroupNameByCode" parameterType="String" resultMap="DogGroupMap">
+		SELECT dog_group_name FROM dog_group WHERE dog_group_code = #{dogGroupCode}
+	</select>
 </mapper>

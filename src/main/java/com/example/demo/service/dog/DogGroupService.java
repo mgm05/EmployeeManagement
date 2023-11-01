@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.dog.DogGroupEntity;
+import com.example.demo.entity.dog.DogTypeEntity;
 import com.example.demo.mapper.DogGroupMapper;
 
 /**
@@ -24,4 +25,13 @@ public class DogGroupService {
     public List<DogGroupEntity> selectAll() {
         return dogGroupMapper.selectAll();
     }
+
+    /**
+     * 犬種グループコードから犬種グループ名取得.
+     * @param dogGroupCode
+     * @return dogGroupMapper.selectByDogTypeCode
+     */
+	public DogGroupEntity selectDogGroupNameByCode(String dogGroupCode) {
+		return dogGroupMapper.selectDogGroupNameByCode(dogGroupCode);
+	}
 }
