@@ -33,14 +33,6 @@ public class ExpenseService {
     }
     
     /**
-     * 最後に挿入されたexpenseId取得.
-     * @return expenseMapper.selectLastExpenseId()
-     */
-    public int selectLastExpenseId() {
-        return expenseMapper.selectLastExpenseId();
-    }
-    
-    /**
      * dogIdで経費情報取得.
      * @param dogId Integer
      * @return expenseMapper.selectByDogId(dogId)

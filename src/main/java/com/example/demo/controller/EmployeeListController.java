@@ -22,9 +22,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Controller
 public class EmployeeListController {
-    /** HttpSession. */
-    @Autowired
-    private HttpSession httpSession;
+
     /** セッション. */
     @Autowired
     private SessionUser session;
@@ -51,20 +49,6 @@ public class EmployeeListController {
         model.addAttribute("employeeListRes", employeeListRes);
 
         return "employeeList";
-    }
-
-    /**
-     * セッションを破棄し、ログアウトする。
-     * ログイン画面へ遷移.
-     * 
-     * @return "redirect:/login"
-     */
-    @GetMapping("/logout")
-    public String logout() {
-
-        httpSession.invalidate();
-        
-        return "redirect:/login";
     }
 
     /**

@@ -7,6 +7,6 @@ import lombok.Data;
  */
 @Data
 public class DogType {
-    private int dogTypeCode;
+    private Integer dogTypeCode;
     private String dogTypeNm;
 }

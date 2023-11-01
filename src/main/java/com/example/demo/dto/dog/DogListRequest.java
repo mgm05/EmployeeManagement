@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class DogListRequest {
     /** ID. */
-    private Integer dogId;
+    private String dogId;
     /** JKC登録番号. */
     private String jkcNo;
     /** 犬種グループ. */
@@ -18,7 +18,7 @@ public class DogListRequest {
     /** 犬種. */
     private String dogType;
     /** 性別. */
-    private Integer sex;
+    private String sex;
     /** 生年月日From. */
     private String birthdayFrom;
     /** 生年月日To. */

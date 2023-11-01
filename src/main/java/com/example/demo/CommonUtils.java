@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import jakarta.validation.constraints.NotNull;
@@ -50,17 +52,39 @@ public class CommonUtils {
      * @param strDate String
      * @return date
      */
-    public static Date parseHyphenDate(@NotNull String strDate) {
-        SimpleDateFormat strSdf = new SimpleDateFormat("yyyy-MM-dd");
+    public static Optional<Date> parseHyphenDate(String strDate) {
+        Optional<Date> optDate = Optional.empty();
         
-        Date date = null;
-        
+        if(StringUtils.isEmpty(strDate)) {
+        	return optDate;
+        }
         try {
-            date = strSdf.parse(strDate);
+            SimpleDateFormat strSdf = new SimpleDateFormat("yyyy-MM-dd");
+            optDate = Optional.of(strSdf.parse(strDate));
         } catch (ParseException e) {
             e.printStackTrace();
+            tmp(e);
         }
-        return date;
+        return optDate;
+    }
+    
+    private static void tmp(Exception e) {
+    	new Exception();
+    }
+    
+    /**
+     * 文字列数字をIntegerに変換
+     * @param strNum
+     * @return Optional<Integer>
+     */
+    public static Optional<Integer> parseStrNum(String strNum){
+    	Optional<Integer> optNum = Optional.empty();
+    	
+    	if(StringUtils.isEmpty(strNum)) {
+    		return optNum;
+    	}
+    	optNum = Optional.of(Integer.parseInt(strNum));
+    	return optNum;
     }
     
     /**

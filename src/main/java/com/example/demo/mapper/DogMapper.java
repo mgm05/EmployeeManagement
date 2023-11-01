@@ -13,13 +13,7 @@ public interface DogMapper {
      * @param dogEntity DogEntity
      * @return int*/
     int insert(DogEntity dogEntity);
-    
-    /**
-     * insert直後のdogIdを取得.
-     * @return insert直後のdogId
-     */
-    int selectLastDogId();
-    
+
     /**
      * 犬詳細情報をidで取得.
      * @param dogId Integer

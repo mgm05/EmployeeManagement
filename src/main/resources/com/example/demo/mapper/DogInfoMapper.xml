@@ -37,14 +37,14 @@
 			<if test="jkcNo != null and jkcNo != ''">
 				AND dog.jkc_no LIKE CONCAT('%', #{jkcNo}, '%')
 			</if>
-			<if test="dogGroup != null and dogGroup != ''">
+			<if test="dogGroup != null and dogGroup.size() > 0">
 				AND dog.dog_group_code IN
 				<foreach collection="dogGroup" item="item" open="(" separator="," close=")">
 					#{item}
 				</foreach>
 			</if>
 			<if test="dogType != null and dogType != ''">
-				AND tp.dog_type_nm LIKE CONCAT('%', #{dogType}, '%')
+				AND dog.dog_code = #{dogType}
 			</if>
 			<if test="sex != null and sex != ''">
 				AND dog.sex = #{sex}
@@ -68,5 +68,6 @@
 				AND purchase.purchase_date &lt;= #{purchaseDateTo} 
 			</if>
 		</where>
+			ORDER BY dog.dog_id DESC
 	</select>
 </mapper>

@@ -11,25 +11,25 @@ import lombok.Data;
 @Data
 public class DogEntity {
     /** ID. */
-    private Integer dogId;
+    private int dogId;
     /** JKC登録番号. */
     private String jkcNo;
     /** 犬種グループコード. */
     private String dogGroupCode;
     /** 犬種グループ名. */
-    private String dogGroupCodeName;
+    private String dogGroupName;
     /** 犬種コード. */
     private String dogCode;
     /** 犬種名. */
     private String dogName;
     /** 性別. */
-    private Integer sex;
+    private String sex;
     /** 生年月日. */
     private Date birthday;
     /** 死去日. */
     private Date deadDate;
     /** キャンセルフラグ. */
-    private int cancelFlag;
+    private String cancelFlag;
     /** 登録日時. */
     private Timestamp createDatetime;
     /** 登録者ユーザID. */

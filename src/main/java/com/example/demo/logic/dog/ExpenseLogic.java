@@ -36,49 +36,52 @@ public class ExpenseLogic {
     }
 
     
-    public void regist(ExpenseRequest req, Integer dogId) {
-        ExpenseEntity expenseEntity = createExpenseEntity(req, dogId);
+    public void regist(ExpenseRequest req, Integer dogId, String loginId) {
+        ExpenseEntity expenseEntity = createExpenseEntity(req, loginId);
         expenseService.insert(expenseEntity);
-        CashFlowEntity cashFlowEntity = createCashFlowEntity(req, dogId, expenseService.selectLastExpenseId());
+        CashFlowEntity cashFlowEntity = createCashFlowEntity(req, loginId, expenseEntity.getExpenseId());
         cashFlowService.insert(cashFlowEntity);
     }
-
     /**
      * CashFlowEntity生成.
      * @param req ExpenseRequest
+     * @param loginId 
      * @param dogId Integer
      * @param expenseId Integer
      * @return entity
      */
-    private CashFlowEntity createCashFlowEntity(ExpenseRequest req, Integer dogId, Integer expenseId) {
+    private CashFlowEntity createCashFlowEntity(ExpenseRequest req, String loginId, Integer expenseId) {
         CashFlowEntity entity = new CashFlowEntity();
-        entity.setDogId(dogId);
+        entity.setDogId(req.getDogId());
         entity.setExpenseId(expenseId);
         entity.setCashFlowType(req.getCashFlowType());
         entity.setPrice(req.getQuotationYen());
-        entity.setCashFlowDate(CommonUtils.parseSlashDate(req.getPaymentDate()));
+        entity.setCashFlowDate(CommonUtils.parseHyphenDate(req.getPaymentDate()).orElseThrow());
+        entity.setCreateUserId(loginId);
+        entity.setUpdateUserId(loginId);
         return entity;
     }
 
     /**
      * ExpenseEntity生成.
      * @param req ExpenseRequest
+     * @param loginId 
      * @param dogId Integer
      * @return entity
      */
-    private ExpenseEntity createExpenseEntity(ExpenseRequest req, Integer dogId) {
+    private ExpenseEntity createExpenseEntity(ExpenseRequest req, String loginId) {
         ExpenseEntity entity = new ExpenseEntity();
-        entity.setDogId(dogId);
+        entity.setDogId(req.getDogId());
         entity.setOccurrenceType(req.getOccurrenceType());
         entity.setCashFlowType(req.getCashFlowType());
         entity.setExpenseType(req.getExpenseType());
         entity.setInfo(req.getInfo());
         entity.setQuotationYen(req.getQuotationYen());
         entity.setCloseYen(req.getCloseYen());
-        entity.setPaymentDate(CommonUtils.parseSlashDate(req.getPaymentDate()));
-        if (StringUtils.isNotEmpty(req.getArrivalDate())) {
-            entity.setArrivalDate(CommonUtils.parseSlashDate(req.getArrivalDate()));
-        }
+        entity.setPaymentDate(CommonUtils.parseHyphenDate(req.getPaymentDate()).orElseThrow());
+        entity.setArrivalDate(CommonUtils.parseHyphenDate(req.getArrivalDate()).orElse(null));
+        entity.setCreateUserId(loginId);
+        entity.setUpdateUserId(loginId);
         return entity;
     }
 }

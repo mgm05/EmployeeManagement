@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.dao.LoginInfoDao;
 import com.example.demo.dto.LoginRequests;
-import com.example.demo.logic.EditDate;
 import com.example.demo.session.SessionUser;
-import com.fasterxml.jackson.databind.util.ArrayIterator;
+
+import jakarta.servlet.http.HttpSession;
 
 /**
  * ログインコントローラー.
@@ -26,6 +23,9 @@ public class LoginController {
     /** セッション. */
     @Autowired
     private SessionUser session;
+    /** HttpSession. */
+    @Autowired
+    private HttpSession httpSession;
     
     /**
      * ログイン画面初期表示.
@@ -34,7 +34,6 @@ public class LoginController {
      */ 
     @GetMapping("/login")
     public String index(Model model) {
-        
         
         return "login";
     }
@@ -58,7 +57,7 @@ public class LoginController {
             
             session.setLoginId(req.getLoginId());
             session.setPassword(req.getPassword());
-            return "redirect:/list";
+            return "redirect:/menu";
         }
         
         //ログイン失敗したらエラーメッセージをセッション(仕様)に保存
@@ -67,6 +66,20 @@ public class LoginController {
         model.addAttribute("msg", session.getMsg());
 
         return "login";
+    }
+    
+    /**
+     * セッションを破棄し、ログアウトする。
+     * ログイン画面へ遷移.
+     * 
+     * @return "redirect:/login"
+     */
+    @GetMapping("/logout")
+    public String logout() {
+
+        httpSession.invalidate();
+        
+        return "redirect:/login";
     }
 
 }

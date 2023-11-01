@@ -27,14 +27,6 @@ public class DogService {
     }
     
     /**
-     * insert直後のdogIdを取得.
-     * @return dogMapper.selectLastDogId()
-     */
-    public int getLastDogId() {
-        return dogMapper.selectLastDogId();
-    }
-    
-    /**
      * 犬詳細情報をidで取得.
      * @param dogId Integer
      * @return dogMapper.selectDogById(dogId)
