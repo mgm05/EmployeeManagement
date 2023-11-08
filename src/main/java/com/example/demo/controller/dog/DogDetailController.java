@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.constEnum.DogSex;
+import com.example.demo.dto.dog.DogDetailResponse;
 import com.example.demo.dto.dog.DogGroup;
 import com.example.demo.dto.dog.DogInfoResponse;
 import com.example.demo.dto.dog.DogListRequest;
@@ -43,10 +44,13 @@ public class DogDetailController {
             return "redirect:/login";
         }
         
-        DogEntity dogDetail = logic.createDogDetail(dogId);
+        
+        DogDetailResponse res =  logic.createDogDetailRes(dogId);
+        
         PurchaseEntity purchase = logic.createDogDetailPurchase(dogId);
         List<CashFlowEntity> cashFlowList = logic.createDogDetailCashFlow(dogId);
-        model.addAttribute("dogDetail", dogDetail);
+        
+        model.addAttribute("res", res);
         model.addAttribute("purchase", purchase);
         model.addAttribute("cashFlowList", cashFlowList);
         return "dogDetail";

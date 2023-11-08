@@ -19,7 +19,7 @@ public class DogTypeDuplicationValidator implements  ConstraintValidator<DogType
     
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-    	DogTypeEntity dogTypeEntity = dogTypeService.selectByDogTypeNm(value);
+    	DogTypeEntity dogTypeEntity = dogTypeService.selectDogTypeNmByCode(value);
     	if(dogTypeEntity == null) {
     		return true;
     	}

@@ -13,10 +13,6 @@
 			var employeeDom = $(link).closest("tr");
 			//empId取得
 			var empId = employeeDom.find("#empId").val();
-			//所属会社と名前取得
-			
-			var anameaa =employeeDom.find('#test');
-			var anaromeaa =anameaa.html();
 			
 			//所属会社と名前取得
 			var abbreviation = employeeDom.find('#abbreviation');
@@ -71,7 +67,7 @@
 						<td><label id="abbreviation" th:text="${employeeRes.abbreviation}"></label></td><!--会社-->
 						<td><label th:text="${employeeRes.departmentName}"></label></td><!--事業部-->
 						<td><label id="name" th:text="${employeeRes.name}"></label></td><!--氏名-->
-						<td><label id="test" th:text="${employeeRes.nameHiragana}">aaGGaa</label></td><!--氏名(ひらがな-->
+						<td><label id="test" th:text="${employeeRes.nameHiragana}"></label></td><!--氏名(ひらがな-->
 						<td><label th:text="${employeeRes.age}"></label></td><!--年齢-->
 						<td><label th:text="${employeeRes.businessManager}"></label></td><!--担当管理営業-->
 						<td><label th:text="${employeeRes.hireDate}"></label></td><!--入社日-->

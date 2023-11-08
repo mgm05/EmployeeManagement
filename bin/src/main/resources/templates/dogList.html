@@ -9,29 +9,86 @@
 	<title>犬一覧</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
-	</script>
+		$("body").on('click', '#trDogList', function(){
+			var dogListDom = $(this).closest("tr");
+			var dogId = dogListDom.find('#viewDogId').text();
+			$('#inputDogId').attr("value", dogId);
+			$('#detailForm').submit();
+		});
+		$(function(){
+			$('#clearInputButton').on('click',function(){
+				clearFrom();
+			});
+		});
+		
+		function clearFrom(){
+			$('#serchForm').find(":text").val("");
+			$('#dogTypeSelectInit').prop("selected", true);
+			$('#sexRadioInit').prop("checked", true);
+			$('#serchForm').find(":checkbox").prop("checked", false);
+			$('#serchForm input[type="date"]').val("");
+		}
+		
+		function getCheckboxVal(){
+			/// チェックされたvalue値を配列として取得
+			var vals = $('input[name=dogGroup]:checked').map(function(){
+			return $(this).val();
+			}).get();
+			return vals
+		}
+		
+		$(function(){
+			$(':checkbox').on('click',function(){
+				var vals = getCheckboxVal();
+				$.ajax({
+					url: '/serchDogTypeList',
+					type:'GET',
+					data: {
+						test:vals
+						},
+					traditional: true,
+				}).done(function(res){
+					alert('通信成功！')
+					$('select#dogTypeSelect').children().remove();
+					$.each(res, function(index, value) {
+						$('#dogTypeSelect').append($('<option>').html(value.dogTypeNm).val(value.dogTypeCode));
+ 						console.log(value.dogTypeCode + value.dogTypeNm);
+					})
+				}).fail(function(data){
+					alert('通信失敗！')
+				});
+			});
+		});
+
+</script>
 </head>
 <body>
 	<div class="container">
 		<h1 style="margin-bottom: 20px; text-align: center;">犬一覧</h1>
+		<div id="tws"></div>
+		<input type="text"  id="test" value="a">
 		<br>
-		<form action="/dogList/search" method="get">
+		<div style="text-align: left; margin: 10px;">
+			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="location.href='menu'">システムメニュー</button>
+		</div>
+		<form action="/dogListSearch" method="get" id="serchForm">
 			<table class="table">
 				<tr>
 					<th class="table-primary">ID</th>
 					<td>
-						<input type="text" name="dogId">
+						<input type="text" name="dogId" th:field="${req.dogId}">
 					</td>
 					<th class="table-primary">JKC登録番号</th>
 					<td>
-						<input type="text" name="jkcNo">
+						<input type="text" name="jkcNo" th:field="${req.jkcNo}">
 					</td>
 					<th class="table-primary">犬種グループ</th>
 					<td>
 						<th:block th:each="dogGroup:${dogGroupList}">
 							<label style="white-space: nowrap;">
-								<input type="checkbox" th:value="${dogGroup.dogGroupCode}" name="dogGroup[]"
-								th:text="|${dogGroup.dogGroupCode}:${dogGroup.dogGroupName}|">&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="checkbox" th:value="${dogGroup.dogGroupCode}" name="dogGroup"
+								th:text="|${dogGroup.dogGroupCode}:${dogGroup.dogGroupName}|"
+								th:checked="${req.dogGroup} !=null and ${#lists.contains(req.dogGroup, dogGroup.dogGroupCode)}">&nbsp;&nbsp;&nbsp;&nbsp;
 							</label>
 						</th:block>
 					</td>
@@ -39,34 +96,42 @@
 				<tr>
 					<th class="table-primary">犬種</th>
 					<td>
-						<input type="text" name="dogType">
+						<select  id="dogTypeSelect"  name="dogType">
+							<option id="dogTypeSelectInit"></option>
+							<option th:each="dogType:${dogTypeList}" th:selected="${dogType.dogTypeCode}==${req.dogType}"
+								th:value="${dogType.dogTypeCode}" th:text="${dogType.dogTypeNm}">
+							</option>
+						</select>
 					</td>
 					<th class="table-primary">性別</th>
 						<td>
-							<input type="radio" value="" name="sex">選択しない
+							<input  th:checked="${#strings.isEmpty(req.sex)}" type="radio" value="" name="sex" id="sexRadioInit" >選択しない
 							<th:block th:each="sex:${sexEnum}">
-								<input type="radio" th:value="${sex.code}" th:text="${sex.val}" name="sex">
+								<input type="radio" th:value="${sex.code}" th:text="${sex.val}" name="sex" th:field="${req.sex}">
 							</th:block>
 						</td>
 					<th class="table-primary">生年月日</th>
 					<td>
-						<input type="date" name="birthdayFrom">～<input type="date" name="birthdayTo">
+						<input type="date" name="birthdayFrom" th:field="${req.birthdayFrom}">
+						～<input type="date" name="birthdayTo" th:field="${req.birthdayTo}">
 					</td>
 				</tr>
 				<tr>
 					<th class="table-primary">成約日</th>
 					<td>
-						<input type="date" name="contractDateFrom">～<input type="date" name="contractDateTo">
+						<input type="date" name="contractDateFrom" th:field="${req.contractDateFrom}">
+						～<input type="date" name="contractDateTo" th:field="${req.contractDateTo}">
 					</td>
 					<th class="table-primary">仕入日</th>
 					<td>
-						<input type="date" name="purchaseDateFrom">～<input type="date" name="purchaseDateTo">
+						<input type="date" name="purchaseDateFrom" th:field="${req.purchaseDateFrom}">
+						～<input type="date" name="purchaseDateTo" th:field="${req.purchaseDateTo}">
 					</td>
 					<td>
 						<button class="btn btn-outline-secondary btn-sm">検索</button>
 					</td>
 					<td>
-						<button class="btn btn-outline-secondary btn-sm">クリア</button>
+						<button class="btn btn-outline-secondary btn-sm" id="clearInputButton" type="button">クリア</button>
 					</td>
 				</tr>
 			</table>
@@ -74,34 +139,37 @@
 		<div style="text-align: right; margin: 10px;">
 			<button onclick="location.href='purchase'" class="btn btn-outline-secondary btn-sm">新規登録</button>
 		</div>
-		<table class="table">
-			<thead class="table-primary">
-				<tr>
-					<th>ID</th>
-					<th>JKC登録番号</th>
-					<th>犬種グループ</th>
-					<th>犬種</th>
-					<th>性別</th>
-					<th>生年月日</th>
-					<th>成約日</th>
-					<th>仕入日</th>
-				</tr>
-			</thead>
-			<tbody>
-				<th:block th:each="dog : ${dogList}">
+		<form id="detailForm" th:action="@{/dogDetail}" method="get">
+			<input type="hidden" name="dogId" id="inputDogId">
+			<table class="table table-hover">
+				<thead class="table-primary">
 					<tr>
-						<td><label th:text="${dog.dogId}"></label></td><!-- ID -->
-						<td><label th:text="${dog.jkcNo}"></label></td><!-- JKC登録番号 -->
-						<td><label th:text="${dog.dogGroupName}"></label></td><!-- 犬種グループ -->
-						<td><label th:text="${dog.dogTypeNm}"></label></td><!-- 犬種 -->
-						<td><label th:text="${dog.sex}"></label></td><!-- 性別 -->
-						<td><label th:text="${dog.birthday}"></label></td><!-- 生年月日 -->
-						<td><label th:text="${dog.contractDate}"></label></td><!-- 成約日 -->
-						<td><label th:text="${dog.purchaseDate}"></label></td><!-- 仕入日 -->
+						<th>ID</th>
+						<th>JKC登録番号</th>
+						<th>犬種グループ</th>
+						<th>犬種</th>
+						<th>性別</th>
+						<th>生年月日</th>
+						<th>成約日</th>
+						<th>仕入日</th>
 					</tr>
-				</th:block>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<th:block th:each="dog : ${dogList}">
+						<tr id="trDogList" style="cursor: pointer;">
+							<td><label th:text="${dog.dogId}" id="viewDogId"></label></td><!-- ID -->
+							<td><label th:text="${dog.jkcNo}"></label></td><!-- JKC登録番号 -->
+							<td><label th:text="${dog.dogGroupName}"></label></td><!-- 犬種グループ -->
+							<td><label th:text="${dog.dogTypeNm}"></label></td><!-- 犬種 -->
+							<td><label th:text="${dog.sex}"></label></td><!-- 性別 -->
+							<td><label th:text="${dog.birthday}"></label></td><!-- 生年月日 -->
+							<td><label th:text="${dog.contractDate}"></label></td><!-- 成約日 -->
+							<td><label th:text="${dog.purchaseDate}"></label></td><!-- 仕入日 -->
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</form>
 	</div>
 </body>
 </html>

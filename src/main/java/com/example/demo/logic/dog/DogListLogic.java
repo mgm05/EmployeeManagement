@@ -92,4 +92,16 @@ public class DogListLogic {
 		}
 		return dogTypeList;
 	}
+
+	public List<DogType> createDogTypeListFomGroup(String[] dogGroup) {
+		List<DogTypeEntity> dogTypeEntity = dogTypeService.selectDogTypeByGroup(dogGroup);
+		List<DogType> dogTypeList = new ArrayList<>();
+		for(DogTypeEntity entity: dogTypeEntity) {
+			DogType dogType = new DogType();
+			dogType.setDogTypeCode(entity.getDogTypeCode());
+			dogType.setDogTypeNm(entity.getDogTypeNm());
+			dogTypeList.add(dogType);
+		}
+		return dogTypeList;
+		}
 }

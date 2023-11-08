@@ -22,5 +22,7 @@ public interface DogTypeMapper {
     
     int insert(DogTypeEntity entity);
 
-	DogTypeEntity selectByDogTypeNm(String value);
+	DogTypeEntity selectByDogTypeNm(String dogTypeName);
+	
+	List<DogTypeEntity> selectDogTypeByGroup(String[] dogGroup);
 }

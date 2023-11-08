@@ -2,7 +2,6 @@ package com.example.demo.dto.dog;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
 import com.example.demo.CommonUtils;

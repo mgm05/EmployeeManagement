@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.DogGroupMapper">
 	<resultMap type="com.example.demo.entity.dog.DogGroupEntity" id="DogGroupMap">
 		<result column="dog_group_code" jdbcType="VARCHAR" property="dogGroupCode"/>
 		<result column="dog_group_name" jdbcType="VARCHAR" property="dogGroupName"/>
 	</resultMap>
 	<select id="selectAll" resultMap="DogGroupMap">
-		SELECT * FROM dog_group
+		SELECT
+			dog_group_code
+			, dog_group_name 
+		FROM
+			dog_group
+	</select>
+	<select id="selectDogGroupNameByCode" parameterType="String" resultMap="DogGroupMap">
+		SELECT
+			dog_group_name 
+		FROM
+			dog_group 
+		WHERE
+			dog_group_code = #{dogGroupCode}
 	</select>
 </mapper>

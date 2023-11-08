@@ -24,38 +24,38 @@
 		<form action="/expense" method="get">
 			<table class="table">
 				<tr>
-					<input type="hidden" name="dogId" th:value="${dogDetail.dogId}">
+					<input type="hidden" name="dogId" th:value="${res.dogId}">
 					<th class="table-primary">ID</th>
 					<td>
-						<label th:text="${dogDetail.dogId}"></label>
+						<label th:text="${res.dogId}"></label>
 					</td>
 				</tr>
 					<th class="table-primary">JKC登録番号</th>
 					<td>
-						<label th:text="${dogDetail.jkcNo}"></label>
+						<label th:text="${res.jkcNo}"></label>
 					</td>
 				<tr>
 					<th class="table-primary">犬種グループ</th>
 					<td>
-						<label th:text="${dogDetail.dogGroupCode}"></label>
+						<label th:text="${res.dogGroupName}"></label>
 					</td>
 				</tr>
 				<tr>
 					<th class="table-primary">犬種</th>
 					<td>
-						<label th:text="${dogDetail.dogCode}"></label>
+						<label th:text="${res.dogTypeName}"></label>
 					</td>
 				</tr>
 				<tr>
 					<th class="table-primary">性別</th>
 					<td>
-						<label th:text="${dogDetail.sex}"></label>
+						<label th:text="${res.sex}"></label>
 					</td>
 				</tr>
 				<tr>
 					<th class="table-primary">生年月日</th>
 					<td>
-						<label th:text="${dogDetail.birthday}"></label>
+						<label th:text="${res.birthday}"></label>
 					</td>
 				</tr>
 			</table>
@@ -65,35 +65,35 @@
 			<tr>
 				<th class="table-primary">契約区分</th>
 				<td>
-					<label th:text="${purchase.contractType}"></label>
+					<label th:text="${res.contractType}"></label>
 				</td>
 			</tr>
 			<tr>
 				<th class="table-primary">成約日</th>
 				<td>
-					<label th:text="${purchase.contractDate}"></label>
+					<label th:text="${res.contractDate}"></label>
 				</td>
 			</tr>
 				<th class="table-primary">仕入日</th>
 				<td>
-					<label th:text="${purchase.purchaseDate}"></label>
+					<label th:text="${res.purchaseDate}"></label>
 				</td>
 			</tr>
 			<tr>
 				<th class="table-primary">契約金額</th>
 				<td>
-					<label th:text="${purchase.contractYen}"></label>
+					<label th:text="'￥'+${res.contractYen}"></label>
 				</td>
 			</tr>
 			<tr>
 				<th class="table-primary">支払予定日</th>
 				<td>
-					<label th:text="${purchase.paymentExpectedDate}"></label>
+					<label th:text="${res.paymentExpectedDate}"></label>
 				</td>
 			</tr>
 				<th class="table-primary">支払日</th>
 				<td>
-					<label th:text="${purchase.paymentDate}"></label>
+					<label th:text="${res.paymentDate}"></label>
 				</td>
 			</tr>
 		</table>
@@ -106,7 +106,6 @@
 				<tr>
 					<th>入出金ID</th>
 					<th>経費ID</th>
-					<th>内容</th>
 					<th>入出金区分</th>
 					<th>金額</th>
 					<th>発生日</th>
@@ -114,13 +113,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<th:block th:each="cashFlow:${cashFlowList}">
+				<th:block th:each="cashFlow:${res.cashFlowList}">
 					<tr>
 						<td><label th:text="${cashFlow.cashFlowId}"></label></td><!-- 入出金ID -->
 						<td><label th:text="${cashFlow.expenseId}"></label></td><!-- 経費ID -->
-						<td><label th:text="${cashFlow.info}"></label></td><!-- 内容 -->
 						<td><label th:text="${cashFlow.cashFlowType}"></label></td><!-- 入出金区分 -->
-						<td><label th:text="${cashFlow.price}"></label></td><!-- 金額 -->
+						<td><label th:text="'￥'+${cashFlow.price}"></label></td><!-- 金額 -->
 						<td><label th:text="${cashFlow.cashFlowDate}"></label></td><!-- 発生日 -->
 						<td><label th:text="${cashFlow.closeDate}"></label></td><!-- 確定日 -->
 					</tr>

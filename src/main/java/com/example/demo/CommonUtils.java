@@ -30,6 +30,23 @@ public class CommonUtils {
     }
     
     /**
+     * Date型日付をString型yyyy/MM/ddに変換.
+     * @param date Date
+     * @return strDate yyyy/MM/dd
+     */
+    public static Optional<String> formatOptDate(Date date) {
+    	Optional<String> opStrDate = Optional.empty();
+    	if(date == null) {
+    		return opStrDate;
+    	}
+    	
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        opStrDate = Optional.of(sdf.format(date));
+        
+        return opStrDate;
+    }
+    
+    /**
      * String型日付yyyy/MM/ddをDate型に変換.
      * @param strDate String
      * @return date

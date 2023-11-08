@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.constEnum.DogSex;
 import com.example.demo.dto.dog.DogGroup;
@@ -59,14 +62,15 @@ public class DogListController {
 	 */
 	@GetMapping("/dogListSearch")
 	public String search(DogListRequest req, Model model) {
-
-//        List<DogInfoResponse> dogList = logic.createDogList(req);
-//        List<DogGroup> dogGroupList = logic.createDogGroupList();
-//        
-//        model.addAttribute("req", req);
-//        model.addAttribute("dogList", dogList);
-//        model.addAttribute("dogGroupList", dogGroupList);
-//        model.addAttribute("sexEnum", DogSex.values());
 		return "forward:/dogList";
+	}
+	
+	@GetMapping("/serchDogTypeList")
+	@ResponseBody
+	public List<DogType> serchDogTypeList(@RequestParam String[] test) {
+
+		List<DogType> dogList = logic.createDogTypeListFomGroup(test);
+		
+		return dogList;
 	}
 }
