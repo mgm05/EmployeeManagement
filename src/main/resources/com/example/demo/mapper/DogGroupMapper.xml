@@ -12,7 +12,7 @@
 		FROM
 			dog_group
 	</select>
-	<select id="selectDogGroupNameByCode" parameterType="String" resultMap="DogGroupMap">
+	<select id="selectDogGroupNameByCode" resultMap="DogGroupMap">
 		SELECT
 			dog_group_name 
 		FROM

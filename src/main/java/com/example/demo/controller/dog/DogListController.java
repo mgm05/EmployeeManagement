@@ -67,9 +67,9 @@ public class DogListController {
 	
 	@GetMapping("/serchDogTypeList")
 	@ResponseBody
-	public List<DogType> serchDogTypeList(@RequestParam String[] test) {
+	public List<DogType> serchDogTypeList(@RequestParam String[] dogGroup) {
 
-		List<DogType> dogList = logic.createDogTypeListFomGroup(test);
+		List<DogType> dogList = logic.createDogTypeListFomGroup(dogGroup);
 		
 		return dogList;
 	}

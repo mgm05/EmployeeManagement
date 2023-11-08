@@ -93,6 +93,11 @@ public class DogListLogic {
 		return dogTypeList;
 	}
 
+	/**
+	 * 犬種グループから犬種を検索
+	 * @param dogGroup String[]
+	 * @return dogTypeList
+	 */
 	public List<DogType> createDogTypeListFomGroup(String[] dogGroup) {
 		List<DogTypeEntity> dogTypeEntity = dogTypeService.selectDogTypeByGroup(dogGroup);
 		List<DogType> dogTypeList = new ArrayList<>();
