@@ -37,7 +37,11 @@ public class DogTypeService {
 		return dogTypeMapper.insert(entity);
 	}
 
-	public DogTypeEntity selectByDogTypeNm(String value) {
-		return dogTypeMapper.selectByDogTypeNm(value);
+	public DogTypeEntity selectDogTypeNmByCode(String dogTypeName) {
+		return dogTypeMapper.selectByDogTypeNm(dogTypeName);
+	}
+
+	public List<DogTypeEntity> selectDogTypeByGroup(String[] dogGroup) {
+		return dogTypeMapper.selectDogTypeByGroup(dogGroup);
 	}
 }

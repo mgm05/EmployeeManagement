@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.DogTypeMapper">
 	<resultMap type="com.example.demo.entity.dog.DogTypeEntity" id="DogTypeMap">
 		<result column="dog_type_code" jdbcType="INTEGER" property="dogTypeCode"/>
@@ -10,24 +8,49 @@
 		<result column="dog_type_nm" jdbcType="VARCHAR" property="dogTypeNm"/>
 	</resultMap>
 	<select id="selectDogType" resultMap="DogTypeMap">
-		SELECT dog_type_code , dog_type_nm FROM dog_type
+		SELECT
+			dog_type_code
+			, dog_type_nm 
+		FROM
+			dog_type
 	</select>
 	<select id="selectDogTypeAndGroup" parameterType="String" resultMap="DogTypeMap">
-		SELECT dog_type_nm , dog_group FROM dog_type WHERE dog_type_code = #{dogTypeCode}
+		SELECT
+			dog_type_nm
+			, dog_group 
+		FROM
+			dog_type 
+		WHERE
+			dog_type_code = #{dogTypeCode}
 	</select>
 	<insert id="insert" parameterType="com.example.demo.entity.dog.DogTypeEntity">
-		INSERT INTO dog_type
-		(
-			dog_group
-			, dog_type_nm
-		)
-		VALUES
-		(
-			#{dogGroup}
-			, #{dogTypeNm}
-		)
+		INSERT 
+		INTO dog_type(dog_group, dog_type_nm) 
+		VALUES (#{dogGroup}, #{dogTypeNm})
 	</insert>
 	<select id="selectByDogTypeNm" parameterType="String" resultMap="DogTypeMap">
-		SELECT dog_type_nm FROM dog_type WHERE dog_type_nm = #{dogType}
+		SELECT
+			dog_type_nm 
+		FROM
+			dog_type 
+		WHERE
+			dog_type_nm = #{dogTypeName}
+	</select>
+	<select id="selectDogTypeByGroup" resultMap="DogTypeMap">
+		SELECT
+			dog_type.dog_type_code
+			, dog_type.dog_type_nm 
+		FROM
+			dog_type 
+			INNER JOIN dog_group 
+				ON dog_type.dog_group = dog_group.dog_group_code
+		<where>
+			<if test="dogGroup==null">
+				<foreach collection="dogGroup" item="item" 
+					open="dog_group.dog_group_code IN (" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
 	</select>
 </mapper>

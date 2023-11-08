@@ -17,18 +17,56 @@
 		});
 		$(function(){
 			$('#clearInputButton').on('click',function(){
+				clearFrom();
+			});
+		});
+		
+		function clearFrom(){
 			$('#serchForm').find(":text").val("");
 			$('#dogTypeSelectInit').prop("selected", true);
 			$('#sexRadioInit').prop("checked", true);
 			$('#serchForm').find(":checkbox").prop("checked", false);
 			$('#serchForm input[type="date"]').val("");
+		}
+		
+		function getCheckboxVal(){
+			/// チェックされたvalue値を配列として取得
+			var vals = $('input[name=dogGroup]:checked').map(function(){
+			return $(this).val();
+			}).get();
+			return vals
+		}
+		
+		$(function(){
+			$(':checkbox').on('click',function(){
+				var vals = getCheckboxVal();
+				$.ajax({
+					url: '/serchDogTypeList',
+					type:'GET',
+					data: {
+						test:vals
+						},
+					traditional: true,
+				}).done(function(res){
+					alert('通信成功！')
+					$('select#dogTypeSelect').children().remove();
+					$.each(res, function(index, value) {
+						$('#dogTypeSelect').append($('<option>').html(value.dogTypeNm).val(value.dogTypeCode));
+ 						console.log(value.dogTypeCode + value.dogTypeNm);
+					})
+				}).fail(function(data){
+					alert('通信失敗！')
+				});
 			});
 		});
+
 </script>
 </head>
 <body>
 	<div class="container">
 		<h1 style="margin-bottom: 20px; text-align: center;">犬一覧</h1>
+		<div id="tws"></div>
+		<input type="text"  id="test" value="a">
 		<br>
 		<div style="text-align: left; margin: 10px;">
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="location.href='menu'">システムメニュー</button>
@@ -48,7 +86,7 @@
 					<td>
 						<th:block th:each="dogGroup:${dogGroupList}">
 							<label style="white-space: nowrap;">
-								<input type="checkbox" th:value="${dogGroup.dogGroupCode}" name="dogGroup[]"
+								<input type="checkbox" th:value="${dogGroup.dogGroupCode}" name="dogGroup"
 								th:text="|${dogGroup.dogGroupCode}:${dogGroup.dogGroupName}|"
 								th:checked="${req.dogGroup} !=null and ${#lists.contains(req.dogGroup, dogGroup.dogGroupCode)}">&nbsp;&nbsp;&nbsp;&nbsp;
 							</label>
@@ -58,10 +96,10 @@
 				<tr>
 					<th class="table-primary">犬種</th>
 					<td>
-						<select name="dogType">
+						<select  id="dogTypeSelect"  name="dogType">
 							<option id="dogTypeSelectInit"></option>
 							<option th:each="dogType:${dogTypeList}" th:selected="${dogType.dogTypeCode}==${req.dogType}"
-							th:value="${dogType.dogTypeCode}" th:text="${dogType.dogTypeNm}">
+								th:value="${dogType.dogTypeCode}" th:text="${dogType.dogTypeNm}">
 							</option>
 						</select>
 					</td>

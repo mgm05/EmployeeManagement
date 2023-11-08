@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.ExpenseMapper">
 	<resultMap type="com.example.demo.entity.dog.ExpenseEntity" id="expenseMap">
 		<result column="expense_id" jdbcType="INTEGER" property="expenseId"/>
@@ -31,9 +29,9 @@
 		<result column="update_store_name" jdbcType="VARCHAR" property="updateStoreName"/>
 		<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
 	</resultMap>
-	<insert id="insert" parameterType="com.example.demo.entity.dog.ExpenseEntity">
-		INSERT INTO expense
-		(
+	<insert id="insert" parameterType="com.example.demo.entity.dog.ExpenseEntity" useGeneratedKeys="true" keyProperty="expenseId">
+		INSERT 
+		INTO expense( 
 			dog_id
 			, occurrence_type
 			, cash_flow_type
@@ -47,9 +45,8 @@
 			, create_user_id
 			, update_datetime
 			, update_user_id
-		)
-		VALUES
-		(
+		) 
+		VALUES ( 
 			#{dogId}
 			, #{occurrenceType}
 			, #{cashFlowType}
@@ -64,24 +61,22 @@
 			, CURRENT_TIMESTAMP
 			, #{updateUserId}
 		)
-		
 	</insert>
-	<select id="selectLastExpenseId" resultType="int">
-		SELECT MAX(expense_id)   FROM expense
-	</select>
 	<select id="selectByDogId" resultMap="expenseMap">
-		SELECT 
-		expense_id
-		, occurrence_type
-		, cash_flow_type
-		, expense_type
-		, info
-		, quotation_yen
-		, close_yen
-		, payment_date
-		, arrival_date
+		SELECT
+			expense_id
+			, dog_id
+			, occurrence_type
+			, cash_flow_type
+			, expense_type
+			, info
+			, quotation_yen
+			, close_yen
+			, payment_date
+			, arrival_date 
 		FROM
-		expense
-		WHERE dog_id = #{dogId}
+			expense 
+		WHERE
+			dog_id = #{dogId}
 	</select>
 </mapper>
