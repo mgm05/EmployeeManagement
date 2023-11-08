@@ -15,11 +15,9 @@
 			$('#inputDogId').attr("value", dogId);
 			$('#detailForm').submit();
 		});
-		$(function(){
-			$('#clearInputButton').on('click',function(){
+			$("body").on('click','#clearInputButton',function(){
 				clearFrom();
 			});
-		});
 		
 		function clearFrom(){
 			$('#serchForm').find(":text").val("");
@@ -34,26 +32,38 @@
 			var vals = $('input[name=dogGroup]:checked').map(function(){
 			return $(this).val();
 			}).get();
+			if(vals.length == 0){
+				vals = null;
+			}
 			return vals
+		}
+		
+		function removeDogTypeSelectOption(){
+			$('#dogTypeSelect').children().remove();
+		}
+		
+		function createDogTypeSelectOption(res){
+			$.each(res, function(index, value) {
+				$('#dogTypeSelect').append($('<option>').html(value.dogTypeNm).val(value.dogTypeCode));
+			})
 		}
 		
 		$(function(){
 			$(':checkbox').on('click',function(){
 				var vals = getCheckboxVal();
+				var data = {
+						"dogGroup" : vals,
+						"asdg":"fgh"
+						};
 				$.ajax({
 					url: '/serchDogTypeList',
 					type:'GET',
-					data: {
-						test:vals
-						},
+					data,
 					traditional: true,
 				}).done(function(res){
 					alert('通信成功！')
-					$('select#dogTypeSelect').children().remove();
-					$.each(res, function(index, value) {
-						$('#dogTypeSelect').append($('<option>').html(value.dogTypeNm).val(value.dogTypeCode));
- 						console.log(value.dogTypeCode + value.dogTypeNm);
-					})
+					removeDogTypeSelectOption();
+					createDogTypeSelectOption(res);
 				}).fail(function(data){
 					alert('通信失敗！')
 				});
