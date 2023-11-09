@@ -19,7 +19,7 @@ import com.example.demo.logic.dog.DogTypeLogic;
 import com.example.demo.session.SessionUser;
 
 /**
- * 犬一覧コントローラー.
+ * 犬種コントローラー.
  */
 @Controller
 public class DogTypeController {

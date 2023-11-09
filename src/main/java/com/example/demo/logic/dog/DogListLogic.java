@@ -81,8 +81,8 @@ public class DogListLogic {
 	 * 犬種リスト取得.
 	 * @return dogTypeList
 	 */
-	public List<DogType> createDogTypeList() {
-		List<DogTypeEntity> dogTypeEntity = dogTypeService.selectDogType();
+	public List<DogType> createDogTypeList(List<String> dogGroup) {
+		List<DogTypeEntity> dogTypeEntity = dogTypeService.selectDogTypeByGroup(dogGroup);
 		List<DogType> dogTypeList = new ArrayList<>();
 		for (DogTypeEntity entity:dogTypeEntity) {
 			DogType dogType  = new DogType();
@@ -92,21 +92,4 @@ public class DogListLogic {
 		}
 		return dogTypeList;
 	}
-
-	/**
-	 * 犬種グループから犬種を検索
-	 * @param dogGroup String[]
-	 * @return dogTypeList
-	 */
-	public List<DogType> createDogTypeListFomGroup(String[] dogGroup) {
-		List<DogTypeEntity> dogTypeEntity = dogTypeService.selectDogTypeByGroup(dogGroup);
-		List<DogType> dogTypeList = new ArrayList<>();
-		for(DogTypeEntity entity: dogTypeEntity) {
-			DogType dogType = new DogType();
-			dogType.setDogTypeCode(entity.getDogTypeCode());
-			dogType.setDogTypeNm(entity.getDogTypeNm());
-			dogTypeList.add(dogType);
-		}
-		return dogTypeList;
-		}
 }
