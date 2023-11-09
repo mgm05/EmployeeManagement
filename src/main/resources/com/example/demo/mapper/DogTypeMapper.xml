@@ -9,10 +9,20 @@
 	</resultMap>
 	<select id="selectDogType" resultMap="DogTypeMap">
 		SELECT
-			dog_type_code
-			, dog_type_nm 
+			dog_type.dog_type_code 
+			, dog_type.dog_type_nm 
 		FROM
-			dog_type
+			dog_type 
+			INNER JOIN dog_group 
+				ON dog_type.dog_group = dog_group.dog_group_code 
+		<where>
+			<if test="dogGroup != null and dogGroup.size() >0">
+				<foreach collection="dogGroup" item="item" 
+					open="dog_group.dog_group_code IN (" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
 	</select>
 	<select id="selectDogTypeAndGroup" resultMap="DogTypeMap">
 		SELECT

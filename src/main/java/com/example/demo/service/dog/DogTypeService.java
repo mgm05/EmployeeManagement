@@ -25,8 +25,8 @@ public class DogTypeService {
 	 * 
 	 * @return dogGroupMapper.selectAll
 	 */
-	public List<DogTypeEntity> selectDogType() {
-		return dogTypeMapper.selectDogType();
+	public List<DogTypeEntity> selectDogTypeByGroup(List<String> dogGroup) {
+		return dogTypeMapper.selectDogTypeByGroup(dogGroup);
 	}
 	
 	public DogTypeEntity selectDogTypeAndGroup(String dogCode) {
@@ -40,8 +40,8 @@ public class DogTypeService {
 	public DogTypeEntity selectDogTypeNmByCode(String dogTypeName) {
 		return dogTypeMapper.selectByDogTypeNm(dogTypeName);
 	}
-
-	public List<DogTypeEntity> selectDogTypeByGroup(String[] dogGroup) {
-		return dogTypeMapper.selectDogTypeByGroup(dogGroup);
+	
+	public List<DogTypeEntity> selectDogType(){
+		return dogTypeMapper.selectDogType();
 	}
 }

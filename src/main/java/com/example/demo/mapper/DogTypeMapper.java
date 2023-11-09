@@ -14,15 +14,18 @@ import com.example.demo.entity.dog.DogTypeEntity;
 
 @Mapper
 public interface DogTypeMapper {
-    /** 犬種取得.
-     * @return DogGroup*/
-    List<DogTypeEntity> selectDogType();
-    
-    DogTypeEntity selectDogTypeAndGroup(String dogCode);
-    
-    int insert(DogTypeEntity entity);
+	/**
+	 * 犬種取得.
+	 * 
+	 * @return DogGroup
+	 */
+	List<DogTypeEntity> selectDogTypeByGroup(List<String> dogGroup);
+
+	DogTypeEntity selectDogTypeAndGroup(String dogCode);
+
+	int insert(DogTypeEntity entity);
 
 	DogTypeEntity selectByDogTypeNm(String dogTypeName);
-	
-	List<DogTypeEntity> selectDogTypeByGroup(String[] dogGroup);
+
+	List<DogTypeEntity> selectDogType();
 }

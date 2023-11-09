@@ -1,5 +1,6 @@
 package com.example.demo.controller.dog;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class DogListController {
 		}
 		List<DogInfoResponse> dogInfoList = logic.createDogList(req);
 		List<DogGroup> dogGroupList = logic.createDogGroupList();
-		List<DogType> dogTypeList = logic.createDogTypeList();
+		List<DogType> dogTypeList = logic.createDogTypeList(req.getDogGroup());
 		model.addAttribute("req", req);
 		model.addAttribute("dogList", dogInfoList);
 		model.addAttribute("dogGroupList", dogGroupList);
@@ -67,10 +68,8 @@ public class DogListController {
 	
 	@GetMapping("/serchDogTypeList")
 	@ResponseBody
-	public List<DogType> serchDogTypeList(@RequestParam String[] dogGroup) {
-
-		List<DogType> dogList = logic.createDogTypeListFomGroup(dogGroup);
-		
-		return dogList;
+	public List<DogType> serchDogTypeList(@RequestParam String[] dogGroupArr) {
+		List<String> dogGroup = Arrays.asList(dogGroupArr);
+		return  logic.createDogTypeList(dogGroup);
 	}
 }

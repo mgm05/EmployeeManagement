@@ -7,12 +7,22 @@
 		<result column="dog_group" jdbcType="CHAR" property="dogGroup"/>
 		<result column="dog_type_nm" jdbcType="VARCHAR" property="dogTypeNm"/>
 	</resultMap>
-	<select id="selectDogType" resultMap="DogTypeMap">
+	<select id="selectDogTypeByGroup" resultMap="DogTypeMap">
 		SELECT
-			dog_type_code
-			, dog_type_nm 
+			dog_type.dog_type_code 
+			, dog_type.dog_type_nm 
 		FROM
-			dog_type
+			dog_type 
+			INNER JOIN dog_group 
+				ON dog_type.dog_group = dog_group.dog_group_code 
+		<where>
+			<if test="dogGroup != null and dogGroup.size() >0">
+				<foreach collection="dogGroup" item="item" 
+					open="dog_group.dog_group_code IN (" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
 	</select>
 	<select id="selectDogTypeAndGroup" parameterType="String" resultMap="DogTypeMap">
 		SELECT
@@ -36,21 +46,11 @@
 		WHERE
 			dog_type_nm = #{dogTypeName}
 	</select>
-	<select id="selectDogTypeByGroup" resultMap="DogTypeMap">
+	<select id="selectDogType" resultMap="DogTypeMap">
 		SELECT
-			dog_type.dog_type_code
-			, dog_type.dog_type_nm 
+			dog_type_code
+			, dog_type_nm 
 		FROM
 			dog_type 
-			INNER JOIN dog_group 
-				ON dog_type.dog_group = dog_group.dog_group_code
-		<where>
-			<if test="dogGroup==null">
-				<foreach collection="dogGroup" item="item" 
-					open="dog_group.dog_group_code IN (" separator="," close=")">
-					#{item}
-				</foreach>
-			</if>
-		</where>
 	</select>
 </mapper>

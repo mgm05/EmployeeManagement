@@ -9,74 +9,83 @@
 	<title>犬一覧</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
+		// 犬詳細遷移
 		$("body").on('click', '#trDogList', function(){
-			var dogListDom = $(this).closest("tr");
-			var dogId = dogListDom.find('#viewDogId').text();
+			detailFormSubmit(this);
+		});
+		
+		// 犬種プルダウンをチェックし、チェックされた犬種グループの犬種を表示
+		$(function(){
+			$(':checkbox').on('click',function(){
+				ajaxDogTypeListByDogGroup();
+			});
+		});
+		
+		// 一覧の犬を押下した時にその行のdogIdを取得し、submitする
+		function detailFormSubmit(trDogList){
+			var trDogListDom = $(trDogList).closest("tr");
+			var dogId = trDogListDom.find('#viewDogId').text();
 			$('#inputDogId').attr("value", dogId);
 			$('#detailForm').submit();
-		});
-			$("body").on('click','#clearInputButton',function(){
-				clearFrom();
-			});
+		}
 		
+		// 入力フォームに初期値設定(入力された値削除)
 		function clearFrom(){
 			$('#serchForm').find(":text").val("");
-			$('#dogTypeSelectInit').prop("selected", true);
+			$('#dogTypeSelect').prop("selectedIndex", 0);
 			$('#sexRadioInit').prop("checked", true);
 			$('#serchForm').find(":checkbox").prop("checked", false);
 			$('#serchForm input[type="date"]').val("");
+			ajaxDogTypeListByDogGroup();
 		}
 		
+		// チェックされたvalue値を配列として取得
 		function getCheckboxVal(){
-			/// チェックされたvalue値を配列として取得
 			var vals = $('input[name=dogGroup]:checked').map(function(){
-			return $(this).val();
-			}).get();
+				return $(this).val();//配列を返す
+			}).get();//普通の配列にする(jQueryのラップを外す)
 			if(vals.length == 0){
 				vals = null;
 			}
 			return vals
 		}
 		
+		// 犬種プルダウンのoption削除
 		function removeDogTypeSelectOption(){
 			$('#dogTypeSelect').children().remove();
 		}
 		
+		// 犬種プルダウンにoptionを追加
 		function createDogTypeSelectOption(res){
+			$('#dogTypeSelect').append($('<option>').html("").val(""));
 			$.each(res, function(index, value) {
 				$('#dogTypeSelect').append($('<option>').html(value.dogTypeNm).val(value.dogTypeCode));
 			})
 		}
 		
-		$(function(){
-			$(':checkbox').on('click',function(){
-				var vals = getCheckboxVal();
-				var data = {
-						"dogGroup" : vals,
-						"asdg":"fgh"
-						};
-				$.ajax({
-					url: '/serchDogTypeList',
-					type:'GET',
-					data,
-					traditional: true,
-				}).done(function(res){
-					alert('通信成功！')
-					removeDogTypeSelectOption();
-					createDogTypeSelectOption(res);
-				}).fail(function(data){
-					alert('通信失敗！')
-				});
+		// 犬種プルダウンをチェックされた犬種グループと紐づけ表示
+		function ajaxDogTypeListByDogGroup(){
+			var vals = getCheckboxVal();
+			var data = {
+				"dogGroupArr" : vals,
+				};
+			$.ajax({
+				url: '/serchDogTypeList',
+				type:'GET',
+				data,
+				traditional: true,
+			}).done(function(res){
+				removeDogTypeSelectOption();
+				createDogTypeSelectOption(res);
+			}).fail(function(data){
+				alert('通信失敗！')
 			});
-		});
-
-</script>
+		}
+	</script>
 </head>
 <body>
 	<div class="container">
 		<h1 style="margin-bottom: 20px; text-align: center;">犬一覧</h1>
-		<div id="tws"></div>
-		<input type="text"  id="test" value="a">
 		<br>
 		<div style="text-align: left; margin: 10px;">
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="location.href='menu'">システムメニュー</button>
@@ -107,7 +116,7 @@
 					<th class="table-primary">犬種</th>
 					<td>
 						<select  id="dogTypeSelect"  name="dogType">
-							<option id="dogTypeSelectInit"></option>
+							<option></option>
 							<option th:each="dogType:${dogTypeList}" th:selected="${dogType.dogTypeCode}==${req.dogType}"
 								th:value="${dogType.dogTypeCode}" th:text="${dogType.dogTypeNm}">
 							</option>
@@ -141,7 +150,8 @@
 						<button class="btn btn-outline-secondary btn-sm">検索</button>
 					</td>
 					<td>
-						<button class="btn btn-outline-secondary btn-sm" id="clearInputButton" type="button">クリア</button>
+						<button class="btn btn-outline-secondary btn-sm" id="clearInputButton" type="button"
+							onclick="clearFrom()">クリア</button>
 					</td>
 				</tr>
 			</table>
