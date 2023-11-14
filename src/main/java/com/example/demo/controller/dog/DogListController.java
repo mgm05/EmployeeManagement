@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.constEnum.DogSex;
 import com.example.demo.dto.dog.DogGroup;
-import com.example.demo.dto.dog.DogInfoResponse;
+import com.example.demo.dto.dog.DogListResponse;
 import com.example.demo.dto.dog.DogListRequest;
 import com.example.demo.dto.dog.DogType;
 import com.example.demo.logic.dog.DogListLogic;
@@ -43,7 +43,7 @@ public class DogListController {
 		if (session.getLoginId() == null) {
 			return "redirect:/login";
 		}
-		List<DogInfoResponse> dogInfoList = logic.createDogList(req);
+		List<DogListResponse> dogInfoList = logic.createDogList(req);
 		List<DogGroup> dogGroupList = logic.createDogGroupList();
 		List<DogType> dogTypeList = logic.createDogTypeList(req.getDogGroup());
 		model.addAttribute("req", req);

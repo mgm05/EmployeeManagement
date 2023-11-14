@@ -9,26 +9,25 @@
 	<title>社員一覧</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
+		// 社員削除
 		function deleteEmployee(link){
 			var employeeDom = $(link).closest("tr");
-			//empId取得
+			// empId取得
 			var empId = employeeDom.find("#empId").val();
 			
-			//所属会社と名前取得
+			// 所属会社と名前取得
 			var abbreviation = employeeDom.find('#abbreviation');
 			var viewAbbreviation = abbreviation.html();
 			var name = $(employeeDom).find('#name');
 			var viewName = name.html();
 			
 			if(confirm('['+viewAbbreviation+']'+'['+viewName+']を削除しますか？')){
-	
 				// empId をフォームに追加
 				$("<input>")
 				.attr("type", "hidden")
 				.attr("name", "empId")
 				.attr("value", empId)
 				.appendTo('#deleteForm');
-				
 				$('#deleteForm').submit();
 			}else{
 				return false;

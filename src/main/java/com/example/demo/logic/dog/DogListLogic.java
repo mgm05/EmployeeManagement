@@ -9,14 +9,15 @@ import org.springframework.stereotype.Component;
 import com.example.demo.CommonUtils;
 import com.example.demo.constEnum.DogSex;
 import com.example.demo.dto.dog.DogGroup;
-import com.example.demo.dto.dog.DogInfoResponse;
+import com.example.demo.dto.dog.DogListResponse;
 import com.example.demo.dto.dog.DogListRequest;
 import com.example.demo.dto.dog.DogType;
 import com.example.demo.entity.dog.DogGroupEntity;
-import com.example.demo.entity.dog.DogInfoEntity;
+import com.example.demo.entity.dog.DogListRequestEntity;
+import com.example.demo.entity.dog.DogListResponseEntity;
 import com.example.demo.entity.dog.DogTypeEntity;
 import com.example.demo.service.dog.DogGroupService;
-import com.example.demo.service.dog.DogInfoService;
+import com.example.demo.service.dog.DogListService;
 import com.example.demo.service.dog.DogTypeService;
 
 /**
@@ -26,7 +27,7 @@ import com.example.demo.service.dog.DogTypeService;
 public class DogListLogic {
 	/** 犬情報サービス. */
 	@Autowired
-	DogInfoService dogInfoService;
+	DogListService dogInfoService;
 	/** 犬種グループサービス. */
 	@Autowired
 	DogGroupService dogGroupService;
@@ -39,12 +40,16 @@ public class DogListLogic {
 	 * 
 	 * @return dogList
 	 */
-	public List<DogInfoResponse> createDogList(DogListRequest req) {
-		List<DogInfoEntity> dogInfoEntites = dogInfoService.selectDogInfo(req);
-		List<DogInfoResponse> dogList = new ArrayList<>();
+	public List<DogListResponse> createDogList(DogListRequest req) {
+		//リクエストをentityに入れ、犬一覧リスト取得する
+		
+		
+		List<DogListResponseEntity> dogListEntites = dogInfoService.select(createDogInfoEntity(req));
+		List<DogListResponse> dogList = new ArrayList<>();
 
-		for (DogInfoEntity entity : dogInfoEntites) {
-			DogInfoResponse dto = new DogInfoResponse();
+		// マッピング
+		for (DogListResponseEntity entity : dogListEntites) {
+			DogListResponse dto = new DogListResponse();
 			dto.setDogId(entity.getDogId());
 			dto.setJkcNo(entity.getJkcNo());
 			dto.setDogGroupName(entity.getDogGroupName());
@@ -59,6 +64,30 @@ public class DogListLogic {
 		}
 		return dogList;
 	}
+
+
+	/**
+	 * リクエストDtoのデータをリクエストEntityに格納
+	 * @param req
+	 * @return dogListRequestEntity
+	 */
+	private DogListRequestEntity createDogInfoEntity(DogListRequest req) {
+		DogListRequestEntity dogListRequestEntity = new DogListRequestEntity();
+		dogListRequestEntity.setDogId(req.getDogId());
+		dogListRequestEntity.setJkcNo(req.getJkcNo());
+		dogListRequestEntity.setDogGroupCode(req.getDogGroup());
+		dogListRequestEntity.setDogTypeCode(req.getDogType());
+		dogListRequestEntity.setSex(req.getSex());
+		dogListRequestEntity.setBirthdayFrom(req.getBirthdayFrom());
+		dogListRequestEntity.setBirthdayTo(req.getBirthdayTo());
+		dogListRequestEntity.setContractDateFrom(req.getContractDateFrom());
+		dogListRequestEntity.setContractDateTo(req.getContractDateTo());
+		dogListRequestEntity.setPurchaseDateFrom(req.getPurchaseDateFrom());
+		dogListRequestEntity.setPurchaseDateTo(req.getPurchaseDateTo());
+		
+		return dogListRequestEntity;
+	}
+
 
 	/**
 	 * 犬種グループリスト取得.
