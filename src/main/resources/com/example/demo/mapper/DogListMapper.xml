@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.DogInfoMapper">
-	<resultMap type="com.example.demo.entity.dog.DogInfoEntity" id="dogInfoMap">
+<mapper namespace="com.example.demo.mapper.DogListMapper">
+	<resultMap type="com.example.demo.entity.dog.DogListResponseEntity" id="dogListMap">
 		<result column="dog_id" jdbcType="VARCHAR" property="dogId"/>
 		<result column="jkc_no" jdbcType="VARCHAR" property="jkcNo"/>
 		<result column="dog_group_name" jdbcType="VARCHAR" property="dogGroupName"/>
@@ -11,7 +11,7 @@
 		<result column="contract_date" jdbcType="DATE" property="contractDate"/>
 		<result column="purchase_date" jdbcType="DATE" property="purchaseDate"/>
 	</resultMap>
-	<select id="selectDogInfo" resultMap="dogInfoMap" parameterType="com.example.demo.dto.dog.DogListRequest">
+	<select id="select" resultMap="dogListMap" parameterType="com.example.demo.entity.dog.DogListRequestEntity">
 		SELECT
 			dog.dog_id
 			, dog.jkc_no
@@ -36,14 +36,14 @@
 			<if test="jkcNo != null and jkcNo != ''">
 				AND dog.jkc_no LIKE CONCAT('%', #{jkcNo}, '%')
 			</if>
-			<if test="dogGroup != null and dogGroup.size() > 0">
+			<if test="dogGroupCode != null and dogGroupCode.size() > 0">
 				AND dog.dog_group_code IN
-				<foreach collection="dogGroup" item="item" open="(" separator="," close=")">
+				<foreach collection="dogGroupCode" item="item" open="(" separator="," close=")">
 					#{item}
 				</foreach>
 			</if>
-			<if test="dogType != null and dogType != ''">
-				AND dog.dog_code = #{dogType}
+			<if test="dogTypeCode != null and dogTypeCode != ''">
+				AND dog.dog_code = #{dogTypeCode}
 			</if>
 			<if test="sex != null and sex != ''">
 				AND dog.sex = #{sex}

@@ -1,14 +1,12 @@
-package com.example.demo.entity.dog;
-
-import java.util.Date;
+package com.example.demo.dto.dog;
 
 import lombok.Data;
 
 /**
- * 犬Entity.
+ * 犬情報Dto.
  */
 @Data
-public class DogInfoEntity{
+public class DogListResponse {
     /** ID. */
     private String dogId;
     /** JKC登録番号. */
@@ -20,10 +18,9 @@ public class DogInfoEntity{
     /** 性別. */
     private String sex;
     /** 生年月日. */
-    private Date birthday;
+    private String birthday;
     /** 成約日.*/
-    private Date contractDate;
+    private String contractDate;
     /** 仕入日.*/
-    private Date purchaseDate;
-    
+    private String purchaseDate;
 }

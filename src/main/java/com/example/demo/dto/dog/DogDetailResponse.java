@@ -1,6 +1,5 @@
 package com.example.demo.dto.dog;
 
-import java.util.Date;
 import java.util.List;
 
 import lombok.Data;

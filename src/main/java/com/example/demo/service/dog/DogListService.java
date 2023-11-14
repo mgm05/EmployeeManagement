@@ -8,8 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.dog.DogListRequest;
 import com.example.demo.entity.dog.DogEntity;
-import com.example.demo.entity.dog.DogInfoEntity;
-import com.example.demo.mapper.DogInfoMapper;
+import com.example.demo.entity.dog.DogListRequestEntity;
+import com.example.demo.entity.dog.DogListResponseEntity;
+import com.example.demo.mapper.DogListMapper;
 import com.example.demo.mapper.DogMapper;
 
 /**
@@ -17,17 +18,17 @@ import com.example.demo.mapper.DogMapper;
  */
 @Service
 @Transactional
-public class DogInfoService {
+public class DogListService {
     /** 犬情報マッパー. */
     @Autowired
-    DogInfoMapper dogInfoMapper;
+    DogListMapper dogListMapper;
     
     /**
      * 犬情報取得.
-     * @param req DogListRequest
+     * @param dogInfoEntity DogListRequest
      * @return dogInfoMapper.selectDogInfo()
      */
-    public List<DogInfoEntity> selectDogInfo(DogListRequest req){
-        return dogInfoMapper.selectDogInfo(req);
+    public List<DogListResponseEntity> select(DogListRequestEntity dogListRequestEntity){
+        return dogListMapper.select(dogListRequestEntity);
     }
 }

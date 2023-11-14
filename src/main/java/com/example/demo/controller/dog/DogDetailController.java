@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.demo.constEnum.DogSex;
 import com.example.demo.dto.dog.DogDetailResponse;
 import com.example.demo.dto.dog.DogGroup;
-import com.example.demo.dto.dog.DogInfoResponse;
+import com.example.demo.dto.dog.DogListResponse;
 import com.example.demo.dto.dog.DogListRequest;
 import com.example.demo.entity.dog.CashFlowEntity;
 import com.example.demo.entity.dog.DogEntity;
