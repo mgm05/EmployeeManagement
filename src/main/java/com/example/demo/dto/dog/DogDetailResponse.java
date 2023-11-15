@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class DogDetailResponse {
-	/** ID. */
-	private Integer dogId;
+	/** 犬ID. */
+	private String dogId;
 	/** JKC登録番号. */
 	private String jkcNo;
 	/** 犬種グループ名. */
@@ -34,7 +34,7 @@ public class DogDetailResponse {
 	private String paymentExpectedDate;
 	/** 支払日. */
 	private String paymentDate;
-	/** 支払日. */
+	/** 入出金リスト. */
 	private List<CashFlow> cashFlowList;
 
 }

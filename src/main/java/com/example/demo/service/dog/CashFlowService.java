@@ -39,7 +39,7 @@ public class CashFlowService {
      * @param dogId Integer
      * @return cashFlowMapper.selectByDogId(dogId)
      */
-    public List<CashFlowEntity> selectByDogId(Integer dogId){
+    public List<CashFlowEntity> selectByDogId(String dogId){
         return cashFlowMapper.selectByDogId(dogId);
     }
     

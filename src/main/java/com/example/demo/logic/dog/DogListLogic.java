@@ -37,14 +37,11 @@ public class DogListLogic {
 
 	/**
 	 * 犬一覧リスト取得.
-	 * 
+	 * @param req DogListRequest
 	 * @return dogList
 	 */
 	public List<DogListResponse> createDogList(DogListRequest req) {
-		//リクエストをentityに入れ、犬一覧リスト取得する
-		
-		
-		List<DogListResponseEntity> dogListEntites = dogInfoService.select(createDogInfoEntity(req));
+		List<DogListResponseEntity> dogListEntites = dogInfoService.select(createDogListEntity(req));
 		List<DogListResponse> dogList = new ArrayList<>();
 
 		// マッピング
@@ -68,10 +65,10 @@ public class DogListLogic {
 
 	/**
 	 * リクエストDtoのデータをリクエストEntityに格納
-	 * @param req
+	 * @param req DogListRequest
 	 * @return dogListRequestEntity
 	 */
-	private DogListRequestEntity createDogInfoEntity(DogListRequest req) {
+	private DogListRequestEntity createDogListEntity(DogListRequest req) {
 		DogListRequestEntity dogListRequestEntity = new DogListRequestEntity();
 		dogListRequestEntity.setDogId(req.getDogId());
 		dogListRequestEntity.setJkcNo(req.getJkcNo());
@@ -91,7 +88,6 @@ public class DogListLogic {
 
 	/**
 	 * 犬種グループリスト取得.
-	 * 
 	 * @return dogGroupList
 	 */
 	public List<DogGroup> createDogGroupList() {
@@ -114,7 +110,7 @@ public class DogListLogic {
 		List<DogTypeEntity> dogTypeEntity = dogTypeService.selectDogTypeByGroup(dogGroup);
 		List<DogType> dogTypeList = new ArrayList<>();
 		for (DogTypeEntity entity:dogTypeEntity) {
-			DogType dogType  = new DogType();
+			DogType dogType  = new DogType(); 
 			dogType.setDogTypeCode(entity.getDogTypeCode());
 			dogType.setDogTypeNm(entity.getDogTypeNm());
 			dogTypeList.add(dogType);

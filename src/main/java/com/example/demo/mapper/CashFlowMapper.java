@@ -19,6 +19,6 @@ public interface CashFlowMapper {
     /** dogIdで入出金情報取得.
      * @param dogId Integer
      *  @return 入出金情報*/
-    List<CashFlowEntity> selectByDogId(Integer dogId);
+    List<CashFlowEntity> selectByDogId(String dogId);
     
 }

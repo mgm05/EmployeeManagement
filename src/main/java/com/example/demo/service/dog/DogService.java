@@ -31,7 +31,7 @@ public class DogService {
      * @param dogId Integer
      * @return dogMapper.selectDogById(dogId)
      */
-    public DogEntity selectDogById(Integer dogId){
+    public DogEntity selectDogById(String dogId){
         return dogMapper.selectDogById(dogId);
     }
 }
