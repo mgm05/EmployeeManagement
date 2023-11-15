@@ -70,16 +70,17 @@
 		)
 	</insert>
 	<select id="selectPurchaseByDogId" resultMap="purchaseMap">
-		SELECT 
-		dog_id
-		, contract_type
-		, contract_date
-		, purchase_date
-		, contract_yen
-		, payment_expected_date
-		, payment_date
+		SELECT
+			dog_id
+			, contract_type
+			, contract_date
+			, purchase_date
+			, contract_yen
+			, payment_expected_date
+			, payment_date 
 		FROM
-		purchase
-		WHERE dog_id = #{dogId}
+			purchase 
+		WHERE
+			dog_id = #{dogId}
 	</select>
 </mapper>

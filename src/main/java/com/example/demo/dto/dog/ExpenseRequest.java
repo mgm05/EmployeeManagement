@@ -1,8 +1,5 @@
 package com.example.demo.dto.dog;
 
-import java.util.Date;
-import java.util.List;
-
 import lombok.Data;
 
 /**
@@ -15,7 +12,7 @@ public class ExpenseRequest {
     /** 発生区分.*/
     private Integer occurrenceType;
     /** 入出金区分.*/
-    private Integer cashFlowType;
+    private String cashFlowType;
     /** 経費種別.*/
     private Integer expenseType;
     /** 内容.*/

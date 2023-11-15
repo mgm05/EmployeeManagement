@@ -21,5 +21,5 @@ public interface PurchaseMapper {
      * @param dogId Integer
      * @return 仕入れ情報
      */
-    PurchaseEntity selectPurchaseByDogId(Integer dogId);
+    PurchaseEntity selectPurchaseByDogId(String dogId);
 }

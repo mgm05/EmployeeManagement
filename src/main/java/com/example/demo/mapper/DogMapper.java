@@ -19,5 +19,5 @@ public interface DogMapper {
      * @param dogId Integer
      * @return 犬詳細情報
      */
-    DogEntity selectDogById(Integer dogId);
+    DogEntity selectDogById(String dogId);
 }

@@ -52,34 +52,26 @@ public class DogDetailLogic {
      * @param dogId Integer
      * @return 犬情報
      */
-    public DogEntity createDogDetail(Integer dogId) {
+    public DogEntity createDogDetail(String dogId) {
         return dogService.selectDogById(dogId);
     }
 
-    /**
-     * 仕入れ情報取得.
-     * @param dogId Integer
-     * @return 仕入れ情報
-     */
-    public PurchaseEntity createDogDetailPurchase(Integer dogId) {
-        return purchaseService.selectPurchaseByDogId(dogId);
-    }
 
     /**
      * 入出金情報取得.
      * @param dogId Integer
      * @return 仕入れ情報
      */
-    public List<CashFlowEntity> createDogDetailCashFlow(Integer dogId) {
+    public List<CashFlowEntity> createDogDetailCashFlow(String dogId) {
         return cashFlowService.selectByDogId(dogId);
     }
 
     /**
      * レスポンス用Dto生成.
-     * @param dogId Integer
+     * @param dogId String
      * @return res
      */
-	public DogDetailResponse createDogDetailRes(Integer dogId) {
+	public DogDetailResponse createDogDetailRes(String dogId) {
 		DogDetailResponse res = new DogDetailResponse();
 		DogEntity dogEntity = dogService.selectDogById(dogId);
 		PurchaseEntity purchaseEntity = purchaseService.selectPurchaseByDogId(dogId);
@@ -87,7 +79,7 @@ public class DogDetailLogic {
 		res.setCashFlowList(createCashFlowList(dogId));
 		res.setDogId(dogId);
 		res.setJkcNo(dogEntity.getJkcNo());
-		res.setDogGroupName(getDogGroupnName(dogEntity.getDogGroupCode()));
+		res.setDogGroupName(getDogGroupName(dogEntity.getDogGroupCode()));
 		res.setDogTypeName(getDogTypeName(dogEntity.getDogCode()));
 		res.setSex(DogSex.of(dogEntity.getSex()).getVal());
 		res.setBirthday(CommonUtils.formatDate(dogEntity.getBirthday()));
@@ -102,10 +94,10 @@ public class DogDetailLogic {
 	
 	/**
 	 * 入出金リスト生成.
-	 * @param dogId Integer
+	 * @param dogId String
 	 * @return cashFlowList
 	 */
-	private List<CashFlow> createCashFlowList(Integer dogId) {
+	private List<CashFlow> createCashFlowList(String dogId) {
 		List<CashFlowEntity> cashFlowEntity = cashFlowService.selectByDogId(dogId);
 		List<CashFlow> cashFlowList = new ArrayList<>();
 		
@@ -123,11 +115,21 @@ public class DogDetailLogic {
 		return cashFlowList;
 	}
 
-	private String getDogGroupnName(String dogGroupCode) {
+	/**
+	 * 犬種グループコードから犬種グループ名を取得
+	 * @param dogGroupCode String
+	 * @return DogGroupName
+	 */
+	private String getDogGroupName(String dogGroupCode) {
 		DogGroupEntity entity  = dogGroupService.selectDogGroupNameByCode(dogGroupCode);
 		return entity.getDogGroupName();
 	}
 	
+	/**
+	 * 
+	 * @param dogTypeCode String
+	 * @return DogTypeNm
+	 */
 	private String getDogTypeName(String dogTypeCode) {
 		DogTypeEntity entity = dogTypeService.selectDogTypeAndGroup(dogTypeCode);
 		return entity.getDogTypeNm();

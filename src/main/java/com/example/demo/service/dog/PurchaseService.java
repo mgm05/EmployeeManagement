@@ -33,7 +33,7 @@ public class PurchaseService {
      * @param dogId Integer
      * @return purchaseMapper.selectPurchaseByDogId(dogId)
      */
-    public PurchaseEntity selectPurchaseByDogId(Integer dogId) {
+    public PurchaseEntity selectPurchaseByDogId(String dogId) {
         return purchaseMapper.selectPurchaseByDogId(dogId);
     }
     

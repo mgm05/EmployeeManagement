@@ -6,13 +6,13 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 仕入れEntity.
+ * 仕入Entity.
  */
 @Data
 public class PurchaseEntity {
-    /** ID.*/
+    /** 仕入ID.*/
     private Integer purchaseId;
-    /** 犬情報ID.*/
+    /** 犬ID.*/
     private Integer dogId;
     /** 契約ID.*/
     private Integer contractId;

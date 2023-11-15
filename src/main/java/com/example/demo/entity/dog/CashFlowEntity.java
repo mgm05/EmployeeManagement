@@ -10,18 +10,18 @@ import lombok.Data;
  */
 @Data
 public class CashFlowEntity {
-    /** ID. */
+    /** 入出金ID. */
     private Integer cashFlowId;
-    /** 犬情報ID. */
+    /** 犬ID. */
     private Integer dogId;
-    /** 経費情報ID. */
+    /** 経費ID. */
     private Integer expenseId;
     /** 発生店舗コード. */
     private String storeCode;
     /** 発生店舗名. */
     private String storeName;
     /** 入出金区分. */
-    private Integer cashFlowType;
+    private String cashFlowType;
     /** 内容. */
     private Integer info;
     /** 説明. */
