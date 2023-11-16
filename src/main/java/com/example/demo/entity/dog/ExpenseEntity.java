@@ -10,22 +10,22 @@ import lombok.Data;
  */
 @Data
 public class ExpenseEntity {
-    /** ID.*/
+    /** 経費ID.*/
     private Integer expenseId;
     /** 支払情報ID.*/
     private Integer paymentId;
-    /** 犬情報ID.*/
+    /** 犬ID.*/
     private Integer dogId;
     /** 申請店舗コード.*/
     private String requestStoreCode;
     /** 申請店舗名.*/
     private String requestStoreName;
     /** 発生区分.*/
-    private Integer occurrenceType;
+    private String occurrenceType;
     /** 入出金区分.*/
     private String cashFlowType;
     /** 経費種別.*/
-    private Integer expenseType;
+    private String expenseType;
     /** 名称コード.*/
     private Integer itemId;
     /** 名称.*/
@@ -45,7 +45,7 @@ public class ExpenseEntity {
     /** 入荷日.*/
     private Date arrivalDate;
     /** キャンセルフラグ.*/
-    private Integer cancelFlag;
+    private String cancelFlag;
     /** 登録日時.*/
     private Timestamp createDatetime;
     /** 登録店舗コード.*/

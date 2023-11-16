@@ -15,17 +15,36 @@ import com.example.demo.entity.dog.DogTypeEntity;
 @Mapper
 public interface DogTypeMapper {
 	/**
-	 * 犬種取得.
-	 * 
-	 * @return DogGroup
+	 * 犬種グループで犬種コードと犬種名を絞り込み取得.
+	 * @param dogGroup List<String>
+	 * @return 犬種コード,犬種名
 	 */
 	List<DogTypeEntity> selectDogTypeByGroup(List<String> dogGroup);
 
+	/**
+	 * 犬種コードから犬種名と犬種グループコードを取得.
+	 * @param dogCode String
+	 * @return 犬種名,犬種グループコード
+	 */
 	DogTypeEntity selectDogTypeAndGroup(String dogCode);
 
+	/**
+	 * 登録.
+	 * @param entity DogTypeEntity
+	 * @return int
+	 */
 	int insert(DogTypeEntity entity);
 
+	/**
+	 * 一致する犬種名を取得.
+	 * @param dogTypeName String
+	 * @return 犬種名
+	 */
 	DogTypeEntity selectByDogTypeNm(String dogTypeName);
 
+	/**
+	 * 全件取得.
+	 * @return 犬種コード,犬種名
+	 */
 	List<DogTypeEntity> selectDogType();
 }

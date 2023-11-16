@@ -30,8 +30,8 @@
  	<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/> 
  </resultMap> 
 	<insert id="insert" parameterType="com.example.demo.entity.dog.PurchaseEntity">
-		INSERT INTO purchase
-		(
+		INSERT 
+		INTO purchase( 
 			dog_id
 			, contract_type
 			, purchase_user_id
@@ -48,9 +48,8 @@
 			, create_user_id
 			, update_datetime
 			, update_user_id
-		)
-		VALUES
-		(
+		) 
+		VALUES ( 
 			#{dogId}
 			, #{contractType}
 			, #{purchaseUserId}

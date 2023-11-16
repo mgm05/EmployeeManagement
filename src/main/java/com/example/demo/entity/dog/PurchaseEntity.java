@@ -49,7 +49,7 @@ public class PurchaseEntity {
     /** キャンセル日時.*/
     private Timestamp cancelDatetime;
     /** キャンセルフラグ.*/
-    private Integer cancelFlag;
+    private String cancelFlag;
     /** 登録日時.*/
     private Timestamp createDatetime;
     /** 登録者ユーザID.*/

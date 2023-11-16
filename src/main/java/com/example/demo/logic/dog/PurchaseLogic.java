@@ -233,7 +233,7 @@ public class PurchaseLogic {
 	 * @return entity
 	 */
 	private ExpenseEntity createExpenseEntity(PuchaseRequest puchaseReq, String expensePrice, String userId, int dogId,
-			int expenseType) {
+			String expenseType) {
 		ExpenseEntity entity = new ExpenseEntity();
 		entity.setDogId(dogId);
 		// entity.setCreateStoreCode();

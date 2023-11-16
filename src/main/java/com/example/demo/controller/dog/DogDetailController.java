@@ -46,10 +46,7 @@ public class DogDetailController {
         
         DogDetailResponse res =  logic.createDogDetailRes(dogId);
         
-        List<CashFlowEntity> cashFlowList = logic.createDogDetailCashFlow(dogId);
-        
         model.addAttribute("res", res);	
-        model.addAttribute("cashFlowList", cashFlowList);
         return "dogDetail";
     }
 }

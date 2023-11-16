@@ -10,16 +10,16 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
- * yyyy/MM/ddの形式か判定.
- * 未入力の場合は含まない
+ * 犬種名の重複チェック.
+ * 
  */
 public class DogTypeDuplicationValidator implements  ConstraintValidator<DogTypeDuplication, String> {
 	@Autowired
 	DogTypeService dogTypeService;
     
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-    	DogTypeEntity dogTypeEntity = dogTypeService.selectDogTypeNmByCode(value);
+    public boolean isValid(String dogTypeName, ConstraintValidatorContext context) {
+    	DogTypeEntity dogTypeEntity = dogTypeService.selectByDogTypeNm(dogTypeName);
     	if(dogTypeEntity == null) {
     		return true;
     	}
