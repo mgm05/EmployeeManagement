@@ -24,7 +24,7 @@ public class DogListService {
     DogListMapper dogListMapper;
     
     /**
-     * 犬情報取得.
+     * 犬リスト取得.
      * @param dogInfoEntity DogListRequest
      * @return dogInfoMapper.selectDogInfo()
      */

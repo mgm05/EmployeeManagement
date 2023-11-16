@@ -21,26 +21,45 @@ public class DogTypeService {
 	DogTypeMapper dogTypeMapper;
 
 	/**
-	 * 全件取得.
-	 * 
-	 * @return dogGroupMapper.selectAll
+	 * 犬種グループで犬種コードと犬種名を絞り込み取得.
+	 * @param dogGroup List<String>
+	 * @return selectDogTypeByGroup(dogGroup)
 	 */
 	public List<DogTypeEntity> selectDogTypeByGroup(List<String> dogGroup) {
 		return dogTypeMapper.selectDogTypeByGroup(dogGroup);
 	}
 	
+	/**
+	 * 犬種コードから犬種名と犬種グループコードを取得.
+	 * @param dogCode
+	 * @return selectDogTypeAndGroup(dogCode)
+	 */
 	public DogTypeEntity selectDogTypeAndGroup(String dogCode) {
 		return dogTypeMapper.selectDogTypeAndGroup(dogCode);
 	}
 
+	/**
+	 * 登録.
+	 * @param entity
+	 * @return insert(entity)
+	 */
 	public int insert(DogTypeEntity entity) {
 		return dogTypeMapper.insert(entity);
 	}
 
-	public DogTypeEntity selectDogTypeNmByCode(String dogTypeName) {
+	/**
+	 * 一致する犬種名を取得.
+	 * @param dogTypeName
+	 * @return selectByDogTypeNm(dogTypeName)
+	 */
+	public DogTypeEntity selectByDogTypeNm(String dogTypeName) {
 		return dogTypeMapper.selectByDogTypeNm(dogTypeName);
 	}
 	
+	/**
+	 * 全件取得.
+	 * @return selectDogType()
+	 */
 	public List<DogTypeEntity> selectDogType(){
 		return dogTypeMapper.selectDogType();
 	}

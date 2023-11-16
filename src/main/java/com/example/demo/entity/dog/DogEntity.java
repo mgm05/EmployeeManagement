@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 public class DogEntity {
-    /** ID. */
+    /** 犬ID. */
     private int dogId;
     /** JKC登録番号. */
     private String jkcNo;

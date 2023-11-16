@@ -45,27 +45,6 @@ public class DogDetailLogic {
     @Autowired
     DogTypeService dogTypeService;
     
-    
-    
-    /**
-     * 犬情報取得.
-     * @param dogId Integer
-     * @return 犬情報
-     */
-    public DogEntity createDogDetail(String dogId) {
-        return dogService.selectDogById(dogId);
-    }
-
-
-    /**
-     * 入出金情報取得.
-     * @param dogId Integer
-     * @return 仕入れ情報
-     */
-    public List<CashFlowEntity> createDogDetailCashFlow(String dogId) {
-        return cashFlowService.selectByDogId(dogId);
-    }
-
     /**
      * レスポンス用Dto生成.
      * @param dogId String
@@ -116,7 +95,7 @@ public class DogDetailLogic {
 	}
 
 	/**
-	 * 犬種グループコードから犬種グループ名を取得
+	 * 犬種グループコードから犬種グループ名を取得.
 	 * @param dogGroupCode String
 	 * @return DogGroupName
 	 */
@@ -126,7 +105,7 @@ public class DogDetailLogic {
 	}
 	
 	/**
-	 * 
+	 * 犬種コードから犬種名を取得.
 	 * @param dogTypeCode String
 	 * @return DogTypeNm
 	 */

@@ -13,8 +13,6 @@
 			, dog_type.dog_type_nm 
 		FROM
 			dog_type 
-			INNER JOIN dog_group 
-				ON dog_type.dog_group = dog_group.dog_group_code 
 		<where>
 			<if test="dogGroup != null and dogGroup.size() >0">
 				<foreach collection="dogGroup" item="item" 

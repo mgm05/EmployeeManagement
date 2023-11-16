@@ -20,13 +20,9 @@ public class PuchaseRequest {
 	@Length(min = 10, max = 10, message = "JKC登録番号は10文字で入力して下さい。")
 	@Pattern(regexp = "^[A-Z0-9]*$", message = "JKC登録番号は大文字英字、半角数字で入力して下さい。")
 	private String jkcNo;
-	/** 犬種グループ. */
-	private String dogGroupCode;
 	/** 犬種コード. */
 	@NotBlank(message = "犬種を入力して下さい。")
 	private String dogCode;
-	/** 犬種名. */
-	private String dogName;
 	/** 性別. */
 	@NotBlank(message = "性別を選択して下さい。")
 	private String sex;
