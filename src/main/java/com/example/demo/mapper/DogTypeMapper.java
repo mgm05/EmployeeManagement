@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.dto.dog.DogTypeRequest;
+import com.example.demo.dto.dog.DogTypeRegistRequest;
 import com.example.demo.entity.dog.DogGroupEntity;
 import com.example.demo.entity.dog.DogTypeEntity;
 

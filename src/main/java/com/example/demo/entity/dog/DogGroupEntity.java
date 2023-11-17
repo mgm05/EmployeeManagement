@@ -7,8 +7,8 @@ import lombok.Data;
  */
 @Data
 public class DogGroupEntity {
-    /** 犬種グループコード. */
-    private String dogGroupCode;
-    /** 犬種グループ名. */
-    private String dogGroupName;
+	/** 犬種グループコード. */
+	private String dogGroupCode;
+	/** 犬種グループ名. */
+	private String dogGroupName;
 }

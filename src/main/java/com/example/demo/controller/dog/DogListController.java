@@ -29,7 +29,7 @@ public class DogListController {
 	private SessionUser session;
 	/** ロジック. */
 	@Autowired
-	DogListLogic logic;
+	private DogListLogic logic;
 
 	/**
 	 * 犬一覧画面初期表示.

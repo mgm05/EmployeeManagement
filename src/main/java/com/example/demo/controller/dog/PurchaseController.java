@@ -30,7 +30,7 @@ public class PurchaseController {
 	private SessionUser session;
 	/** 仕入れロジック. */
 	@Autowired
-	PurchaseLogic purchaseLogic;
+	private PurchaseLogic purchaseLogic;
 
 	/**
 	 * 仕入れ画面初期表示.

@@ -21,36 +21,37 @@ import com.example.demo.session.SessionUser;
  */
 @Controller
 public class ExpenseController {
-    /** セッション. */
-    @Autowired
-    private SessionUser session;
-    /** 経費ロジック. */
-    @Autowired
-    ExpenseLogic logic;
-    
-    /**
-     * 経費初期表示.
-     * @param dogId String
-     * @param model Model
-     * @return dogList
-     */
-    @GetMapping("/expense")
-    public String index(Integer dogId, Model model) {
-        // セッションが切れていたらログイン画面へ遷移
-        if (session.getLoginId() == null) {
-            return "redirect:/login";
-        }
-        List<ExpenseEntity> expenseList = logic.createExpenseList(dogId);
-        model.addAttribute("expenseList", expenseList);
-        model.addAttribute("occurrenceTypeEnum", OccurrenceType.values());
-        model.addAttribute("expenseTypeEnum", ExpenseType.values());
-        model.addAttribute("cashFlowTypeEnum", CashFlowType.values());
-        return "expense";
-    }
-    
-    @PostMapping("/expense/regist")
-    public String regist(ExpenseRequest req, Integer dogId) {
-        logic.regist(req, dogId, session.getLoginId());
-        return "expense";
-    }
+	/** セッション. */
+	@Autowired
+	private SessionUser session;
+	/** 経費ロジック. */
+	@Autowired
+	private ExpenseLogic logic;
+
+	/**
+	 * 経費初期表示.
+	 * 
+	 * @param dogId String
+	 * @param model Model
+	 * @return dogList
+	 */
+	@GetMapping("/expense")
+	public String index(Integer dogId, Model model) {
+		// セッションが切れていたらログイン画面へ遷移
+		if (session.getLoginId() == null) {
+			return "redirect:/login";
+		}
+		List<ExpenseEntity> expenseList = logic.createExpenseList(dogId);
+		model.addAttribute("expenseList", expenseList);
+		model.addAttribute("occurrenceTypeEnum", OccurrenceType.values());
+		model.addAttribute("expenseTypeEnum", ExpenseType.values());
+		model.addAttribute("cashFlowTypeEnum", CashFlowType.values());
+		return "expense";
+	}
+
+	@PostMapping("/expense/regist")
+	public String regist(ExpenseRequest req, Integer dogId) {
+		logic.regist(req, dogId, session.getLoginId());
+		return "expense";
+	}
 }
