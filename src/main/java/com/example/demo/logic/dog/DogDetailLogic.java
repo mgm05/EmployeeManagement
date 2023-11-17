@@ -29,32 +29,33 @@ import com.example.demo.service.dog.PurchaseService;
  */
 @Component
 public class DogDetailLogic {
-    /**犬サービス.*/
-    @Autowired
-    DogService dogService;
-    /**仕入れサービス.*/
-    @Autowired
-    PurchaseService purchaseService;
-    /**入出金サービス.*/
-    @Autowired
-    CashFlowService cashFlowService;
-    /**犬種グループサービス.*/
-    @Autowired
-    DogGroupService dogGroupService;
-    /**犬種サービス.*/	
-    @Autowired
-    DogTypeService dogTypeService;
-    
-    /**
-     * レスポンス用Dto生成.
-     * @param dogId String
-     * @return res
-     */
+	/** 犬サービス. */
+	@Autowired
+	private DogService dogService;
+	/** 仕入れサービス. */
+	@Autowired
+	private PurchaseService purchaseService;
+	/** 入出金サービス. */
+	@Autowired
+	private CashFlowService cashFlowService;
+	/** 犬種グループサービス. */
+	@Autowired
+	private DogGroupService dogGroupService;
+	/** 犬種サービス. */
+	@Autowired
+	private DogTypeService dogTypeService;
+
+	/**
+	 * レスポンス用Dto生成.
+	 * 
+	 * @param dogId String
+	 * @return res
+	 */
 	public DogDetailResponse createDogDetailRes(String dogId) {
 		DogDetailResponse res = new DogDetailResponse();
 		DogEntity dogEntity = dogService.selectDogById(dogId);
 		PurchaseEntity purchaseEntity = purchaseService.selectPurchaseByDogId(dogId);
-		
+
 		res.setCashFlowList(createCashFlowList(dogId));
 		res.setDogId(dogId);
 		res.setJkcNo(dogEntity.getJkcNo());
@@ -70,17 +71,18 @@ public class DogDetailLogic {
 		res.setPaymentDate(CommonUtils.formatOptDate(purchaseEntity.getPaymentDate()).orElse(null));
 		return res;
 	}
-	
+
 	/**
 	 * 入出金リスト生成.
+	 * 
 	 * @param dogId String
 	 * @return cashFlowList
 	 */
 	private List<CashFlow> createCashFlowList(String dogId) {
 		List<CashFlowEntity> cashFlowEntity = cashFlowService.selectByDogId(dogId);
 		List<CashFlow> cashFlowList = new ArrayList<>();
-		
-		for(CashFlowEntity entity : cashFlowEntity) {
+
+		for (CashFlowEntity entity : cashFlowEntity) {
 			CashFlow cashFlow = new CashFlow();
 			cashFlow.setCashFlowId(entity.getCashFlowId());
 			cashFlow.setExpenseId(entity.getExpenseId());
@@ -96,16 +98,18 @@ public class DogDetailLogic {
 
 	/**
 	 * 犬種グループコードから犬種グループ名を取得.
+	 * 
 	 * @param dogGroupCode String
 	 * @return DogGroupName
 	 */
 	private String getDogGroupName(String dogGroupCode) {
-		DogGroupEntity entity  = dogGroupService.selectDogGroupNameByCode(dogGroupCode);
+		DogGroupEntity entity = dogGroupService.selectDogGroupNameByCode(dogGroupCode);
 		return entity.getDogGroupName();
 	}
-	
+
 	/**
 	 * 犬種コードから犬種名を取得.
+	 * 
 	 * @param dogTypeCode String
 	 * @return DogTypeNm
 	 */
@@ -113,5 +117,4 @@ public class DogDetailLogic {
 		DogTypeEntity entity = dogTypeService.selectDogTypeAndGroup(dogTypeCode);
 		return entity.getDogTypeNm();
 	}
-}
-;
+};

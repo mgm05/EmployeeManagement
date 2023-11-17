@@ -34,22 +34,22 @@ import com.example.demo.service.dog.PurchaseService;
 public class PurchaseLogic {
 	/** 犬種グループサービス. */
 	@Autowired
-	DogGroupService dogGroupService;
+	private DogGroupService dogGroupService;
 	/** 犬サービス. */
 	@Autowired
-	DogService dogService;
+	private DogService dogService;
 	/** 仕入れサービス. */
 	@Autowired
-	PurchaseService purchaseService;
+	private PurchaseService purchaseService;
 	/** 犬種サービス. */
 	@Autowired
-	DogTypeService dogTypeService;
+	private DogTypeService dogTypeService;
 	/** 経費サービス. */
 	@Autowired
-	ExpenseService expenseService;
+	private ExpenseService expenseService;
 	/** 入出金サービス. */
 	@Autowired
-	CashFlowService cashFlowService;
+	private CashFlowService cashFlowService;
 
 	/**
 	 * 犬種グループ全件取得.

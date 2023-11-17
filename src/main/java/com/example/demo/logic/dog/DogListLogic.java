@@ -27,13 +27,13 @@ import com.example.demo.service.dog.DogTypeService;
 public class DogListLogic {
 	/** 犬情報サービス. */
 	@Autowired
-	DogListService dogInfoService;
+	private DogListService dogInfoService;
 	/** 犬種グループサービス. */
 	@Autowired
-	DogGroupService dogGroupService;
+	private DogGroupService dogGroupService;
 	/** 犬種サービス. */
 	@Autowired
-	DogTypeService dogTypeService;
+	private DogTypeService dogTypeService;
 
 	/**
 	 * 犬一覧リスト取得.
