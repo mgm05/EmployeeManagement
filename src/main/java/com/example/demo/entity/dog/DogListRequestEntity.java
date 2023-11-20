@@ -15,6 +15,8 @@ public class DogListRequestEntity {
 	private String jkcNo;
 	/** 犬種グループコード. */
 	private List<String> dogGroupCode;
+	/** 犬種サイズコード. */
+	private String dogSizeCode;
 	/** 犬種コード. */
 	private String dogTypeCode;
 	/** 性別. */

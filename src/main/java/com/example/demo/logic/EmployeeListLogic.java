@@ -9,13 +9,10 @@ import org.springframework.stereotype.Component;
 import com.example.demo.CommonUtils;
 import com.example.demo.constEnum.CommissioningStatus;
 import com.example.demo.constEnum.Department;
-import com.example.demo.constEnum.Status;
 import com.example.demo.dto.EmployeeListResponse;
 import com.example.demo.entity.EmployeeListEntity;
 import com.example.demo.service.EmployeeInfoService;
 import com.example.demo.service.EmployeeStateService;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * 社員リストロジック.

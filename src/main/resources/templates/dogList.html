@@ -33,6 +33,7 @@
 		function clearFrom(){
 			$('#serchForm').find(":text").val("");
 			$('#dogTypeSelect').prop("selectedIndex", 0);
+			$('#dogSizeSelect').prop("selectedIndex", 0);
 			$('#sexRadioInit').prop("checked", true);
 			$('#serchForm').find(":checkbox").prop("checked", false);
 			$('#serchForm input[type="date"]').val("");
@@ -113,6 +114,15 @@
 					</td>
 				</tr>
 				<tr>
+					<th class="table-primary">犬種サイズ</th>
+					<td>
+						<select id="dogSizeSelect" name="dogSizeCode">
+							<option></option>
+							<option th:each="dogSize:${dogSizeEnum}" th:selected="${dogSize.code} == ${req.dogSizeCode}"
+								th:value="${dogSize.code}" th:text="${dogSize.val}">
+							</option>
+						</select>
+					</td>
 					<th class="table-primary">犬種</th>
 					<td>
 						<select  id="dogTypeSelect"  name="dogType">
@@ -129,13 +139,13 @@
 								<input type="radio" th:value="${sex.code}" th:text="${sex.val}" name="sex" th:field="${req.sex}">
 							</th:block>
 						</td>
+				</tr>
+				<tr>
 					<th class="table-primary">生年月日</th>
 					<td>
 						<input type="date" name="birthdayFrom" th:field="${req.birthdayFrom}">
 						～<input type="date" name="birthdayTo" th:field="${req.birthdayTo}">
 					</td>
-				</tr>
-				<tr>
 					<th class="table-primary">成約日</th>
 					<td>
 						<input type="date" name="contractDateFrom" th:field="${req.contractDateFrom}">

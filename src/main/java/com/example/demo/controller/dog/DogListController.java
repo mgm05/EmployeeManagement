@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.constEnum.DogSex;
+import com.example.demo.constEnum.DogSize;
 import com.example.demo.dto.dog.DogGroup;
-import com.example.demo.dto.dog.DogListResponse;
 import com.example.demo.dto.dog.DogListRequest;
+import com.example.demo.dto.dog.DogListResponse;
 import com.example.demo.dto.dog.DogType;
 import com.example.demo.logic.dog.DogListLogic;
 import com.example.demo.session.SessionUser;
@@ -51,6 +51,7 @@ public class DogListController {
 		model.addAttribute("dogGroupList", dogGroupList);
 		model.addAttribute("dogTypeList", dogTypeList);
 		model.addAttribute("sexEnum", DogSex.values());
+		model.addAttribute("dogSizeEnum", DogSize.values());
 		return "dogList";
 	}
 

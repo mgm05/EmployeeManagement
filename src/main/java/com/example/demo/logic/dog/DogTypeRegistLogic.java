@@ -60,6 +60,7 @@ public class DogTypeRegistLogic {
 		DogTypeEntity entity = new DogTypeEntity();
 		entity.setDogTypeNm(dogTypeRegistRequest.getDogTypeName());
 		entity.setDogGroup(dogTypeRegistRequest.getDogGroupCode());
+		entity.setDogSize(dogTypeRegistRequest.getDogSizeCode());
 		return entity;
 	}
 }

@@ -18,6 +18,10 @@ public class DogEntity {
 	private String dogGroupCode;
 	/** 犬種グループ名. */
 	private String dogGroupName;
+	/** 犬種サイズコード. */
+	private String dogSizeCode;
+	/** 犬種サイズ名. */
+	private String dogSizeName;
 	/** 犬種コード. */
 	private String dogCode;
 	/** 犬種名. */

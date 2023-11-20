@@ -10,7 +10,6 @@ import com.example.demo.CommonUtils;
 import com.example.demo.constEnum.CashFlowType;
 import com.example.demo.constEnum.ContractType;
 import com.example.demo.constEnum.DogSex;
-import com.example.demo.constEnum.Sex;
 import com.example.demo.dto.dog.CashFlow;
 import com.example.demo.dto.dog.DogDetailResponse;
 import com.example.demo.entity.dog.CashFlowEntity;

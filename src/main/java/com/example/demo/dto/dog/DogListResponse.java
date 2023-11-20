@@ -13,6 +13,8 @@ public class DogListResponse {
 	private String jkcNo;
 	/** 犬種グループ名. */
 	private String dogGroupName;
+	/** 犬種サイズ名. */
+	private String dogSizeName;
 	/** 犬種名. */
 	private String dogTypeNm;
 	/** 性別. */

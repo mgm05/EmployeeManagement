@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.constEnum.DogSize;
 import com.example.demo.dto.dog.DogGroup;
 import com.example.demo.dto.dog.DogTypeRegistRequest;
 import com.example.demo.dto.dog.DogTypeRegistResponse;
@@ -37,13 +38,14 @@ public class DogTypeRegistController {
 	 * @return dogList
 	 */
 	@GetMapping("/dogType")
-	public String index(DogTypeRegistRequest dogTypeRequest,Model model) {
+	public String index(DogTypeRegistRequest dogTypeRegistRequest,Model model) {
 		// セッションが切れていたらログイン画面へ遷移
 		if (session.getLoginId() == null) {
 			return "redirect:/login";
 		}
 		List<DogGroup> dogGroupList = logic.createDogGroupList();
 		model.addAttribute("dogGroupList", dogGroupList);
+		model.addAttribute("dogSizeList", DogSize.values());
 		return "dogType";
 	}
 	
@@ -53,7 +55,7 @@ public class DogTypeRegistController {
 	 * @return
 	 */
 	@PostMapping("/dogTypeRegist")
-	public String regist(@ModelAttribute @Validated DogTypeRegistRequest dogTypeRequest, BindingResult result, Model model,
+	public String regist(@ModelAttribute @Validated DogTypeRegistRequest dogTypeRegistRequest, BindingResult result, Model model,
 			RedirectAttributes redirectAttributes) {
 		// セッションが切れていたらログイン画面へ遷移
 		if (session.getLoginId() == null) {
@@ -61,9 +63,9 @@ public class DogTypeRegistController {
 		}
 		
 		if(result.hasErrors()) {
-			return index(dogTypeRequest, model);
+			return index(dogTypeRegistRequest, model);
 		}
-		logic.regist(dogTypeRequest);
+		logic.regist(dogTypeRegistRequest);
 		
 		DogTypeRegistResponse res = new DogTypeRegistResponse();
 		res.setMsg("登録完了しました");

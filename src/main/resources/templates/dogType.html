@@ -25,28 +25,41 @@
 			<br>
 			<h3 th:if="${res}" th:text="${res.msg}"></h3>
 			<div>
-				<form action="/dogTypeRegist" method="post" th:object="${dogTypeRequest}">
+				<form action="/dogTypeRegist" method="post" th:object="${dogTypeRegistRequest}">
 					<table class="table">
 						<tr>
-							<th class="table-primary">犬種*</th>
+							<th class="table-primary">犬種名*</th>
 							<td>
-								<input type="text" name="dogType" th:field="*{dogType}">
+								<input type="text" name="dogTypeName" th:field="*{dogTypeName}">
 								<br>
-								<span th:if="${#fields.hasErrors('dogType')}" th:errors="*{dogType}" class="color-red"></span>
+								<span th:if="${#fields.hasErrors('dogTypeName')}" th:errors="*{dogTypeName}" class="color-red"></span>
 							</td>
 						</tr>
 						<tr>
 							<th class="table-primary">犬種グループ*</th>
 							<td>
-								<select name="dogGroup">
+								<select name="dogGroupCode">
 									<option></option>
 									<option th:each="dogGroup:${dogGroupList}"
 										th:value="${dogGroup.dogGroupCode}" th:text="${dogGroup.dogGroupCode}+':'+${dogGroup.dogGroupName}"
-										th:selected="*{dogGroup} == ${dogGroup.dogGroupCode}">
+										th:selected="*{dogGroupCode} == ${dogGroup.dogGroupCode}">
 									</option>
 								</select>
 								<br>
-								<span th:if="${#fields.hasErrors('dogGroup')}" th:errors="*{dogGroup}" class="color-red"></span>
+								<span th:if="${#fields.hasErrors('dogGroupCode')}" th:errors="*{dogGroupCode}" class="color-red"></span>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-primary">犬種サイズ*</th>
+							<td>
+								<select name="dogSizeCode">
+									<option></option>
+									<option th:each="dogSize:${dogSizeList}"
+										th:value="${dogSize.code}" th:text="${dogSize.val}" th:selected="*{dogSizeCode} == ${dogSize.code}">
+									</option>
+								</select>
+								<br>
+								<span th:if="${#fields.hasErrors('dogSizeCode')}" th:errors="*{dogSizeCode}" class="color-red"></span>
 							</td>
 						</tr>
 					</table>

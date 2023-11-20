@@ -33,8 +33,8 @@
 	</select>
 	<insert id="insert" parameterType="com.example.demo.entity.dog.DogTypeEntity">
 		INSERT 
-		INTO dog_type(dog_group, dog_type_nm) 
-		VALUES (#{dogGroup}, #{dogTypeNm})
+		INTO dog_type(dog_size, dog_group, dog_type_nm) 
+		VALUES (#{dogSize}, #{dogGroup}, #{dogTypeNm})
 	</insert>
 	<select id="selectByDogTypeNm" resultMap="DogTypeMap">
 		SELECT
