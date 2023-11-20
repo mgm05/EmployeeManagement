@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.dto.dog.DogListRequest;
-import com.example.demo.entity.dog.DogEntity;
 import com.example.demo.entity.dog.DogListRequestEntity;
 import com.example.demo.entity.dog.DogListResponseEntity;
 

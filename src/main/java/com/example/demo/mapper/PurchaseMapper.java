@@ -2,7 +2,6 @@ package com.example.demo.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.entity.dog.DogEntity;
 import com.example.demo.entity.dog.PurchaseEntity;
 
 /**

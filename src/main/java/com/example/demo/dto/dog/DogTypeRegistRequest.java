@@ -16,5 +16,7 @@ public class DogTypeRegistRequest {
 	/** 犬種グループコード. */
 	@NotBlank(message = "犬種グループを選択して下さい。")
 	private String dogGroupCode;
-
+	/** 犬種サイズ. */
+	@NotBlank(message = "犬種サイズを選択して下さい。")
+	private String dogSizeCode;
 }

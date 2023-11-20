@@ -13,25 +13,27 @@ import com.example.demo.mapper.DogMapper;
 @Service
 @Transactional
 public class DogService {
-    /** 犬マッパー. */
-    @Autowired
-    DogMapper dogMapper;
-    
-    /**
-     * 登録.
-     * @param dogEntity DogEntity
-     * @return dogMapper.insert(dogEntity)
-     */
-    public int insert(DogEntity dogEntity) {
-        return dogMapper.insert(dogEntity);
-    }
-    
-    /**
-     * 犬詳細情報をidで取得.
-     * @param dogId Integer
-     * @return dogMapper.selectDogById(dogId)
-     */
-    public DogEntity selectDogById(String dogId){
-        return dogMapper.selectDogById(dogId);
-    }
+	/** 犬マッパー. */
+	@Autowired
+	DogMapper dogMapper;
+
+	/**
+	 * 登録.
+	 * 
+	 * @param dogEntity DogEntity
+	 * @return dogMapper.insert(dogEntity)
+	 */
+	public int insert(DogEntity dogEntity) {
+		return dogMapper.insert(dogEntity);
+	}
+
+	/**
+	 * 犬詳細情報をidで取得.
+	 * 
+	 * @param dogId Integer
+	 * @return dogMapper.selectDogById(dogId)
+	 */
+	public DogEntity selectDogById(String dogId) {
+		return dogMapper.selectDogById(dogId);
+	}
 }

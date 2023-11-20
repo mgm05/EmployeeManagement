@@ -54,6 +54,7 @@ public class DogListLogic {
 			dto.setSex(DogSex.of(entity.getSex()).getVal());
 			dto.setBirthday(CommonUtils.formatDate(entity.getBirthday()));
 			dto.setContractDate(CommonUtils.formatDate(entity.getContractDate()));
+			dto.setDogSizeName(entity.getDogSizeName());
 			if (entity.getPurchaseDate() != null) {
 				dto.setPurchaseDate(CommonUtils.formatDate(entity.getPurchaseDate()));
 			}
@@ -81,6 +82,7 @@ public class DogListLogic {
 		dogListRequestEntity.setContractDateTo(req.getContractDateTo());
 		dogListRequestEntity.setPurchaseDateFrom(req.getPurchaseDateFrom());
 		dogListRequestEntity.setPurchaseDateTo(req.getPurchaseDateTo());
+		dogListRequestEntity.setDogSizeCode(req.getDogSizeCode());
 		
 		return dogListRequestEntity;
 	}

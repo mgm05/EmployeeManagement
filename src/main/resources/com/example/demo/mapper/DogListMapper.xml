@@ -21,6 +21,7 @@
 			, dog.birthday
 			, purchase.contract_date
 			, purchase.purchase_date 
+			, dog.dog_size_name
 		FROM
 			dog 
 			INNER JOIN dog_group
@@ -65,6 +66,9 @@
 			</if>
 			<if test="purchaseDateTo != null and purchaseDateTo != ''">
 				AND purchase.purchase_date &lt;= #{purchaseDateTo} 
+			</if>
+			<if test="dogSizeCode != null and dogSizeCode != ''">
+				AND dog.dog_size_code = #{dogSizeCode}
 			</if>
 		</where>
 			ORDER BY

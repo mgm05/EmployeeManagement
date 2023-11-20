@@ -5,10 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.dog.DogTypeRegistRequest;
-import com.example.demo.entity.dog.DogGroupEntity;
 import com.example.demo.entity.dog.DogTypeEntity;
-import com.example.demo.mapper.DogGroupMapper;
 import com.example.demo.mapper.DogTypeMapper;
 
 /**
@@ -22,16 +19,18 @@ public class DogTypeService {
 
 	/**
 	 * 犬種グループで犬種コードと犬種名を絞り込み取得.
+	 * 
 	 * @param dogGroup List<String>
 	 * @return selectDogTypeByGroup(dogGroup)
 	 */
 	public List<DogTypeEntity> selectDogTypeByGroup(List<String> dogGroup) {
 		return dogTypeMapper.selectDogTypeByGroup(dogGroup);
 	}
-	
+
 	/**
 	 * 犬種コードから犬種名と犬種グループコードを取得.
-	 * @param dogCode
+	 * 
+	 * @param dogCode String
 	 * @return selectDogTypeAndGroup(dogCode)
 	 */
 	public DogTypeEntity selectDogTypeAndGroup(String dogCode) {
@@ -40,8 +39,9 @@ public class DogTypeService {
 
 	/**
 	 * 登録.
-	 * @param entity
-	 * @return insert(entity)
+	 * 
+	 * @param entity DogTypeEntity
+	 * @return int
 	 */
 	public int insert(DogTypeEntity entity) {
 		return dogTypeMapper.insert(entity);
@@ -49,18 +49,20 @@ public class DogTypeService {
 
 	/**
 	 * 一致する犬種名を取得.
-	 * @param dogTypeName
+	 * 
+	 * @param dogTypeName String
 	 * @return selectByDogTypeNm(dogTypeName)
 	 */
 	public DogTypeEntity selectByDogTypeNm(String dogTypeName) {
 		return dogTypeMapper.selectByDogTypeNm(dogTypeName);
 	}
-	
+
 	/**
 	 * 全件取得.
+	 * 
 	 * @return selectDogType()
 	 */
-	public List<DogTypeEntity> selectDogType(){
+	public List<DogTypeEntity> selectDogType() {
 		return dogTypeMapper.selectDogType();
 	}
 }

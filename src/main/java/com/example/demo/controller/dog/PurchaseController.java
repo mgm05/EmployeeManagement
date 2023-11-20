@@ -17,7 +17,6 @@ import com.example.demo.dto.dog.DogGroup;
 import com.example.demo.dto.dog.DogType;
 import com.example.demo.dto.dog.PuchaseRequest;
 import com.example.demo.logic.dog.PurchaseLogic;
-import com.example.demo.service.dog.DogService;
 import com.example.demo.session.SessionUser;
 
 /**
