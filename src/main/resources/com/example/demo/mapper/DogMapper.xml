@@ -6,6 +6,7 @@
 		<result column="jkc_no" jdbcType="VARCHAR" property="jkcNo"/>
 		<result column="dog_group_code" jdbcType="CHAR" property="dogGroupCode"/>
 		<result column="dog_group_name" jdbcType="VARCHAR" property="dogGroupName"/>
+		<result column="dog_size_name" jdbcType="VARCHAR" property="dogSizeName"/>
 		<result column="dog_code" jdbcType="VARCHAR" property="dogCode"/>
 		<result column="dog_name" jdbcType="VARCHAR" property="dogName"/>
 		<result column="sex" jdbcType="CHAR" property="sex"/>
@@ -23,6 +24,8 @@
 			jkc_no
 			, dog_group_code
 			, dog_group_name
+			, dog_size_code
+			, dog_size_name
 			, dog_code
 			, dog_name
 			, sex
@@ -37,6 +40,8 @@
 			#{jkcNo}
 			, #{dogGroupCode}
 			, #{dogGroupName}
+			, #{dogSizeCode}
+			, #{dogSizeName}
 			, #{dogCode}
 			, #{dogName}
 			, #{sex}
@@ -52,8 +57,9 @@
 		SELECT
 			dog_id
 			, jkc_no
-			, dog_group_code
-			, dog_code
+			, dog_group_name
+			, dog_size_name
+			, dog_name
 			, sex
 			, birthday 
 		FROM

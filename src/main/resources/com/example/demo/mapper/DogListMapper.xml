@@ -10,6 +10,7 @@
 		<result column="birthday" jdbcType="DATE" property="birthday"/>
 		<result column="contract_date" jdbcType="DATE" property="contractDate"/>
 		<result column="purchase_date" jdbcType="DATE" property="purchaseDate"/>
+		<result column="dog_size_name" jdbcType="VARCHAR" property="dogSizeName"/>
 	</resultMap>
 	<select id="select" resultMap="dogListMap" parameterType="com.example.demo.entity.dog.DogListRequestEntity">
 		SELECT

@@ -15,6 +15,8 @@ public class DogDetailResponse {
 	private String jkcNo;
 	/** 犬種グループ名. */
 	private String dogGroupName;
+	/** 犬種サイズ名. */
+	private String dogSizeName;
 	/** 犬種名. */
 	private String dogTypeName;
 	/** 性別. */

@@ -43,10 +43,8 @@ public class PurchaseController {
 		if (session.getLoginId() == null) {
 			return "redirect:/login";
 		}
-		List<DogGroup> dogGroupList = purchaseLogic.createDogGroupList();
 		List<DogType> dogTypeList = purchaseLogic.createDogTypeList();
 
-		model.addAttribute("dogGroupList", dogGroupList);
 		model.addAttribute("dogTypeList", dogTypeList);
 		model.addAttribute("sexEnum", DogSex.values());
 		model.addAttribute("contractTypeEnum", ContractType.values());

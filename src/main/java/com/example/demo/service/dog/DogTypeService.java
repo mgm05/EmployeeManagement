@@ -28,13 +28,13 @@ public class DogTypeService {
 	}
 
 	/**
-	 * 犬種コードから犬種名と犬種グループコードを取得.
+	 * 犬種コードから犬種名と犬種グループコードと犬種サイズコードを取得.
 	 * 
 	 * @param dogCode String
-	 * @return selectDogTypeAndGroup(dogCode)
+	 * @return selectByDogTypeCode(dogCode)
 	 */
-	public DogTypeEntity selectDogTypeAndGroup(String dogCode) {
-		return dogTypeMapper.selectDogTypeAndGroup(dogCode);
+	public DogTypeEntity selectByDogTypeCode(String dogCode) {
+		return dogTypeMapper.selectByDogTypeCode(dogCode);
 	}
 
 	/**

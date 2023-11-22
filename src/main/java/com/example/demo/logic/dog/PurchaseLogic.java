@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.CommonUtils;
 import com.example.demo.constEnum.CashFlowType;
+import com.example.demo.constEnum.DogSize;
 import com.example.demo.constEnum.ExpenseType;
 import com.example.demo.constEnum.OccurrenceType;
 import com.example.demo.dto.dog.DogGroup;
@@ -50,24 +51,6 @@ public class PurchaseLogic {
 	/** 入出金サービス. */
 	@Autowired
 	private CashFlowService cashFlowService;
-
-	/**
-	 * 犬種グループ全件取得.
-	 * 
-	 * @return dogGroupList
-	 */
-	public List<DogGroup> createDogGroupList() {
-		List<DogGroupEntity> entities = dogGroupService.selectAll();
-		List<DogGroup> dogGroupList = new ArrayList<>();
-
-		for (DogGroupEntity entity : entities) {
-			DogGroup dogGroup = new DogGroup();
-			dogGroup.setDogGroupCode(entity.getDogGroupCode());
-			dogGroup.setDogGroupName(entity.getDogGroupName());
-			dogGroupList.add(dogGroup);
-		}
-		return dogGroupList;
-	}
 
 	/**
 	 * 犬種取得.
@@ -191,6 +174,8 @@ public class PurchaseLogic {
 		entity.setDogCode(puchaseReq.getDogCode());
 		entity.setDogGroupCode(dogTypeEntity.getDogGroup());
 		entity.setDogGroupName(getDogGroupName(dogTypeEntity.getDogGroup()));
+		entity.setDogSizeCode(dogTypeEntity.getDogSize());
+		entity.setDogSizeName(getDogSizeName(dogTypeEntity.getDogSize()));
 		entity.setDogName(dogTypeEntity.getDogTypeNm());
 		entity.setSex(puchaseReq.getSex());
 		entity.setBirthday(CommonUtils.parseHyphenDate(puchaseReq.getBirthday())
@@ -207,7 +192,7 @@ public class PurchaseLogic {
 	 * @return 犬種名
 	 */
 	private DogTypeEntity createDogTypeEntity(String dogCode) {
-		DogTypeEntity dogTypeEntity = dogTypeService.selectDogTypeAndGroup(dogCode);
+		DogTypeEntity dogTypeEntity = dogTypeService.selectByDogTypeCode(dogCode);
 		return dogTypeEntity;
 	}
 
@@ -220,6 +205,16 @@ public class PurchaseLogic {
 	private String getDogGroupName(String dogGroupCode) {
 		DogGroupEntity dogGroupEntity = dogGroupService.selectDogGroupNameByCode(dogGroupCode);
 		return dogGroupEntity.getDogGroupName();
+	}
+
+	/**
+	 * 犬種サイズコードから犬種サイズ名を取得.
+	 * 
+	 * @param dogSize
+	 * @return 犬種サイズ名
+	 */
+	private String getDogSizeName(String dogSizeCode) {
+		return DogSize.of(dogSizeCode).getVal();
 	}
 
 	/**
@@ -244,7 +239,7 @@ public class PurchaseLogic {
 		entity.setQuotationYen(Integer.parseInt(expensePrice));
 		entity.setCloseYen(Integer.parseInt(expensePrice));
 		entity.setPaymentDate(CommonUtils.parseHyphenDate(puchaseReq.getContractDate()).orElseThrow());
-		entity.setArrivalDate(CommonUtils.parseHyphenDate(puchaseReq.getContractDate()).orElseThrow());
+		entity.setPurchaseDate(CommonUtils.parseHyphenDate(puchaseReq.getPurchaseDate()).orElseThrow());
 		entity.setCreateUserId(userId);
 		entity.setUpdateUserId(userId);
 		return entity;

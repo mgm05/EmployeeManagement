@@ -22,10 +22,11 @@
 			</if>
 		</where>
 	</select>
-	<select id="selectDogTypeAndGroup" resultMap="DogTypeMap">
+	<select id="selectByDogTypeCode" resultMap="DogTypeMap">
 		SELECT
 			dog_type_nm
 			, dog_group 
+			, dog_size
 		FROM
 			dog_type 
 		WHERE

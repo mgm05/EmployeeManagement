@@ -20,11 +20,11 @@ public interface DogTypeMapper {
 	List<DogTypeEntity> selectDogTypeByGroup(List<String> dogGroup);
 
 	/**
-	 * 犬種コードから犬種名と犬種グループコードを取得.
+	 * 犬種コードから犬種名と犬種グループコードと犬種サイズコードを取得.
 	 * @param dogCode String
-	 * @return 犬種名,犬種グループコード
+	 * @return 犬種名,犬種グループコード,犬種サイズコード
 	 */
-	DogTypeEntity selectDogTypeAndGroup(String dogCode);
+	DogTypeEntity selectByDogTypeCode(String dogCode);
 
 	/**
 	 * 登録.
