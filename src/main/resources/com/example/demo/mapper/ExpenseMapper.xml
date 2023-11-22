@@ -18,7 +18,8 @@
 		<result column="payment_destination_code" jdbcType="VARCHAR" property="paymentDestinationCode"/>
 		<result column="payment_destination_name" jdbcType="VARCHAR" property="paymentDestinationName"/>
 		<result column="payment_date" jdbcType="DATE" property="paymentDate"/>
-		<result column="arrival_date" jdbcType="DATE" property="arrivalDate"/>
+		<result column="purchase_date" jdbcType="DATE" property="purchaseDate"/>
+		<result column="fix_flag" jdbcType="DATE" property="fixFlag"/>
 		<result column="cancel_flag" jdbcType="INTEGER" property="cancelFlag"/>
 		<result column="create_datetime" jdbcType="TIMESTAMP" property="createDatetime"/>
 		<result column="create_store_code" jdbcType="VARCHAR" property="createStoreCode"/>
@@ -39,7 +40,7 @@
 			, quotation_yen
 			, close_yen
 			, payment_date
-			, arrival_date
+			, purchase_date
 			, cancel_flag
 			, create_datetime
 			, create_user_id
@@ -54,7 +55,7 @@
 			, #{quotationYen}
 			, #{closeYen}
 			, #{paymentDate}
-			, #{arrivalDate}
+			, #{purchaseDate}
 			, 0
 			, CURRENT_TIMESTAMP
 			, #{createUserId}
@@ -73,7 +74,7 @@
 			, quotation_yen
 			, close_yen
 			, payment_date
-			, arrival_date 
+			, purchase_date 
 		FROM
 			expense 
 		WHERE

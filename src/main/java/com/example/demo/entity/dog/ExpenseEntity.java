@@ -12,7 +12,7 @@ import lombok.Data;
 public class ExpenseEntity {
 	/** 経費ID. */
 	private Integer expenseId;
-	/** 支払情報ID. */
+	/** 支払ID. */
 	private Integer paymentId;
 	/** 犬ID. */
 	private Integer dogId;
@@ -26,7 +26,7 @@ public class ExpenseEntity {
 	private String cashFlowType;
 	/** 経費種別. */
 	private String expenseType;
-	/** 名称コード. */
+	/** 名称ID. */
 	private Integer itemId;
 	/** 名称. */
 	private String itemName;
@@ -42,8 +42,10 @@ public class ExpenseEntity {
 	private String paymentDestinationName;
 	/** 発生日. */
 	private Date paymentDate;
-	/** 入荷日. */
-	private Date arrivalDate;
+	/** 仕入日. */
+	private Date purchaseDate;
+	/** 確定フラグ. */
+	private String fixFlag;
 	/** キャンセルフラグ. */
 	private String cancelFlag;
 	/** 登録日時. */

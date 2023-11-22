@@ -80,7 +80,7 @@ public class ExpenseLogic {
 		entity.setQuotationYen(req.getQuotationYen());
 		entity.setCloseYen(req.getCloseYen());
 		entity.setPaymentDate(CommonUtils.parseHyphenDate(req.getPaymentDate()).orElseThrow());
-		entity.setArrivalDate(CommonUtils.parseHyphenDate(req.getArrivalDate()).orElse(null));
+		entity.setPurchaseDate(CommonUtils.parseHyphenDate(req.getPurchaseDate()).orElse(null));
 		entity.setCreateUserId(loginId);
 		entity.setUpdateUserId(loginId);
 		return entity;

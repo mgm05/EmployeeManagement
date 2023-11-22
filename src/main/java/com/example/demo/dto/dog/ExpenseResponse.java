@@ -3,12 +3,12 @@ package com.example.demo.dto.dog;
 import lombok.Data;
 
 /**
- * 経費リクエストDto.
+ * 経費レスポンスDto.
  */
 @Data
-public class ExpenseRequest {
-	/** 犬ID. */
-	private Integer dogId;
+public class ExpenseResponse {
+	/** ステータス. */
+	private String status;
 	/** 発生区分. */
 	private String occurrenceType;
 	/** 入出金区分. */
