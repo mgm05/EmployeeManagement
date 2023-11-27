@@ -34,13 +34,13 @@ public class CommonUtils {
      * @param date Date
      * @return strDate yyyy/MM/dd
      */
-    public static Optional<String> formatOptDate(Date date) {
+    public static Optional<String> formatOptDate(Date date, String format) {
     	Optional<String> opStrDate = Optional.empty();
     	if(date == null) {
     		return opStrDate;
     	}
     	
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
         opStrDate = Optional.of(sdf.format(date));
         
         return opStrDate;

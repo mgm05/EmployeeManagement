@@ -7,6 +7,8 @@ import lombok.Data;
  */
 @Data
 public class ExpenseResponse {
+	/** 犬ID. */
+	private Integer dogId;
 	/** ステータス. */
 	private String status;
 	/** 発生区分. */
@@ -25,4 +27,6 @@ public class ExpenseResponse {
 	private String paymentDate;
 	/** 仕入日. */
 	private String purchaseDate;
+	/** 確定フラグ. */
+	private String fixFlag;
 }

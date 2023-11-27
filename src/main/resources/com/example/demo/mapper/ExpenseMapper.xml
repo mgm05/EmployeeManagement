@@ -75,9 +75,14 @@
 			, close_yen
 			, payment_date
 			, purchase_date 
+			, fix_flag
 		FROM
 			expense 
 		WHERE
 			dog_id = #{dogId}
 	</select>
+	<insert id="insertId" useGeneratedKeys="true" keyProperty="expenseId">
+		INTO expense(cancel_flag, create_datetime, create_user_id) 
+		VALUES (0, CURRENT_TIMESTAMP, #{createUserId})
+	</insert>
 </mapper>

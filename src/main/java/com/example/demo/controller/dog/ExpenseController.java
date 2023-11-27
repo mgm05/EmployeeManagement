@@ -12,6 +12,7 @@ import com.example.demo.constEnum.CashFlowType;
 import com.example.demo.constEnum.ExpenseType;
 import com.example.demo.constEnum.OccurrenceType;
 import com.example.demo.dto.dog.ExpenseRequest;
+import com.example.demo.dto.dog.ExpenseResponse;
 import com.example.demo.entity.dog.ExpenseEntity;
 import com.example.demo.logic.dog.ExpenseLogic;
 import com.example.demo.session.SessionUser;
@@ -41,7 +42,9 @@ public class ExpenseController {
 		if (session.getLoginId() == null) {
 			return "redirect:/login";
 		}
-		List<ExpenseEntity> expenseList = logic.createExpenseList(dogId);
+		//List<ExpenseEntity> expenseList = logic.createExpenseList(dogId);
+		List<ExpenseResponse>expenseList = logic.createExpenseResList(dogId);
+		
 		model.addAttribute("expenseList", expenseList);
 		model.addAttribute("occurrenceTypeEnum", OccurrenceType.values());
 		model.addAttribute("expenseTypeEnum", ExpenseType.values());
@@ -49,6 +52,12 @@ public class ExpenseController {
 		return "expense";
 	}
 
+	/**
+	 * 登録(更新)
+	 * @param req ExpenseRequest
+	 * @param dogId Integer
+	 * @return expense
+	 */
 	@PostMapping("/expense/regist")
 	public String regist(ExpenseRequest req, Integer dogId) {
 		logic.regist(req, dogId, session.getLoginId());

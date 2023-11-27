@@ -56,10 +56,10 @@ public class DogDetailLogic {
 		res.setBirthday(CommonUtils.formatDate(dogEntity.getBirthday()));
 		res.setContractType(ContractType.of(purchaseEntity.getContractType()).getVal());
 		res.setContractDate(CommonUtils.formatDate(purchaseEntity.getContractDate()));
-		res.setPurchaseDate(CommonUtils.formatOptDate(purchaseEntity.getPurchaseDate()).orElse(null));
+		res.setPurchaseDate(CommonUtils.formatOptDate(purchaseEntity.getPurchaseDate(), "yyyy/MM/dd").orElse(null));
 		res.setContractYen(String.format("%,d", purchaseEntity.getContractYen()));
 		res.setPaymentExpectedDate(CommonUtils.formatDate(purchaseEntity.getPaymentExpectedDate()));
-		res.setPaymentDate(CommonUtils.formatOptDate(purchaseEntity.getPaymentDate()).orElse(null));
+		res.setPaymentDate(CommonUtils.formatOptDate(purchaseEntity.getPaymentDate(), "yyyy/MM/dd").orElse(null));
 		return res;
 	}
 
@@ -81,7 +81,7 @@ public class DogDetailLogic {
 			cashFlow.setCashFlowType(CashFlowType.of(entity.getCashFlowType()).getVal());
 			cashFlow.setPrice(String.format("%,d", entity.getPrice()));
 			cashFlow.setCashFlowDate(CommonUtils.formatDate(entity.getCashFlowDate()));
-			cashFlow.setCloseDate(CommonUtils.formatOptDate(entity.getCloseDate()).orElse(null));
+			cashFlow.setCloseDate(CommonUtils.formatOptDate(entity.getCloseDate(), "yyyy/MM/dd").orElse(null));
 			cashFlowList.add(cashFlow);
 		}
 		return cashFlowList;

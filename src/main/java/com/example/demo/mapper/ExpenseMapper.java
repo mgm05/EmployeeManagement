@@ -11,14 +11,21 @@ import com.example.demo.entity.dog.ExpenseEntity;
  */
 @Mapper
 public interface ExpenseMapper {
-    /** 医療金額経費登録.
-     * @param expenseEntity ExpenseEntity
-     * @return int */
-    int insert(ExpenseEntity expenseEntity);
-    
-    /** dogIdで経費情報取得.
-     * @param dogId Integer
-     * @return 経費情報
-     * */
-    List<ExpenseEntity> selectByDogId(Integer dogId);
+	/**
+	 * 医療金額経費登録.
+	 * 
+	 * @param expenseEntity ExpenseEntity
+	 * @return int
+	 */
+	int insert(ExpenseEntity expenseEntity);
+
+	/**
+	 * dogIdで経費情報取得.
+	 * 
+	 * @param dogId Integer
+	 * @return 経費情報
+	 */
+	List<ExpenseEntity> selectByDogId(Integer dogId);
+
+	int insertId(String createUserId) ;
 }

@@ -22,7 +22,9 @@
 			<table class="table">
 				<thead class="table-primary">
 					<tr>
-						<th>ID</th>
+						<th></th>
+						<th></th>
+						<th>ステータス</th>
 						<th>発生区分</th>
 						<th>入出金区分</th>
 						<th>種別</th>
@@ -30,49 +32,93 @@
 						<th>見積金額</th>
 						<th>確定金額</th>
 						<th>発生日</th>
-						<th>入荷日</th>
+						<th>仕入日</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td></td><!-- ID -->
-						<td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><!-- 発生区分 -->
 							<select name="occurrenceType">
 								<option th:each="occurrenceType :${occurrenceTypeEnum}"
 								th:value="${occurrenceType.code}" th:text="${occurrenceType.val}">
 								</option>
 							</select>
-						</td><!-- 発生区分 -->
-						<td>
+						</td>
+						<td><!-- 入出金区分 -->
 							<select name="cashFlowType">
 								<option th:each="cashFlowType :${cashFlowTypeEnum}"
 								th:value="${cashFlowType.code}" th:text="${cashFlowType.val}">
 								</option>
 							</select>
-						</td><!-- 入出金区分 -->
-						<td>
+						</td>
+						<td><!-- 経費種別 -->
 							<select name="expenseType">
 								<option th:each="expenseType :${expenseTypeEnum}"
-								th:value="${expenseType.code}" th:text="${expenseType.val}"></option>
-							</select></td><!-- 種別 -->
+									th:value="${expenseType.code}" th:text="${expenseType.val}"></option>
+							</select>
+						</td>
 						<td><input type="text" name="info"></td><!-- 内容 -->
 						<td><input type="text" name="quotationYen"></td><!-- 見積金額 -->
 						<td><input type="text" name="closeYen"></td><!-- 確定金額 -->
 						<td><input type="date" name="paymentDate"></td><!-- 発生日 -->
-						<td><input type="date" name="arrivalDate"></td><!-- 入荷日 -->
+						<td><input type="date" name="purchaseDate"></td><!-- 仕入日 -->
 					</tr>
 					<th:block th:each="expense :${expenseList}">
 						<tr>
 							<input type="hidden" name="dogId" th:value="${expense.dogId}">
-							<td><label th:text="${expense.expenseId}"></label></td><!-- ID -->
-							<td><label th:text="${expense.occurrenceType}"></label></td><!-- 発生区分 -->
-							<td><label th:text="${expense.cashFlowType}"></label></td><!-- 入出金区分 -->
-							<td><label th:text="${expense.expenseType}"></label></td><!-- 種別 -->
-							<td><label th:text="${expense.info}"></label></td><!-- 内容 -->
-							<td><label th:text="${expense.quotationYen}"></label></td><!-- 見積金額 -->
-							<td><label th:text="${expense.closeYen}"></label></td><!-- 確定金額 -->
-							<td><label th:text="${expense.paymentDate}"></label></td><!-- 発生日 -->
-							<td><label th:text="${expense.purchaseDate}"></label></td><!-- 仕入れ日 -->
+							<td><button>確定</button></td><!-- 確定 -->
+							<td><button>取消</button></td><!-- 取消 -->
+							<td><label ></label></td><!-- ステータス -->
+							<td><!-- 発生区分 -->
+								<label th:if="${expense.fixFlag} ==1" th:text="${expense.occurrenceType}"></label>
+								<select th:if="${expense.fixFlag} ==0" name="occurrenceType">
+									<option th:each="occurrenceType :${occurrenceTypeEnum}"
+										th:value="${occurrenceType.code}" th:text="${occurrenceType.val}"
+										th:selected="${expense.occurrenceType} == ${occurrenceType.code}">
+									</option>
+								</select>
+							</td>
+							<td><!-- 入出金区分 -->
+								<label  th:if="${expense.fixFlag} ==1" th:text="${expense.cashFlowType}"></label>
+								<select th:if="${expense.fixFlag} ==0"  name="cashFlowType">
+									<option th:each="cashFlowType :${cashFlowTypeEnum}"
+										th:value="${cashFlowType.code}" th:text="${cashFlowType.val}"
+										th:selected="${expense.cashFlowType} == ${cashFlowType.code}">
+									</option>
+								</select>
+							</td>
+							<td><!-- 経費種別 -->
+								<label th:if="${expense.fixFlag} ==1" th:text="${expense.expenseType}"></label>
+								<select th:if="${expense.fixFlag} ==0" name="expenseType">
+									<option th:each="expenseType :${expenseTypeEnum}"
+										th:value="${expenseType.code}" th:text="${expenseType.val}"
+										th:selected="${expense.expenseType} == ${expenseType.code}">
+									</option>
+								</select>
+							</td>
+							<td><!-- 内容 -->
+								<label th:if="${expense.fixFlag} ==1" th:text="${expense.info}"></label>
+								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.info}">
+							</td>
+							<td><!-- 見積金額 -->
+								<label th:if="${expense.fixFlag} ==1" th:text="'￥'+${expense.quotationYen}"></label>
+								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.quotationYen}">
+							</td>
+							<td><!-- 確定金額 -->
+								<label th:if="${expense.fixFlag} ==1" th:text="'￥'+${expense.closeYen}"></label>
+								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.closeYen}">
+							</td>
+							<td><!-- 発生日 -->
+								<label th:if="${expense.fixFlag} ==1" th:text="${expense.paymentDate}"></label>
+								<input th:if="${expense.fixFlag} ==0" type="date" th:value="${expense.paymentDate}">
+							</td>
+							<td><!-- 仕入日 -->
+								<label th:if="${expense.fixFlag} ==1" th:text="${expense.purchaseDate}"></label>
+								<input th:if="${expense.fixFlag} ==0" type="date" th:value="${expense.purchaseDate}">
+							</td>
 						</tr>
 					</th:block>
 				</tbody>
