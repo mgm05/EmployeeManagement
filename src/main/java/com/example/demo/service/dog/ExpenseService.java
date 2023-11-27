@@ -38,4 +38,11 @@ public class ExpenseService {
 	public List<ExpenseEntity> selectByDogId(Integer dogId) {
 		return expenseMapper.selectByDogId(dogId);
 	}
+
+	public void insertId(String loginId) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+	
+	
 }
