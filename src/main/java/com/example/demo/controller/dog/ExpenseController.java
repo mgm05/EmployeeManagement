@@ -59,8 +59,8 @@ public class ExpenseController {
 	 * @return expense
 	 */
 	@PostMapping("/expense/regist")
-	public String regist(ExpenseRequest req, Integer dogId) {
-		logic.regist(req, dogId, session.getLoginId());
+	public String regist(List<ExpenseRequest> expenseRequestList) {
+		//logic.regist(req,  session.getLoginId());
 		return "expense";
 	}
 }

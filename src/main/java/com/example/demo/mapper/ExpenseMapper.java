@@ -12,7 +12,7 @@ import com.example.demo.entity.dog.ExpenseEntity;
 @Mapper
 public interface ExpenseMapper {
 	/**
-	 * 医療金額経費登録.
+	 * 登録.
 	 * 
 	 * @param expenseEntity ExpenseEntity
 	 * @return int
@@ -27,5 +27,17 @@ public interface ExpenseMapper {
 	 */
 	List<ExpenseEntity> selectByDogId(Integer dogId);
 
-	int insertId(String createUserId) ;
+	/**
+	 * 経費ID,キャンセルフラグ,確定フラグ,登録日時,ユーザーのみ登録.
+	 * @param loginId ExpenseEntity
+	 * @return int 
+	 */
+	int insertId(String loginId) ;
+
+	/**
+	 * 更新.
+	 * @param expenseEntity ExpenseEntity
+	 * @return int
+	 */
+	int update(ExpenseEntity expenseEntity);
 }

@@ -39,4 +39,26 @@ public class CashFlowService {
 		return cashFlowMapper.selectByDogId(dogId);
 	}
 
+	/**
+	 * 入出金ID,キャンセルフラグ,登録日時,ユーザーのみ登録.
+	 * @param cashFlowEntity CashFlowEntity
+	 * @return int
+	 */
+	public int insertId(CashFlowEntity cashFlowEntity) {
+		return cashFlowMapper.insertId(cashFlowEntity);
+	}
+
+	/**
+	 * 更新.
+	 * @param cashFlowEntity CashFlowEntity
+	 * @return int
+	 */
+	public int update(CashFlowEntity cashFlowEntity) {
+		return cashFlowMapper.update(cashFlowEntity);
+	}
+
+	public Integer selectByExpenseId(Integer expenseId) {
+		return cashFlowMapper.selectByExpenseId(expenseId);
+	}
+
 }

@@ -85,11 +85,11 @@ public class PurchaseLogic {
 		int dogId = dogEntity.getDogId();
 
 		// 仕入れ登録
-		PurchaseEntity purchaseEntity = createPuchaseEntity(puchaseReq, userId, dogEntity.getDogId());
+		PurchaseEntity purchaseEntity = createPuchaseEntity(puchaseReq, userId, dogId);
 		purchaseService.insert(purchaseEntity);
 
 		// 仕入れ価格入出金登録
-		CashFlowEntity cashFlowEntity = createDogCashFlowEntity(puchaseReq, userId, dogEntity.getDogId());
+		CashFlowEntity cashFlowEntity = createDogCashFlowEntity(puchaseReq, userId, dogId);
 		cashFlowService.insert(cashFlowEntity);
 
 		// 医療費登録 経費、入出金

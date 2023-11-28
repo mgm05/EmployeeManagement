@@ -62,4 +62,26 @@
 		WHERE
 			dog_id = #{dogId}
 	</select>
+	<insert id="insertId" parameterType="com.example.demo.entity.dog.CashFlowEntity" useGeneratedKeys="true" keyProperty="expenseId">
+		INSERT 
+		INTO cash_flow(cancel_flag, create_datetime, create_user_id) 
+		VALUES (0, CURRENT_TIMESTAMP, #{createUserId})
+	</insert>
+	<update id="update" parameterType="com.example.demo.entity.dog.CashFlowEntity">
+		UPDATE cash_flow 
+		SET
+			dog_id = #{dogId}
+			, expense_id = #{expenseId}
+			, cash_flow_type = #{cashFlowType}
+			, price = #{price}
+			, cash_flow_date = #{cashFlowDate}
+			, close_date = #{closeDate}
+			, update_datetime = CURRENT_TIMESTAMP
+			, update_user_id = #{updateUserId} 
+		WHERE
+			expense_id = #{expenseId}
+	</update>
+	<select id="selectByExpenseId">
+		SELECT expense_id FROM cash_flow WHERE expense_id = #{expenseId}
+	</select>
 </mapper>
