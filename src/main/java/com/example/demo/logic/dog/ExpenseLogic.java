@@ -51,6 +51,7 @@ public class ExpenseLogic {
 		List<ExpenseResponse> expenseResList = new ArrayList<>();
 		for(ExpenseEntity expenseEntity:expenseEntityList) {
 			ExpenseResponse expenseRes = new ExpenseResponse();
+			expenseRes.setExpenseId(expenseEntity.getExpenseId());
 			expenseRes.setDogId(dogId);
 			expenseRes.setStatus(getStatus(expenseEntity.getFixFlag()));
 			expenseRes.setOccurrenceType(getOccurrenceType(expenseEntity));
@@ -152,27 +153,45 @@ public class ExpenseLogic {
 	/**
 	 * 登録(更新)
 	 * @param req
-	 * @param dogId
 	 * @param loginId
 	 */
-	public void regist(ExpenseRequest req, Integer dogId, String loginId) {
-		/*
-		 * ExpenseEntity expenseEntity = createExpenseEntity(req, loginId);
-		 * expenseService.insert(expenseEntity); CashFlowEntity cashFlowEntity =
-		 * createCashFlowEntity(req, loginId, expenseEntity.getExpenseId());
-		 * cashFlowService.insert(cashFlowEntity);
-		 */
+	public void regist(ExpenseRequest req, String loginId) {
+		//経費テーブル登録と更新
 		
-		expenseService.insertId(loginId);
+		if(req.getExpenseId() == null) {
+			expenseService.insertId(loginId);
+		}
+		ExpenseEntity expenseEntity = createExpenseEntity(req, loginId);
+		expenseService.update(expenseEntity);
+		
+		//入出金テーブル登録と更新
+		CashFlowEntity cashFlowEntity = createCashFlowEntity(req, loginId, expenseEntity.getExpenseId());
+		registUpdateCashFlow(cashFlowEntity);
 	}
+	
+	
+
+	/**
+	 * 入出金登録更新.
+	 * @param cashFlowEntity CashFlowEntity
+	 */
+	private void registUpdateCashFlow(CashFlowEntity cashFlowEntity) {
+		// 入出金テーブルに経費IDが登録されていなければ登録
+		Integer expenseId = cashFlowService.selectByExpenseId(cashFlowEntity.getExpenseId());
+		if(expenseId == null) {
+			cashFlowService.insertId(cashFlowEntity);
+		}
+		cashFlowService.update(cashFlowEntity);
+	}
+
 
 	/**
 	 * CashFlowEntity生成.
 	 * 
 	 * @param req       ExpenseRequest
 	 * @param loginId
+	 * @param expenseId 
 	 * @param dogId     Integer
-	 * @param expenseId Integer
 	 * @return entity
 	 */
 	private CashFlowEntity createCashFlowEntity(ExpenseRequest req, String loginId, Integer expenseId) {
@@ -197,6 +216,7 @@ public class ExpenseLogic {
 	 */
 	private ExpenseEntity createExpenseEntity(ExpenseRequest req, String loginId) {
 		ExpenseEntity entity = new ExpenseEntity();
+		entity.setExpenseId(req.getExpenseId());
 		entity.setDogId(req.getDogId());
 		entity.setOccurrenceType(req.getOccurrenceType());
 		entity.setCashFlowType(req.getCashFlowType());

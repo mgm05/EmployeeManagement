@@ -81,8 +81,34 @@
 		WHERE
 			dog_id = #{dogId}
 	</select>
-	<insert id="insertId" useGeneratedKeys="true" keyProperty="expenseId">
-		INTO expense(cancel_flag, create_datetime, create_user_id) 
-		VALUES (0, CURRENT_TIMESTAMP, #{createUserId})
+	<insert id="insertId" parameterType="com.example.demo.entity.dog.ExpenseEntity" useGeneratedKeys="true" keyProperty="expenseId">
+		INSERT 
+		INTO expense( 
+			cancel_flag
+			, fix_flag
+			, create_datetime
+			, create_user_id
+		) 
+		VALUES (0, 0, CURRENT_TIMESTAMP, #{createUserId})
 	</insert>
+	<update id="update" parameterType="com.example.demo.entity.dog.ExpenseEntity">
+		UPDATE expense 
+		SET
+			dog_id = #{dogId}
+			, occurrence_type = #{occurrenceType}
+			, cash_flow_type = #{cashFlowType}
+			, expense_type = #{expenseType}
+			, info = #{info}
+			, quotation_yen = #{quotationYen}
+			, close_yen = #{closeYen}
+			, payment_date = #{paymentDate}
+			, purchase_date = #{purchaseDate}
+			<if test="fixFlag != null">
+				fix_flag = #{fixFlag}
+			</if>
+			, update_datetime = CURRENT_TIMESTAMP
+			, update_user_id = #{updateUserId} 
+		WHERE
+			expense_id = #{expenseId}
+	</update>
 </mapper>

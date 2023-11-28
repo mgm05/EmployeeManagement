@@ -7,6 +7,8 @@ import lombok.Data;
  */
 @Data
 public class ExpenseRequest {
+	/** 経費ID. */
+	private Integer expenseId;
 	/** 犬ID. */
 	private Integer dogId;
 	/** 発生区分. */

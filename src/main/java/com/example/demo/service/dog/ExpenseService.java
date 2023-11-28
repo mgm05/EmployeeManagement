@@ -20,10 +20,10 @@ public class ExpenseService {
 	ExpenseMapper expenseMapper;
 
 	/**
-	 * 医療金額経費登録.
+	 * 登録.
 	 * 
 	 * @param expenseEntity ExpenseEntity
-	 * @return expenseMapper.insertMedicalYen(ExpenseEntity)
+	 * @return expenseMapper.insert(ExpenseEntity)
 	 */
 	public int insert(ExpenseEntity expenseEntity) {
 		return expenseMapper.insert(expenseEntity);
@@ -39,10 +39,21 @@ public class ExpenseService {
 		return expenseMapper.selectByDogId(dogId);
 	}
 
-	public void insertId(String loginId) {
-		// TODO 自動生成されたメソッド・スタブ
-		
+	/**
+	 * 経費ID,キャンセルフラグ,確定フラグ,登録日時,ユーザーのみ登録.
+	 * @param loginId ExpenseEntity
+	 * @return int
+	 */
+	public int insertId(String loginId) {
+		return expenseMapper.insertId(loginId);
 	}
-	
-	
+
+	/**
+	 * 更新.
+	 * @param expenseEntity ExpenseEntity
+	 * @return int
+	 */
+	public int update(ExpenseEntity expenseEntity) {
+		return expenseMapper.update(expenseEntity);
+	}
 }

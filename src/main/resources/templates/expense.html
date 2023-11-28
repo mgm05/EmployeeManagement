@@ -18,7 +18,7 @@
 			<div th:replace="~{common/backButton :: backButton_fragment}"></div>
 			<button class="btn btn-outline-secondary btn-sm">追加</button>
 		</div>
-		<form action="/expense/regist" method="post">
+<!--		/////////////////////-->
 			<table class="table">
 				<thead class="table-primary">
 					<tr>
@@ -66,15 +66,18 @@
 						<td><input type="date" name="paymentDate"></td><!-- 発生日 -->
 						<td><input type="date" name="purchaseDate"></td><!-- 仕入日 -->
 					</tr>
-					<th:block th:each="expense :${expenseList}">
+					<!--	経費リスト-->
+					<form action="/expense/regist" method="post">
+					<th:block th:each="expense,stat :${expenseList}">
 						<tr>
-							<input type="hidden" name="dogId" th:value="${expense.dogId}">
+							<input type="hidden" th:name="|expenseRequestList[${stat.index}][dogId]|" th:value="${expense.dogId}">
+							<input type="hidden" th:name="|expenseRequestList[${stat.index}][expenseId]|" th:value="${expense.expenseId}">
 							<td><button>確定</button></td><!-- 確定 -->
 							<td><button>取消</button></td><!-- 取消 -->
-							<td><label ></label></td><!-- ステータス -->
+							<td><label th:text="${expense.status}"></label></td><!-- ステータス -->
 							<td><!-- 発生区分 -->
 								<label th:if="${expense.fixFlag} ==1" th:text="${expense.occurrenceType}"></label>
-								<select th:if="${expense.fixFlag} ==0" name="occurrenceType">
+								<select th:if="${expense.fixFlag} ==0" th:name="|expenseRequestList[${stat.index}][occurrenceType]|">
 									<option th:each="occurrenceType :${occurrenceTypeEnum}"
 										th:value="${occurrenceType.code}" th:text="${occurrenceType.val}"
 										th:selected="${expense.occurrenceType} == ${occurrenceType.code}">
@@ -83,7 +86,7 @@
 							</td>
 							<td><!-- 入出金区分 -->
 								<label  th:if="${expense.fixFlag} ==1" th:text="${expense.cashFlowType}"></label>
-								<select th:if="${expense.fixFlag} ==0"  name="cashFlowType">
+								<select th:if="${expense.fixFlag} ==0"  th:name="|expenseRequestList[${stat.index}][cashFlowType]|">
 									<option th:each="cashFlowType :${cashFlowTypeEnum}"
 										th:value="${cashFlowType.code}" th:text="${cashFlowType.val}"
 										th:selected="${expense.cashFlowType} == ${cashFlowType.code}">
@@ -92,7 +95,7 @@
 							</td>
 							<td><!-- 経費種別 -->
 								<label th:if="${expense.fixFlag} ==1" th:text="${expense.expenseType}"></label>
-								<select th:if="${expense.fixFlag} ==0" name="expenseType">
+								<select th:if="${expense.fixFlag} ==0" th:name="|expenseRequestList[${stat.index}][expenseType]|">
 									<option th:each="expenseType :${expenseTypeEnum}"
 										th:value="${expenseType.code}" th:text="${expenseType.val}"
 										th:selected="${expense.expenseType} == ${expenseType.code}">
@@ -101,23 +104,28 @@
 							</td>
 							<td><!-- 内容 -->
 								<label th:if="${expense.fixFlag} ==1" th:text="${expense.info}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.info}">
+								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.info}" 
+									th:name="|expenseRequestList[${stat.index}][info]|">
 							</td>
 							<td><!-- 見積金額 -->
 								<label th:if="${expense.fixFlag} ==1" th:text="'￥'+${expense.quotationYen}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.quotationYen}">
+								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.quotationYen}" 
+									th:name="|expenseRequestList[${stat.index}][quotationYen]|">
 							</td>
 							<td><!-- 確定金額 -->
 								<label th:if="${expense.fixFlag} ==1" th:text="'￥'+${expense.closeYen}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.closeYen}">
+								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.closeYen}" 
+									th:name="|expenseRequestList[${stat.index}][closeYen]|">
 							</td>
 							<td><!-- 発生日 -->
 								<label th:if="${expense.fixFlag} ==1" th:text="${expense.paymentDate}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="date" th:value="${expense.paymentDate}">
+								<input th:if="${expense.fixFlag} ==0" type="date" th:value="${expense.paymentDate}" 
+									th:name="|expenseRequestList[${stat.index}][paymentDate]|">
 							</td>
 							<td><!-- 仕入日 -->
 								<label th:if="${expense.fixFlag} ==1" th:text="${expense.purchaseDate}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="date" th:value="${expense.purchaseDate}">
+								<input th:if="${expense.fixFlag} ==0" type="date" th:value="${expense.purchaseDate}" 
+									th:name="|expenseRequestList[${stat.index}][purchaseDate]|">
 							</td>
 						</tr>
 					</th:block>
