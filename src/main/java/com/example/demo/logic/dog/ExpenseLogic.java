@@ -11,6 +11,7 @@ import com.example.demo.CommonUtils;
 import com.example.demo.constEnum.CashFlowType;
 import com.example.demo.constEnum.ExpenseType;
 import com.example.demo.constEnum.OccurrenceType;
+import com.example.demo.dto.dog.ExpenseForm;
 import com.example.demo.dto.dog.ExpenseRequest;
 import com.example.demo.dto.dog.ExpenseResponse;
 import com.example.demo.entity.dog.CashFlowEntity;
@@ -29,17 +30,6 @@ public class ExpenseLogic {
 	/** 入出金サービス. */
 	@Autowired
 	private CashFlowService cashFlowService;
-
-	/**
-	 * 経費リスト取得.
-	 * 
-	 * @param dogId Integer
-	 * @return 経費リスト
-	 */
-	public List<ExpenseEntity> createExpenseList(Integer dogId) {
-		return expenseService.selectByDogId(dogId);
-	}
-	
 	
 	/**
 	 * 経費リスト取得.
@@ -81,7 +71,6 @@ public class ExpenseLogic {
 		return CommonUtils.formatOptDate(expenseEntity.getPurchaseDate(), "yyyy-MM-dd").orElse(null);
 	}
 
-
 	/**
 	 * 	発生日取得.
 	 * 確定フラグオンでyyyy/MM/dd、オフでyyyy-MM-dd形式.
@@ -94,7 +83,6 @@ public class ExpenseLogic {
 		}
 		return CommonUtils.formatOptDate(expenseEntity.getPaymentDate(), "yyyy-MM-dd").orElseThrow();
 	}
-
 
 	/**
 	 * 経費種別取得.
@@ -122,7 +110,6 @@ public class ExpenseLogic {
 		return expenseEntity.getCashFlowType();
 	}
 
-
 	/**
 	 * 発生区分取得.
 	 * 確定フラグオンで発生区分名、オフで発生区分コード.
@@ -136,7 +123,6 @@ public class ExpenseLogic {
 		return expenseEntity.getOccurrenceType();
 	}
 
-
 	/**
 	 * ステータス取得.
 	 * @param fixFlag String
@@ -148,28 +134,22 @@ public class ExpenseLogic {
 		}
 		return "未確定";
 	}
-
-
-	/**
-	 * 登録(更新)
-	 * @param req
-	 * @param loginId
-	 */
-	public void regist(ExpenseRequest req, String loginId) {
-		//経費テーブル登録と更新
-		
-		if(req.getExpenseId() == null) {
-			expenseService.insertId(loginId);
+	
+	public void regist(ExpenseForm expenseForm, String loginId) {
+		List<ExpenseRequest> expenseRequestList =  expenseForm.getExpenseRequestList();
+		for(ExpenseRequest req:expenseRequestList) {
+			//経費テーブル登録と更新
+			if(req.getExpenseId() == null) { //経費IDがなければ登録
+				expenseService.insertId(loginId);
+			}
+			ExpenseEntity expenseEntity = createExpenseEntity(req, loginId);
+			expenseService.update(expenseEntity);
+			
+			//入出金テーブル登録と更新
+			CashFlowEntity cashFlowEntity = createCashFlowEntity(req, loginId, expenseEntity.getExpenseId());
+			registUpdateCashFlow(cashFlowEntity);
 		}
-		ExpenseEntity expenseEntity = createExpenseEntity(req, loginId);
-		expenseService.update(expenseEntity);
-		
-		//入出金テーブル登録と更新
-		CashFlowEntity cashFlowEntity = createCashFlowEntity(req, loginId, expenseEntity.getExpenseId());
-		registUpdateCashFlow(cashFlowEntity);
 	}
-	
-	
 
 	/**
 	 * 入出金登録更新.
@@ -179,7 +159,7 @@ public class ExpenseLogic {
 		// 入出金テーブルに経費IDが登録されていなければ登録
 		Integer expenseId = cashFlowService.selectByExpenseId(cashFlowEntity.getExpenseId());
 		if(expenseId == null) {
-			cashFlowService.insertId(cashFlowEntity);
+			//cashFlowService.insertId(cashFlowEntity);
 		}
 		cashFlowService.update(cashFlowEntity);
 	}
@@ -196,13 +176,17 @@ public class ExpenseLogic {
 	 */
 	private CashFlowEntity createCashFlowEntity(ExpenseRequest req, String loginId, Integer expenseId) {
 		CashFlowEntity entity = new CashFlowEntity();
-		entity.setDogId(req.getDogId());
-		entity.setExpenseId(expenseId);
-		entity.setCashFlowType(req.getCashFlowType());
-		entity.setPrice(req.getQuotationYen());
-		entity.setCashFlowDate(CommonUtils.parseHyphenDate(req.getPaymentDate()).orElseThrow());
-		entity.setCreateUserId(loginId);
-		entity.setUpdateUserId(loginId);
+		//確定フラグがオフのデータのみセット。(オフのみ更新のため)
+		if(req.getFixFlag() == "0") {
+			entity.setDogId(req.getDogId());
+			entity.setExpenseId(expenseId);
+			entity.setCashFlowType(req.getCashFlowType());
+			entity.setPrice(req.getQuotationYen());
+			entity.setCashFlowDate(CommonUtils.parseHyphenDate(req.getPaymentDate()).orElseThrow());
+			entity.setCreateUserId(loginId);
+			entity.setUpdateUserId(loginId);
+			return entity;
+		}
 		return entity;
 	}
 
@@ -216,18 +200,36 @@ public class ExpenseLogic {
 	 */
 	private ExpenseEntity createExpenseEntity(ExpenseRequest req, String loginId) {
 		ExpenseEntity entity = new ExpenseEntity();
-		entity.setExpenseId(req.getExpenseId());
-		entity.setDogId(req.getDogId());
-		entity.setOccurrenceType(req.getOccurrenceType());
-		entity.setCashFlowType(req.getCashFlowType());
-		entity.setExpenseType(req.getExpenseType());
-		entity.setInfo(req.getInfo());
-		entity.setQuotationYen(req.getQuotationYen());
-		entity.setCloseYen(req.getCloseYen());
-		entity.setPaymentDate(CommonUtils.parseHyphenDate(req.getPaymentDate()).orElseThrow());
-		entity.setPurchaseDate(CommonUtils.parseHyphenDate(req.getPurchaseDate()).orElse(null));
-		entity.setCreateUserId(loginId);
-		entity.setUpdateUserId(loginId);
+		//確定フラグがオフのデータのみセット。(オフのみ更新のため)
+		if(req.getFixFlag() == "0") {
+			entity.setExpenseId(req.getExpenseId());
+			entity.setDogId(req.getDogId());
+			entity.setOccurrenceType(req.getOccurrenceType());
+			entity.setCashFlowType(req.getCashFlowType());
+			entity.setExpenseType(req.getExpenseType());
+			entity.setInfo(req.getInfo());
+			entity.setQuotationYen(req.getQuotationYen());
+			entity.setCloseYen(req.getCloseYen());
+			entity.setPaymentDate(CommonUtils.parseHyphenDate(req.getPaymentDate()).orElseThrow());
+			entity.setPurchaseDate(CommonUtils.parseHyphenDate(req.getPurchaseDate()).orElse(null));
+			entity.setCreateUserId(loginId);
+			entity.setUpdateUserId(loginId);
+			return entity;
+		}
 		return entity;
+	}
+
+	/**
+	 * 犬ID取得.
+	 * @param expenseForm ExpenseForm
+	 * @return dogId
+	 */
+	public Integer getDogId(ExpenseForm expenseForm) {
+		List<ExpenseRequest> expenseRequestList =  expenseForm.getExpenseRequestList();
+		Integer dogId = null;
+		for(ExpenseRequest req:expenseRequestList) {
+			dogId = req.getDogId();
+		}
+		return dogId;
 	}
 }

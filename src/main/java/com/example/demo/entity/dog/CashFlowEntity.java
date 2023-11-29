@@ -28,6 +28,8 @@ public class CashFlowEntity {
 	private String note;
 	/** 金額. */
 	private Integer price;
+	/** 確定フラグ. */
+	private String fixFlag;
 	/** キャンセルフラグ. */
 	private String cancelFlag;
 	/** 発生日. */
