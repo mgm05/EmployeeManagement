@@ -27,4 +27,6 @@ public class ExpenseRequest {
 	private String paymentDate;
 	/** 仕入日. */
 	private String purchaseDate;
+	/** 確定フラグ. */
+	private String fixFlag;
 }

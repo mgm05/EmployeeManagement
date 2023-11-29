@@ -2,15 +2,18 @@ package com.example.demo.controller.dog;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constEnum.CashFlowType;
 import com.example.demo.constEnum.ExpenseType;
 import com.example.demo.constEnum.OccurrenceType;
+import com.example.demo.dto.dog.ExpenseForm;
 import com.example.demo.dto.dog.ExpenseRequest;
 import com.example.demo.dto.dog.ExpenseResponse;
 import com.example.demo.entity.dog.ExpenseEntity;
@@ -42,7 +45,7 @@ public class ExpenseController {
 		if (session.getLoginId() == null) {
 			return "redirect:/login";
 		}
-		//List<ExpenseEntity> expenseList = logic.createExpenseList(dogId);
+		
 		List<ExpenseResponse>expenseList = logic.createExpenseResList(dogId);
 		
 		model.addAttribute("expenseList", expenseList);
@@ -53,14 +56,17 @@ public class ExpenseController {
 	}
 
 	/**
-	 * 登録(更新)
+	 * 登録(更新).
 	 * @param req ExpenseRequest
 	 * @param dogId Integer
 	 * @return expense
 	 */
 	@PostMapping("/expense/regist")
-	public String regist(List<ExpenseRequest> expenseRequestList) {
-		//logic.regist(req,  session.getLoginId());
-		return "expense";
+	public String regist(ExpenseForm expenseForm) {
+		//登録(更新)
+		logic.regist(expenseForm,  session.getLoginId());
+		//dogId取得
+		Integer dogId =  logic.getDogId(expenseForm);
+		return "redirect:/expense" + "?dogId=" +dogId;
 	}
 }

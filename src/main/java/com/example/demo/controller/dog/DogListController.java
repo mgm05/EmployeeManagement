@@ -43,11 +43,11 @@ public class DogListController {
 		if (session.getLoginId() == null) {
 			return "redirect:/login";
 		}
-		List<DogListResponse> dogInfoList = logic.createDogList(req);
+		List<DogListResponse> dogList = logic.createDogList(req);
 		List<DogGroup> dogGroupList = logic.createDogGroupList();
 		List<DogType> dogTypeList = logic.createDogTypeList(req.getDogGroup());
 		model.addAttribute("req", req);
-		model.addAttribute("dogList", dogInfoList);
+		model.addAttribute("dogList", dogList);
 		model.addAttribute("dogGroupList", dogGroupList);
 		model.addAttribute("dogTypeList", dogTypeList);
 		model.addAttribute("sexEnum", DogSex.values());
