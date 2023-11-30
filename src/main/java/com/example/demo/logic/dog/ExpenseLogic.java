@@ -159,7 +159,8 @@ public class ExpenseLogic {
 		// 入出金テーブルに経費IDが登録されていなければ登録
 		Integer expenseId = cashFlowService.selectByExpenseId(cashFlowEntity.getExpenseId());
 		if(expenseId == null) {
-			//cashFlowService.insertId(cashFlowEntity);
+			cashFlowService.insertId(cashFlowEntity);
+			System.out.println("aaa");
 		}
 		cashFlowService.update(cashFlowEntity);
 	}
@@ -177,7 +178,7 @@ public class ExpenseLogic {
 	private CashFlowEntity createCashFlowEntity(ExpenseRequest req, String loginId, Integer expenseId) {
 		CashFlowEntity entity = new CashFlowEntity();
 		//確定フラグがオフのデータのみセット。(オフのみ更新のため)
-		if(req.getFixFlag() == "0") {
+		if("0".equals(req.getFixFlag())) {
 			entity.setDogId(req.getDogId());
 			entity.setExpenseId(expenseId);
 			entity.setCashFlowType(req.getCashFlowType());
@@ -201,7 +202,7 @@ public class ExpenseLogic {
 	private ExpenseEntity createExpenseEntity(ExpenseRequest req, String loginId) {
 		ExpenseEntity entity = new ExpenseEntity();
 		//確定フラグがオフのデータのみセット。(オフのみ更新のため)
-		if(req.getFixFlag() == "0") {
+		if("0".equals(req.getFixFlag())) {
 			entity.setExpenseId(req.getExpenseId());
 			entity.setDogId(req.getDogId());
 			entity.setOccurrenceType(req.getOccurrenceType());
