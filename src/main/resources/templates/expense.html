@@ -9,6 +9,23 @@
 	<title>経費情報</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
+		var teplateInt = 100;
+		function addTemplate(){
+			let cloneDom = $('#expenseTemplate').clone();
+			var templateNameDoms = cloneDom.find('[name="expenseRequestList"]');
+			
+			
+			templateNameDoms.each(function(){
+				var templateNameDom =  $(this);
+				var nameStr = templateNameDom.attr('name');
+				nameStr = nameStr.replace('template1',teplateInt);
+				templateNameDom.attr("name", nameStr);
+			});
+			 $(cloneDom).removeAttr('id');
+			teplateInt+=1;
+			//入力フォームを追加
+			$("#expenseTemplate").after(cloneDom);
+		}
 	</script>
 </head>
 <body>
@@ -16,7 +33,7 @@
 		<h1 style="margin-bottom: 20px; text-align: center;">経費情報</h1>
 		<div style="text-align: right; margin: 10px;">
 			<div th:replace="~{common/backButton :: backButton_fragment}"></div>
-			<button class="btn btn-outline-secondary btn-sm">追加</button>
+			<button class="btn btn-outline-secondary btn-sm" onclick="addTemplate()">追加</button>
 		</div>
 <!--		/////////////////////-->
 			<table class="table">
@@ -36,35 +53,35 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<tr id="expenseTemplate">
 						<td></td>
 						<td></td>
 						<td></td>
 						<td><!-- 発生区分 -->
-							<select name="occurrenceType">
+							<select th:name="|expenseRequestList[template1].occurrenceType|">
 								<option th:each="occurrenceType :${occurrenceTypeEnum}"
 								th:value="${occurrenceType.code}" th:text="${occurrenceType.val}">
 								</option>
 							</select>
 						</td>
 						<td><!-- 入出金区分 -->
-							<select name="cashFlowType">
+							<select th:name="|expenseRequestList[template1].cashFlowType|">
 								<option th:each="cashFlowType :${cashFlowTypeEnum}"
 								th:value="${cashFlowType.code}" th:text="${cashFlowType.val}">
 								</option>
 							</select>
 						</td>
 						<td><!-- 経費種別 -->
-							<select name="expenseType">
+							<select th:name="|expenseRequestList[template1].expenseType|">
 								<option th:each="expenseType :${expenseTypeEnum}"
 									th:value="${expenseType.code}" th:text="${expenseType.val}"></option>
 							</select>
 						</td>
-						<td><input type="text" name="info"></td><!-- 内容 -->
-						<td><input type="text" name="quotationYen"></td><!-- 見積金額 -->
-						<td><input type="text" name="closeYen"></td><!-- 確定金額 -->
-						<td><input type="date" name="paymentDate"></td><!-- 発生日 -->
-						<td><input type="date" name="purchaseDate"></td><!-- 仕入日 -->
+						<td><input type="text" th:name="|expenseRequestList[template1].info|"></td><!-- 内容 -->
+						<td><input type="text" th:name="|expenseRequestList[template1].quotationYen|"></td><!-- 見積金額 -->
+						<td><input type="text" th:name="|expenseRequestList[template1].closeYen|"></td><!-- 確定金額 -->
+						<td><input type="date" th:name="|expenseRequestList[template1].paymentDate|"></td><!-- 発生日 -->
+						<td><input type="date" th:name="|expenseRequestList[template1].purchaseDate|"></td><!-- 仕入日 -->
 					</tr>
 					<!--	経費リスト-->
 					<form action="/expense/regist" method="post">
@@ -72,6 +89,7 @@
 						<tr>
 							<input type="hidden" th:name="|expenseRequestList[${stat.index}].dogId|" th:value="${expense.dogId}">
 							<input type="hidden" th:name="|expenseRequestList[${stat.index}].expenseId|" th:value="${expense.expenseId}">
+							<input type="hidden" th:name="|expenseRequestList[${stat.index}].fixFlag|" th:value="${expense.fixFlag}">
 							<td><button>確定</button></td><!-- 確定 -->
 							<td><button>取消</button></td><!-- 取消 -->
 							<td><label th:text="${expense.status}"></label></td><!-- ステータス -->
