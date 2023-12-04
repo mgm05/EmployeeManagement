@@ -71,7 +71,6 @@
 		UPDATE cash_flow 
 		SET
 			dog_id = #{dogId}
-			, expense_id = #{expenseId}
 			, cash_flow_type = #{cashFlowType}
 			, price = #{price}
 			, cash_flow_date = #{cashFlowDate}
