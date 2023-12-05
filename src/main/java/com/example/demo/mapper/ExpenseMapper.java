@@ -29,10 +29,10 @@ public interface ExpenseMapper {
 
 	/**
 	 * 経費ID,キャンセルフラグ,確定フラグ,登録日時,ユーザーのみ登録.
-	 * @param loginId ExpenseEntity
+	 * @param expenseEntity ExpenseEntity
 	 * @return int 
 	 */
-	int insertId(String loginId) ;
+	int insertId(ExpenseEntity expenseEntity) ;
 
 	/**
 	 * 更新.

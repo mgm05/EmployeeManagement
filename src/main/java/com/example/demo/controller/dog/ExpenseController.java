@@ -49,6 +49,7 @@ public class ExpenseController {
 		
 		List<ExpenseResponse>expenseList = logic.createExpenseResList(dogId);
 		
+		model.addAttribute("dogId", dogId);
 		model.addAttribute("expenseList", expenseList);
 		model.addAttribute("occurrenceTypeEnum", OccurrenceType.values());
 		model.addAttribute("expenseTypeEnum", ExpenseType.values());

@@ -62,10 +62,10 @@
 		WHERE
 			dog_id = #{dogId}
 	</select>
-	<insert id="insertId" parameterType="com.example.demo.entity.dog.CashFlowEntity" useGeneratedKeys="true" keyProperty="expenseId">
+	<insert id="insertId" parameterType="com.example.demo.entity.dog.CashFlowEntity" useGeneratedKeys="true" keyProperty="cashFlowId">
 		INSERT 
-		INTO cash_flow(cancel_flag, create_datetime, create_user_id) 
-		VALUES (0, CURRENT_TIMESTAMP, #{createUserId})
+		INTO cash_flow(expense_id, fix_flag, cancel_flag, create_datetime, create_user_id) 
+		VALUES (#{expenseId}, 0, 0, CURRENT_TIMESTAMP, #{createUserId})
 	</insert>
 	<update id="update" parameterType="com.example.demo.entity.dog.CashFlowEntity">
 		UPDATE cash_flow 

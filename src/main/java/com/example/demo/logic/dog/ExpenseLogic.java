@@ -42,6 +42,7 @@ public class ExpenseLogic {
 		for(ExpenseEntity expenseEntity:expenseEntityList) {
 			ExpenseResponse expenseRes = new ExpenseResponse();
 			expenseRes.setExpenseId(expenseEntity.getExpenseId());
+			//dogID	消す？
 			expenseRes.setDogId(dogId);
 			expenseRes.setStatus(getStatus(expenseEntity.getFixFlag()));
 			expenseRes.setOccurrenceType(getOccurrenceType(expenseEntity));
@@ -135,20 +136,43 @@ public class ExpenseLogic {
 		return "未確定";
 	}
 	
+	/**
+	 * 登録・更新.
+	 * @param dogId Integer
+	 * @param expenseForm ExpenseForm
+	 * @param loginId String
+	 */
 	public void regist(Integer dogId, ExpenseForm expenseForm, String loginId) {
 		List<ExpenseRequest> expenseRequestList =  expenseForm.getExpenseRequestList();
+		boolean flg = true;
 		for(ExpenseRequest req:expenseRequestList) {
-			//経費テーブル登録と更新
-			if(req.getExpenseId() == null) { //経費IDがなければ登録
-				expenseService.insertId(loginId);
+			//ループ1回目はテンプレートのため無視
+			if(flg) {
+				flg = false;
+				continue;
 			}
-			ExpenseEntity expenseEntity = createExpenseEntity(dogId, req, loginId);
-			expenseService.update(expenseEntity);
 			
+			ExpenseEntity expenseEntity = createExpenseEntity(dogId, req, loginId);
+			//経費テーブル登録と更新
+			registUpdateExpense(expenseEntity);
+			
+			CashFlowEntity cashFlowEntity = createCashFlowEntity(dogId, req, loginId, expenseEntity.getExpenseId());
 			//入出金テーブル登録と更新
-			CashFlowEntity cashFlowEntity = createCashFlowEntity(dogId, req, loginId, req.getExpenseId());
 			registUpdateCashFlow(cashFlowEntity);
+			
 		}
+	}
+
+	/**
+	 * 経費登録更新.
+	 * @param expenseEntity ExpenseEntity
+	 */
+	private void registUpdateExpense(ExpenseEntity expenseEntity) {
+		if(expenseEntity.getExpenseId() == null) { //経費IDがなければ登録
+			expenseService.insertId(expenseEntity);
+		}
+		expenseService.update(expenseEntity);
+		
 	}
 
 	/**
@@ -160,7 +184,6 @@ public class ExpenseLogic {
 		Integer expenseId = cashFlowService.selectByExpenseId(cashFlowEntity.getExpenseId());
 		if(expenseId == null) {
 			cashFlowService.insertId(cashFlowEntity);
-			System.out.println("aaa");
 		}
 		cashFlowService.update(cashFlowEntity);
 	}
@@ -203,9 +226,9 @@ public class ExpenseLogic {
 	 */
 	private ExpenseEntity createExpenseEntity(Integer dogId, ExpenseRequest req, String loginId) {
 		ExpenseEntity entity = new ExpenseEntity();
+		entity.setExpenseId(req.getExpenseId());
 		//確定フラグがオフのデータのみセット。(オフのみ更新のため)
 		if("0".equals(req.getFixFlag())) {
-			entity.setExpenseId(req.getExpenseId());
 			entity.setDogId(dogId);
 			entity.setOccurrenceType(req.getOccurrenceType());
 			entity.setCashFlowType(req.getCashFlowType());
