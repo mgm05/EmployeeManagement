@@ -41,6 +41,7 @@
 			, close_yen
 			, payment_date
 			, purchase_date
+			, fix_flag
 			, cancel_flag
 			, create_datetime
 			, create_user_id
@@ -56,6 +57,7 @@
 			, #{closeYen}
 			, #{paymentDate}
 			, #{purchaseDate}
+			, 0
 			, 0
 			, CURRENT_TIMESTAMP
 			, #{createUserId}

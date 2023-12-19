@@ -41,11 +41,11 @@ public class ExpenseService {
 
 	/**
 	 * 経費ID,キャンセルフラグ,確定フラグ,登録日時,ユーザーのみ登録.
-	 * @param loginId ExpenseEntity
+	 * @param expenseEntity ExpenseEntity
 	 * @return int
 	 */
-	public int insertId(String loginId) {
-		return expenseMapper.insertId(loginId);
+	public int insertId(ExpenseEntity expenseEntity) {
+		return expenseMapper.insertId(expenseEntity);
 	}
 
 	/**
