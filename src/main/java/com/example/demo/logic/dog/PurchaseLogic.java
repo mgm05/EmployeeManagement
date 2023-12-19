@@ -111,8 +111,6 @@ public class PurchaseLogic {
 					userId, dogId, expenseEntity.getExpenseId());
 			cashFlowService.insert(expenseCashFlowEntity);
 		}
-
-		System.out.println("a");
 	}
 
 	/**
@@ -231,8 +229,6 @@ public class PurchaseLogic {
 			String expenseType) {
 		ExpenseEntity entity = new ExpenseEntity();
 		entity.setDogId(dogId);
-		// entity.setCreateStoreCode();
-		// entity.setCreateStoreName();
 		entity.setOccurrenceType(OccurrenceType.PURCHASE.getCode());
 		entity.setCashFlowType(CashFlowType.WITHDRAW.getCode());
 		entity.setExpenseType(expenseType);

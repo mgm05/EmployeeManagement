@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,7 @@ import com.example.demo.session.SessionUser;
 /**
  * 経費コントローラー.
  */
+
 @Controller
 public class ExpenseController {
 	/** セッション. */
@@ -35,25 +38,29 @@ public class ExpenseController {
 
 	/**
 	 * 経費初期表示.
+	 * @param expenseForm 
 	 * 
 	 * @param dogId String
 	 * @param model Model
 	 * @return dogList
 	 */
 	@GetMapping("/expense")
-	public String index(Integer dogId, Model model) {
+	public String index(ExpenseForm expenseForm, Integer dogId, Model model) {
 		// セッションが切れていたらログイン画面へ遷移
 		if (session.getLoginId() == null) {
 			return "redirect:/login";
 		}
+
 		
-		List<ExpenseResponse>expenseList = logic.createExpenseResList(dogId);
+		List<ExpenseResponse>expenseResponseList = logic.createExpenseResList(dogId);
+		
 		
 		model.addAttribute("dogId", dogId);
-		model.addAttribute("expenseList", expenseList);
+		model.addAttribute("expenseList", expenseResponseList);
 		model.addAttribute("occurrenceTypeEnum", OccurrenceType.values());
 		model.addAttribute("expenseTypeEnum", ExpenseType.values());
 		model.addAttribute("cashFlowTypeEnum", CashFlowType.values());
+		model.addAttribute("expenseForm", expenseForm);
 		return "expense";
 	}
 
@@ -64,7 +71,10 @@ public class ExpenseController {
 	 * @return expense
 	 */
 	@PostMapping("/expense/regist")
-	public String regist(ExpenseForm expenseForm, @RequestParam Integer dogId) {
+	public String regist(@Validated  ExpenseForm expenseForm, BindingResult result, @RequestParam Integer dogId, Model model) {
+		if(result.hasErrors()) {
+			return index(expenseForm, dogId, model);
+		}
 		//登録(更新)
 		logic.regist(dogId, expenseForm,  session.getLoginId());
 		return "redirect:/expense" + "?dogId=" +dogId;

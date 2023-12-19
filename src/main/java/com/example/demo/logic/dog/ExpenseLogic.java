@@ -42,8 +42,6 @@ public class ExpenseLogic {
 		for(ExpenseEntity expenseEntity:expenseEntityList) {
 			ExpenseResponse expenseRes = new ExpenseResponse();
 			expenseRes.setExpenseId(expenseEntity.getExpenseId());
-			//dogID	消す？
-			expenseRes.setDogId(dogId);
 			expenseRes.setStatus(getStatus(expenseEntity.getFixFlag()));
 			expenseRes.setOccurrenceType(getOccurrenceType(expenseEntity));
 			expenseRes.setCashFlowType(getCashFlowType(expenseEntity));
@@ -243,5 +241,20 @@ public class ExpenseLogic {
 			return entity;
 		}
 		return entity;
+	}
+	//expenseRequestListがあるか判定して、あれば
+	public boolean existsRequest(List<ExpenseRequest> expenseRequestList) {
+		return expenseRequestList == null ? false : true;
+	}
+	
+	
+	public boolean isRequest(List<ExpenseRequest> expenseRequestList) {
+		existsRequest(expenseRequestList);
+		for(ExpenseRequest expenseRequest: expenseRequestList) {
+			if(expenseRequest.getExpenseId() == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

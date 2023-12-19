@@ -13,16 +13,16 @@
 		
 		//追加ボタンを押下で入力フォーム追加
 		function addTemplate(){
-			//経費リスト取得し、インデックス番号を取得
-			var templateInt = $("#expenseTable tr").length-1;
+			//経費リストのインデックス番号を取得
+			var templateIndex = $("#expenseTable tr").length-1;
 			
 			let cloneDom = $('#expenseTemplate').clone();
 			var templateNameDoms = cloneDom.find('[name^="expenseRequestList"]');
 			templateNameDoms.each(function(){
 				var templateNameDom =  $(this);
-				var nameStr = templateNameDom.attr('name'); //name取得
-				nameStr = nameStr.replace('0', templateInt);
-				templateNameDom.attr("name", nameStr);
+				var templateName = templateNameDom.attr('name'); //name取得
+				templateName = templateName.replace('0', templateIndex);
+				templateNameDom.attr("name", templateName);
 			});
 
 			$(cloneDom).removeAttr('id');
@@ -30,6 +30,16 @@
 			//入力フォームを追加
 			$("#expenseTemplate").after(cloneDom);
 			$(cloneDom).show();
+			activateTemplate();
+		}
+		function templateNameChange(){
+			//name変更をメソッド化する
+		}
+		
+		//templateの活性化
+		function activateTemplate(){
+			$('input').prop('disabled', false);
+			$('select').prop('disabled', false);
 		}
 	</script>
 </head>
@@ -37,10 +47,12 @@
 	<div class="container">
 		<h1 style="margin-bottom: 20px; text-align: center;">経費情報</h1>
 		<div style="text-align: right; margin: 10px;">
-			<div th:replace="~{common/backButton :: backButton_fragment}"></div>
+			<a class="btn btn-outline-secondary btn-sm" th:href="@{/dogDetail(dogId=${dogId})}">犬詳細へ戻る</a>
 			<button class="btn btn-outline-secondary btn-sm" onclick="addTemplate()">追加</button>
 		</div>
-		<form action="/expense/regist" method="post" id="expenseForm">
+		<form action="/expense/regist" method="post" id="expenseForm" th:object="${expenseForm}">
+			<input type="hidden" name="dogId" th:value="${dogId}">
+			<span th:if="${#fields.hasErrors('expenseRequestList')}" th:errors="*{expenseRequestList}"/>
 			<table class="table" id="expenseTable">
 				<thead class="table-primary">
 					<tr>
@@ -59,96 +71,180 @@
 				</thead>
 				<tbody>
 					<tr id="expenseTemplate" style="display: none;">
-						<input type="hidden" th:name="|expenseRequestList[0].fixFlag|" value="0">
 						<td></td>
 						<td></td>
 						<td></td>
 						<td><!-- 発生区分 -->
-							<select th:name="|expenseRequestList[0].occurrenceType|">
+							<select disabled th:name="|expenseRequestList[0].occurrenceType|">
+								<option></option>
 								<option th:each="occurrenceType :${occurrenceTypeEnum}"
-								th:value="${occurrenceType.code}" th:text="${occurrenceType.val}">
+								th:value="${occurrenceType.code}" th:text="${occurrenceType.val}" selected="0">
 								</option>
 							</select>
+							<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].occurrenceType')}" th:errors="*{expenseRequestList[__${stat.count}__].occurrenceType}"/>
 						</td>
 						<td><!-- 入出金区分 -->
-							<select th:name="|expenseRequestList[0].cashFlowType|">
+							<select disabled th:name="|expenseRequestList[0].cashFlowType|">
+								<option></option>
 								<option th:each="cashFlowType :${cashFlowTypeEnum}"
 								th:value="${cashFlowType.code}" th:text="${cashFlowType.val}">
 								</option>
 							</select>
 						</td>
 						<td><!-- 経費種別 -->
-							<select th:name="|expenseRequestList[0].expenseType|">
+							<select disabled th:name="|expenseRequestList[0].expenseType|" >
+								<option></option>
 								<option th:each="expenseType :${expenseTypeEnum}"
 									th:value="${expenseType.code}" th:text="${expenseType.val}"></option>
 							</select>
 						</td>
-						<td><input type="text" th:name="|expenseRequestList[0].info|"></td><!-- 内容 -->
-						<td><input type="text" th:name="|expenseRequestList[0].quotationYen|"></td><!-- 見積金額 -->
-						<td><input type="text" th:name="|expenseRequestList[0].closeYen|"></td><!-- 確定金額 -->
-						<td><input type="date" th:name="|expenseRequestList[0].paymentDate|"></td><!-- 発生日 -->
-						<td><input type="date" th:name="|expenseRequestList[0].purchaseDate|"></td><!-- 仕入日 -->
+						<td><input disabled type="text" th:name="|expenseRequestList[0].info|"></td><!-- 内容 -->
+						<td><input disabled type="text" th:name="|expenseRequestList[0].quotationYen|"></td><!-- 見積金額 -->
+						<td><input disabled type="text" th:name="|expenseRequestList[0].closeYen|" ></td><!-- 確定金額 -->
+						<td><input disabled type="date" th:name="|expenseRequestList[0].paymentDate|"></td><!-- 発生日 -->
+						<td><input disabled type="date" th:name="|expenseRequestList[0].purchaseDate|"></td><!-- 仕入日 -->
 					</tr>
 					<!--	経費リスト-->
-					<input type="hidden" name="dogId" th:value="${dogId}">
 					<th:block th:each="expense,stat :${expenseList}">
 						<tr id="expenseList">
 							<input type="hidden" th:name="|expenseRequestList[${stat.count}].expenseId|" th:value="${expense.expenseId}">
 							<input type="hidden" th:name="|expenseRequestList[${stat.count}].fixFlag|" th:value="${expense.fixFlag}">
-							<td><button>確定</button></td><!-- 確定 -->
+							<td><button th:if="${expense.fixFlag} ==0">確定</button></td><!-- 確定 -->
 							<td><button>取消</button></td><!-- 取消 -->
 							<td><label th:text="${expense.status}"></label></td><!-- ステータス -->
+							<td style="display: none;"><!-- 消すとエラー -->
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].info')}" th:errors="*{expenseRequestList[__${stat.count}__].info}"/>
+							</td>
+<!--ここから↑がエラー-->
 							<td><!-- 発生区分 -->
-								<label th:if="${expense.fixFlag} ==1" th:text="${expense.occurrenceType}"></label>
-								<select th:if="${expense.fixFlag} ==0" th:name="|expenseRequestList[${stat.count}].occurrenceType|">
-									<option th:each="occurrenceType :${occurrenceTypeEnum}"
-										th:value="${occurrenceType.code}" th:text="${occurrenceType.val}"
-										th:selected="${expense.occurrenceType} == ${occurrenceType.code}">
-									</option>
-								</select>
+								<th:block th:switch="${expense.fixFlag}">
+									<th:block th:case="1">
+										<label th:text="${expense.occurrenceType}"></label>
+										<input type="hidden" th:name="|expenseRequestList[${stat.count}].occurrenceType|"  th:value="${expense.occurrenceType}">
+									</th:block>
+									<th:block th:case="0">
+										<select th:name="|expenseRequestList[${stat.count}].occurrenceType|">
+											<option th:if="!${expenseForm.expenseRequestList[__${stat.count}__].occurrenceType}" th:each="occurrenceType :${occurrenceTypeEnum}"
+												th:value="${occurrenceType.code}" th:text="${occurrenceType.val}" th:selected="${expense.occurrenceType} == ${occurrenceType.code}">
+											</option>
+											<option th:if="${expenseForm.expenseRequestList[__${stat.count}__].occurrenceType}" th:each="occurrenceType :${occurrenceTypeEnum}"
+												th:value="${occurrenceType.code}" th:text="${occurrenceType.val}" 
+												th:selected="${expenseForm.expenseRequestList[__${stat.count}__].occurrenceType} == ${occurrenceType.code}">
+											</option>
+										</select>
+									</th:block>
+								</th:block>
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].occurrenceType')}" th:errors="*{expenseRequestList[__${stat.count}__].occurrenceType}"/>
 							</td>
 							<td><!-- 入出金区分 -->
-								<label  th:if="${expense.fixFlag} ==1" th:text="${expense.cashFlowType}"></label>
-								<select th:if="${expense.fixFlag} ==0"  th:name="|expenseRequestList[${stat.count}].cashFlowType|">
-									<option th:each="cashFlowType :${cashFlowTypeEnum}"
-										th:value="${cashFlowType.code}" th:text="${cashFlowType.val}"
-										th:selected="${expense.cashFlowType} == ${cashFlowType.code}">
-									</option>
-								</select>
+								<th:block th:switch="${expense.fixFlag}">
+									<th:block th:case="1">
+										<label th:text="${expense.cashFlowType}"></label>
+										<input type="hidden" th:name="|expenseRequestList[${stat.count}].cashFlowType|"  th:value="${expense.cashFlowType}">
+									</th:block>
+									<th:block th:case="0">
+										<select th:name="|expenseRequestList[${stat.count}].cashFlowType|">
+											<option th:if="!${expenseForm.expenseRequestList[__${stat.count}__].cashFlowType}"  th:each="cashFlowType :${cashFlowTypeEnum}"
+												th:value="${cashFlowType.code}" th:text="${cashFlowType.val}" th:selected="${expense.cashFlowType} == ${cashFlowType.code}">
+											</option>
+											<option th:if="${expenseForm.expenseRequestList[__${stat.count}__].cashFlowType}"  th:each="cashFlowType :${cashFlowTypeEnum}"
+												th:value="${cashFlowType.code}" th:text="${cashFlowType.val}" 
+												th:selected="${expenseForm.expenseRequestList[__${stat.count}__].cashFlowType} == ${cashFlowType.code}">
+											</option>
+										</select>
+									</th:block>
+								</th:block>
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].cashFlowType')}" th:errors="*{expenseRequestList[__${stat.count}__].cashFlowType}"/>
 							</td>
 							<td><!-- 経費種別 -->
-								<label th:if="${expense.fixFlag} ==1" th:text="${expense.expenseType}"></label>
-								<select th:if="${expense.fixFlag} ==0" th:name="|expenseRequestList[${stat.count}].expenseType|">
-									<option th:each="expenseType :${expenseTypeEnum}"
-										th:value="${expenseType.code}" th:text="${expenseType.val}"
-										th:selected="${expense.expenseType} == ${expenseType.code}">
-									</option>
-								</select>
+								<th:block th:switch="${expense.fixFlag}">
+									<th:block th:case="1">
+										<label th:text="${expense.expenseType}"></label>
+										<input type="hidden" th:name="|expenseRequestList[${stat.count}].expenseType|"  th:value="${expense.expenseType}">
+									</th:block>
+									<th:block th:case="0">
+										<select th:name="|expenseRequestList[${stat.count}].expenseType|">
+											<option th:if="!${expenseForm.expenseRequestList[__${stat.count}__].cashFlowType}"  th:each="expenseType :${expenseTypeEnum}"
+												th:value="${expenseType.code}" th:text="${expenseType.val}" th:selected="${expense.expenseType} == ${expenseType.code}">
+											</option>
+											<option th:if="${expenseForm.expenseRequestList[__${stat.count}__].expenseType}"  th:each="expenseType :${expenseTypeEnum}"
+												th:value="${expenseType.code}" th:text="${expenseType.val}" 
+												th:selected="${expenseForm.expenseRequestList[__${stat.count}__].expenseType} == ${expenseType.code}">
+											</option>
+										</select>
+									</th:block>
+								</th:block>
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].expenseType')}" th:errors="*{expenseRequestList[__${stat.count}__].expenseType}"/>
 							</td>
 							<td><!-- 内容 -->
-								<label th:if="${expense.fixFlag} ==1" th:text="${expense.info}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.info}" 
-									th:name="|expenseRequestList[${stat.count}].info|">
+								<th:block th:switch="${expense.fixFlag}">
+									<th:block th:case="1">
+										<label th:text="${expense.info}"></label>
+										<input type="hidden" th:name="|expenseRequestList[${stat.count}].info|"  th:value="${expense.info}">
+									</th:block>
+									<th:block th:case="0">
+										<input th:if="!${expenseForm.expenseRequestList[__${stat.count}__].info}" type="text" th:value="${expense.info}"  th:name="|expenseRequestList[${stat.count}].info|">
+										<input th:if="${expenseForm.expenseRequestList[__${stat.count}__].info}" type="text" th:name="|expenseRequestList[${stat.count}].info|" 
+											th:field="${expenseForm.expenseRequestList[__${stat.count}__].info}">
+									</th:block>
+								</th:block>
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].info')}" th:errors="*{expenseRequestList[__${stat.count}__].info}"/>
 							</td>
 							<td><!-- 見積金額 -->
-								<label th:if="${expense.fixFlag} ==1" th:text="'￥'+${expense.quotationYen}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.quotationYen}" 
-									th:name="|expenseRequestList[${stat.count}].quotationYen|">
+								<th:block th:switch="${expense.fixFlag}">
+									<th:block th:case="1">
+										<label th:text="￥+${#numbers.formatInteger(expense.quotationYen, 3, 'COMMA')}"></label>
+										<input type="hidden" th:name="|expenseRequestList[${stat.count}].quotationYen|" th:value="${expense.quotationYen}">
+									</th:block>
+									<th:block th:case="0">
+										<input th:if="!${expenseForm.expenseRequestList[__${stat.count}__].quotationYen}" type="text" th:value="${expense.quotationYen}"  th:name="|expenseRequestList[${stat.count}].quotationYen|">
+										<input th:if="${expenseForm.expenseRequestList[__${stat.count}__].quotationYen}" type="text" th:name="|expenseRequestList[${stat.count}].quotationYen|" 
+											th:field="${expenseForm.expenseRequestList[__${stat.count}__].quotationYen}">
+									</th:block>
+								</th:block>
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].quotationYen')}" th:errors="*{expenseRequestList[__${stat.count}__].quotationYen}"/>
 							</td>
 							<td><!-- 確定金額 -->
-								<label th:if="${expense.fixFlag} ==1" th:text="'￥'+${expense.closeYen}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="text" th:value="${expense.closeYen}" 
-									th:name="|expenseRequestList[${stat.index}].closeYen|">
+								<th:block th:switch="${expense.fixFlag}">
+									<th:block th:case="1">
+										<label th:if="${expense.fixFlag} ==1" th:text="'￥'+${#numbers.formatInteger(expense.closeYen, 3, 'COMMA')}"></label>
+										<input type="hidden" th:name="|expenseRequestList[${stat.count}].closeYen|" th:value="${expense.closeYen}">
+									</th:block>
+									<th:block th:case="0">
+										<input th:if="!${expenseForm.expenseRequestList[__${stat.count}__].closeYen}" type="text" th:value="${expense.closeYen}"  th:name="|expenseRequestList[${stat.count}].closeYen|">
+										<input th:if="${expenseForm.expenseRequestList[__${stat.count}__].closeYen}" type="text" th:name="|expenseRequestList[${stat.count}].closeYen|" 
+											th:field="${expenseForm.expenseRequestList[__${stat.count}__].closeYen}">
+									</th:block>
+								</th:block>
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].closeYen')}" th:errors="*{expenseRequestList[__${stat.count}__].closeYen}"/>
 							</td>
 							<td><!-- 発生日 -->
-								<label th:if="${expense.fixFlag} ==1" th:text="${expense.paymentDate}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="date" th:value="${expense.paymentDate}" 
-									th:name="|expenseRequestList[${stat.count}].paymentDate|">
+								<th:block th:switch="${expense.fixFlag}">
+									<th:block th:case="1">
+										<label th:text="${expense.paymentDate}"></label>
+										<input type="hidden" th:name="|expenseRequestList[${stat.count}].paymentDate|" th:value="${expense.paymentDate}">
+									</th:block>
+									<th:block th:case="0">
+										<input th:if="!${expenseForm.expenseRequestList[__${stat.count}__].paymentDate}" type="date" th:value="${expense.paymentDate}" th:name="|expenseRequestList[${stat.count}].paymentDate|">
+										<input th:if="${expenseForm.expenseRequestList[__${stat.count}__].paymentDate}" type="date" th:name="|expenseRequestList[${stat.count}].paymentDate|" 
+											th:field="${expenseForm.expenseRequestList[__${stat.count}__].paymentDate}">
+									</th:block>
+								</th:block>
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].paymentDate')}" th:errors="*{expenseRequestList[__${stat.count}__].paymentDate}"/>
 							</td>
 							<td><!-- 仕入日 -->
-								<label th:if="${expense.fixFlag} ==1" th:text="${expense.purchaseDate}"></label>
-								<input th:if="${expense.fixFlag} ==0" type="date" th:value="${expense.purchaseDate}" 
-									th:name="|expenseRequestList[${stat.count}].purchaseDate|">
+								<th:block th:switch="${expense.fixFlag}">
+									<th:block th:case="1">
+										<label th:if="${expense.fixFlag} ==1" th:text="${expense.purchaseDate}"></label>
+										<input type="hidden" th:name="|expenseRequestList[${stat.count}].purchaseDate|" th:value="${expense.purchaseDate}">
+									</th:block>
+									<th:block th:case="0">
+										<input th:if="!${expenseForm.expenseRequestList[__${stat.count}__].purchaseDate}" type="date" th:value="${expense.purchaseDate}" th:name="|expenseRequestList[${stat.count}].purchaseDate|">
+										<input th:if="${expenseForm.expenseRequestList[__${stat.count}__].purchaseDate}" type="date" th:name="|expenseRequestList[${stat.count}].purchaseDate|" 
+											th:field="${expenseForm.expenseRequestList[__${stat.count}__].purchaseDate}">
+									</th:block>
+								</th:block>
+								<span th:if="${#fields.hasErrors('expenseRequestList[__${stat.count}__].purchaseDateValid')}" th:errors="*{expenseRequestList[__${stat.count}__].purchaseDateValid}"/>
 							</td>
 						</tr>
 					</th:block>
