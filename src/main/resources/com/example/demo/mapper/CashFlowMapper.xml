@@ -84,4 +84,15 @@
 	<select id="selectByExpenseId" resultType="INTEGER">
 		SELECT expense_id FROM cash_flow WHERE expense_id = #{expenseId}
 	</select>
+	<update id="updateFix">
+		UPDATE cash_flow 	
+		SET	
+			price = #{price}
+			, fix_flag = 1
+			, update_datetime = CURRENT_TIMESTAMP
+			, update_user_id = #{updateUserId} 
+		WHERE	
+			expense_id = #{expenseId}
+	</update>
+	
 </mapper>

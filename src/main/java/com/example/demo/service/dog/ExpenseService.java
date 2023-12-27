@@ -56,4 +56,17 @@ public class ExpenseService {
 	public int update(ExpenseEntity expenseEntity) {
 		return expenseMapper.update(expenseEntity);
 	}
+
+	/**
+	 * 確定.
+	 * @param fixExpenseEntity ExpenseEntity
+	 * @return int
+	 */
+	public int updateFix(ExpenseEntity fixExpenseEntity) {
+		return expenseMapper.updateFix(fixExpenseEntity);
+	}
+
+	public Integer selectCloseyen(Integer expenseId) {
+		return expenseMapper.selectCloseyen(expenseId);
+	}
 }

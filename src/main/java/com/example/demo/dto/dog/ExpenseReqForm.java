@@ -7,19 +7,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * 経費FormDto.
+ * 経費リクエストフォーム.
  */
 @Data
-public class ExpenseForm {
+public class ExpenseReqForm {
 	/**
 	 * 経費リクエストリスト.
 	 */
 	@Valid
 	@NotNull(message = "経費情報が入力されていません。")
 	private List<ExpenseRequest> expenseRequestList;
-	
-	/**
-	 *  経費レスポンスリスト.
-	 */
-	private List<ExpenseResponse> expenseResponseList;
 }
