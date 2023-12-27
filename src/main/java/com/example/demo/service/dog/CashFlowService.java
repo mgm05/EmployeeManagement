@@ -57,8 +57,23 @@ public class CashFlowService {
 		return cashFlowMapper.update(cashFlowEntity);
 	}
 
+	/**
+	 * expenseIdが存在するかチェック.
+	 * 存在する場合はexpenseIdが帰ってくる.
+	 * @param expenseId Integer
+	 * @return expenseId
+	 */
 	public Integer selectByExpenseId(Integer expenseId) {
 		return cashFlowMapper.selectByExpenseId(expenseId);
 	}
 
+	/**
+	 * 確定.
+	 * @param fixCashFlowEntity CashFlowEntity
+	 * @return int
+	 */
+	public int updateFix(CashFlowEntity fixCashFlowEntity) {
+		return cashFlowMapper.updateFix(fixCashFlowEntity);
+		
+	}
 }

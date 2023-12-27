@@ -83,6 +83,9 @@
 		WHERE
 			dog_id = #{dogId}
 			AND cancel_flag = 0
+		ORDER BY
+			payment_date DESC
+			, expense_id DESC
 	</select>
 	<insert id="insertId" parameterType="com.example.demo.entity.dog.ExpenseEntity" useGeneratedKeys="true" keyProperty="expenseId">
 		INSERT 
@@ -115,4 +118,21 @@
 			expense_id = #{expenseId}
 			AND fix_flag = 0
 	</update>
+	<update id="updateFix" parameterType="com.example.demo.entity.dog.ExpenseEntity">
+		UPDATE expense 
+		SET
+			fix_flag = 1
+			, update_datetime = CURRENT_TIMESTAMP
+			, update_user_id = #{updateUserId} 
+		WHERE	
+			expense_id = #{expenseId}
+	</update>
+	<select id="selectCloseyen" resultMap="expenseMap">
+		SELECT
+			close_yen 
+		FROM
+			expense 
+		WHERE
+			expense_id = #{expenseId}
+	</select>
 </mapper>

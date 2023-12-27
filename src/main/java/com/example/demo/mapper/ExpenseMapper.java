@@ -40,4 +40,18 @@ public interface ExpenseMapper {
 	 * @return int
 	 */
 	int update(ExpenseEntity expenseEntity);
+
+	/**
+	 * 確定.
+	 * @param fixExpenseEntity ExpenseEntity
+	 * @return int
+	 */
+	int updateFix(ExpenseEntity fixExpenseEntity);
+
+	/**
+	 * 確定金額取得.
+	 * @param expenseId Integer
+	 * @return Integer
+	 */
+	Integer selectCloseyen(Integer expenseId);
 }

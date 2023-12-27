@@ -41,6 +41,14 @@ public interface CashFlowMapper {
 	 */
 	int update(CashFlowEntity cashFlowEntity);
 
+	/**
+	 * expenseIdが存在するかチェック.
+	 * 存在する場合はexpenseIdが帰ってくる.
+	 * @param expenseId
+	 * @return Integer
+	 */
 	Integer selectByExpenseId(Integer expenseId);
+
+	int updateFix(CashFlowEntity fixCashFlowEntity);
 
 }

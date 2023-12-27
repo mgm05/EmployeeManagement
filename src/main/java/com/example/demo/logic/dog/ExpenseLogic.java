@@ -11,7 +11,7 @@ import com.example.demo.CommonUtils;
 import com.example.demo.constEnum.CashFlowType;
 import com.example.demo.constEnum.ExpenseType;
 import com.example.demo.constEnum.OccurrenceType;
-import com.example.demo.dto.dog.ExpenseForm;
+import com.example.demo.dto.dog.ExpenseReqForm;
 import com.example.demo.dto.dog.ExpenseRequest;
 import com.example.demo.dto.dog.ExpenseResponse;
 import com.example.demo.entity.dog.CashFlowEntity;
@@ -137,18 +137,12 @@ public class ExpenseLogic {
 	/**
 	 * 登録・更新.
 	 * @param dogId Integer
-	 * @param expenseForm ExpenseForm
+	 * @param expenseReqForm ExpenseForm
 	 * @param loginId String
 	 */
-	public void regist(Integer dogId, ExpenseForm expenseForm, String loginId) {
-		List<ExpenseRequest> expenseRequestList =  expenseForm.getExpenseRequestList();
-		boolean flg = true;
+	public void regist(Integer dogId, ExpenseReqForm expenseReqForm, String loginId) {
+		List<ExpenseRequest> expenseRequestList =  expenseReqForm.getExpenseRequestList();
 		for(ExpenseRequest req:expenseRequestList) {
-			//ループ1回目はテンプレートのため無視
-			if(flg) {
-				flg = false;
-				continue;
-			}
 			
 			ExpenseEntity expenseEntity = createExpenseEntity(dogId, req, loginId);
 			//経費テーブル登録と更新
@@ -242,19 +236,43 @@ public class ExpenseLogic {
 		}
 		return entity;
 	}
-	//expenseRequestListがあるか判定して、あれば
-	public boolean existsRequest(List<ExpenseRequest> expenseRequestList) {
-		return expenseRequestList == null ? false : true;
+	
+	/**
+	 * 確定.
+	 * @param expenseId Integer
+	 * @param loginId String
+	 */
+	public void fix(Integer expenseId, String loginId) {
+		expenseService.updateFix(createFixExpenseEntity(expenseId, loginId));
+		cashFlowService.updateFix(createFixCashFlowEntity(expenseId, loginId));
+	}
+	
+	/**
+	 * 確定用入出金エンティティ作成.
+	 * @param expenseId Integer
+	 * @param loginId String
+	 * @return entity
+	 */
+	private CashFlowEntity createFixCashFlowEntity(Integer expenseId, String loginId) {
+		CashFlowEntity entity = new CashFlowEntity();
+		entity.setExpenseId(expenseId);
+		entity.setUpdateUserId(loginId);
+		entity.setPrice(expenseService.selectCloseyen(expenseId));
+		return entity;
+	}
+
+	/**
+	 * 確定用経費エンティティ作成.
+	 * @param expenseId Integer
+	 * @param loginId String
+	 * @return entity
+	 */
+	private ExpenseEntity createFixExpenseEntity(Integer expenseId, String loginId) {
+		ExpenseEntity entity = new ExpenseEntity();
+		entity.setExpenseId(expenseId);
+		entity.setUpdateUserId(loginId);
+		return entity;
 	}
 	
 	
-	public boolean isRequest(List<ExpenseRequest> expenseRequestList) {
-		existsRequest(expenseRequestList);
-		for(ExpenseRequest expenseRequest: expenseRequestList) {
-			if(expenseRequest.getExpenseId() == null) {
-				return false;
-			}
-		}
-		return true;
-	}
 }
