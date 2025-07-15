@@ -1,0 +1,41 @@
+# サブフォルダ含む全ての.sql
+Get-ChildItem -Path $targetDir -Filter *.sql -Recurse | ForEach-Object {
+    $filePath = $_.FullName
+ 
+    $lines = Get-Content $filePath
+ 
+    $inBlockComment = $false
+    $cleanedLines = @()
+ 
+    foreach ($line in $lines) {
+        $work = $line
+ 
+        # ブロックコメント内かどうか
+        if ($inBlockComment) {
+            if ($work -match '(.*?)\*/') {
+                $work = $work -replace '.*?\*/', ''
+                $inBlockComment = $false
+            } else {
+                $work = ""
+            }
+        }
+ 
+        # ブロックコメント開始
+        while ($work -match '/\*') {
+            if ($work -match '/\*.*\*/') {
+                $work = $work -replace '/\*.*?\*/', ''
+            } elseif ($work -match '/\*') {
+                $work = $work -replace '/\*.*$', ''
+                $inBlockComment = $true
+            }
+        }
+ 
+        # ラインコメント（--）削除
+        $work = $work -replace '--.*$', ''
+ 
+        $cleanedLines += $work
+    }
+ 
+    # 元ファイルに上書き
+    $cleanedLines | Set-Content $filePath
+}
