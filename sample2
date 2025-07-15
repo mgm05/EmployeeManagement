@@ -1,3 +1,5 @@
+$targetDir = "C:\sqlfiles"
+ 
 # サブフォルダ含む全ての.sql
 Get-ChildItem -Path $targetDir -Filter *.sql -Recurse | ForEach-Object {
     $filePath = $_.FullName
